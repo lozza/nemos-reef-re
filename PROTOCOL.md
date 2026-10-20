@@ -192,7 +192,9 @@ dumps memory near `ecx`/`edx`, which holds the translator's guest state: values 
 
 `sdr::Debug::log` is compiled to `bx lr` in release builds. `patch_apk.py --debug-log` branches the
 `log(String)` / `log(int, String, Severity)` overloads to the working `Debug::print` overloads, so the
-engine's own trace shows up in `adb logcat`.
+engine's own trace shows up in `adb logcat`. It also branches the empty `Debug::exceptionThrown(String)`
+(called from every `sdr::BaseException` constructor) to `Debug::print`, so exception messages such as
+`Key 'x' not found in dictionary` are logged too.
 
 ## Tooling (`tools/`)
 

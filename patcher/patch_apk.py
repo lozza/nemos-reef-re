@@ -30,6 +30,8 @@ GAME_URL = b'http://nemo.pragueweb.tapulous.com/nemo/'
 DEBUG_PATCHES = [
     (0xa4fe3c, 0xa500fc),  # log(String const&)                  -> print(String const&)
     (0xa4fe40, 0xa50020),  # log(int, String const&, Severity)    -> print(int, String const&)
+    (0xa4fe8c, 0xa500fc),  # exceptionThrown(String const&)       -> print(String const&): every
+                           # sdr::BaseException message (e.g. "Key 'x' not found") reaches logcat
 ]
 
 # sdr::RendererES1::RendererES1 asks glGetIntegerv(GL_MAX_PALETTE_MATRICES_OES) and sizes a vector with
