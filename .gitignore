@@ -7,3 +7,6 @@
 *.json
 __pycache__/
 server/data/
+nemo.apk
+nemo-private.apk
+patcher/*.jar
