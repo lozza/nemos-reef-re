@@ -20,6 +20,8 @@ import tempfile
 import zipfile
 import zlib
 
+import pvrtc
+
 LIB = 'lib/armeabi/libsdr.so'
 DEX = 'classes.dex'
 ACCOUNT_URL = b'http://nemo.apps.tapulous.com/nemo/api/'
@@ -99,8 +101,24 @@ def patch_lib(lib, account_url, game_url, debug_log, emulator):
     return bytes(lib)
 
 
+def png_textures(zin):
+    """Decodes every PVRTC-only .ddspvr texture to a .png next to it (see pvrtc.py)."""
+    names = set(zin.namelist())
+    todo = [n for n in sorted(names) if n.endswith('.ddspvr') and n[:-len('.ddspvr')] + '.png' not in names]
+    out = {}
+    for i, name in enumerate(todo, 1):
+        w, h, rgba, alpha = pvrtc.ddspvr_to_rgba(zin.read(name))
+        out[name[:-len('.ddspvr')] + '.png'] = pvrtc.png(w, h, rgba, alpha)
+        print('\rconverting textures for non-PowerVR GPUs: %d/%d' % (i, len(todo)), end='', flush=True)
+    if todo:
+        print()
+    return out
+
+
 def rebuild(apk_in, apk_out, lib, dex):
     with zipfile.ZipFile(apk_in) as zin, zipfile.ZipFile(apk_out, 'w') as zout:
+        for name, data in png_textures(zin).items():
+            zout.writestr(zipfile.ZipInfo(name, date_time=(2015, 8, 28, 20, 56, 0)), data, compress_type=zipfile.ZIP_STORED)
         for info in zin.infolist():
             if info.filename.startswith('META-INF/') and info.filename.rsplit('.', 1)[-1] in ('SF', 'RSA', 'DSA', 'MF', 'EC'):
                 continue  # old signature

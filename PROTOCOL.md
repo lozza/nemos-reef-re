@@ -182,6 +182,14 @@ nops the `move-result-object v3` after `ExternalStorage.getAppDataPath()` in `cl
 so the app's internal `dataDir` is used while the folder-creating code still runs, then fixes the dex
 checksum/signature.
 
+## Textures for non-PowerVR GPUs
+
+180 textures (`assets/-device_320|640/*.ddspvr`) exist only as PVRTC 4bpp (DDS header, FourCC `PVR4` RGBA /
+`PVR3` RGB). Devices without PVRTC (the client reports `Supported compress:png`; this includes Mali/Adreno and
+the emulator) ask for `<name>.png` instead, which the original server delivered through resource bundles; a
+missing one makes `GameScreen::updateLoad` stage 2 throw and retry forever. `patch_apk.py` decodes them
+(`patcher/pvrtc.py`, pure Python) and adds the PNGs next to the originals.
+
 ## Locating crashes in the emulator
 
 logcat backtraces only show `libndk_translation.so`. The full tombstone (`adb bugreport`, `FS/data/tombstones/`)

@@ -53,7 +53,7 @@ If your router gives the PC a different address later, repeat steps 5–7.
 ### 6. Make the patched game
 
 Double-click **`patch-apk.bat`** in the project folder, type the IP address from step 5 and press Enter.
-After a few seconds it should say `wrote signed nemo-private.apk`. The new file `nemo-private.apk` appears in the
+It converts the game's textures (about a minute), then should say `wrote signed nemo-private.apk`. The new file `nemo-private.apk` appears in the
 project folder. This copy of the game talks to your PC instead of Disney's old servers.
 
 ### 7. Install it on the phone
