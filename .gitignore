@@ -1,0 +1,7 @@
+*.apk
+*.so
+*.dex
+/decomp/
+/apk/
+/ghidra-proj/
+*.json
