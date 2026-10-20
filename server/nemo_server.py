@@ -201,6 +201,9 @@ class Game:
             body = {'worldVersion': self.world_version}
         elif endpoint in ('startgame', 'gettutorialworld'):
             body = dict(self.user_world(uid) or new_world({'uid': uid, 'name': 'Diver'}))
+            # data::TheUser::updateUserInfo reads these from the root (moneySpent unchecked: null → crash)
+            for k, v in user_info().items():
+                body.setdefault(k, v)
         elif endpoint == 'getfriendworld':
             body = dict(self.user_world(req.get('friendId') or req.get('requestedUid') or uid) or {})
         elif endpoint == 'reset':

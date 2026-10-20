@@ -164,8 +164,10 @@ patterns, color variants, notifications (see `data::*::load`, `quest::QuestManag
   lowTool, highTool, friendCollectCount, friendCollectMaxCount, friendCollectInterval{start,finish},
   lastSquirt, squirtStarted, tapRewardsCount, tapRewardsExtraTapAvail, tapRewardsGetAllAvail, vitality,
   activeDiscount`
-- user info (`loadUserInfo`, also `resumeGame` reaction `data`): `resumeGame, moneySpent, tapjoyMoneySpent,
+- user info at the **root** (`TheUser::updateUserInfo(root)` → `loadUserInfo`; `moneySpent` is read unchecked),
+  also in the `resumeGame` reaction's `data`: `resumeGame, moneySpent, tapjoyMoneySpent,
   currentDailyRewardCountOffer, lastDailyRewardCountClaimed, dailyTapRewardReady`
+- `patterns` (optional, `data::PatternStatus::load`); `status.coopQuest` (optional)
 - `user{name, uid}`, `coopQuest` (optional), `friendStatus` (friend visits)
 - entity lists: `corals, houses, decorations, livingPlants, ornamentalPlants, fishes, quests, rarePlants,
   patches`; entity (`EntityManager::insertEntityOnTileFromServer`): `id, prototypeId, seedPrototypeId,
