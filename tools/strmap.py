@@ -22,6 +22,7 @@ def thunk(a):
         v = int.from_bytes(rd(a + 8 + disp, 4), 'little')
         return (a + 12 + v) & 0xffffffff
 def fn(a):
+    if a == 0xFFFFFFFE: return 'VIRTUAL'
     n = dem.get(funcs.get(a & ~1, ''))
     if n: return n
     t = thunk(a & ~1)

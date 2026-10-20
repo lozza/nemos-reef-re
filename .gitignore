@@ -5,3 +5,5 @@
 /apk/
 /ghidra-proj/
 *.json
+__pycache__/
+server/data/

@@ -1,84 +1,187 @@
 # Nemo's Reef (Android 1.8.1, `com.disney.nemo`) — server protocol notes
 
 Reverse-engineered from `lib/armeabi/libsdr.so` (Living Mobile "sdr" C++ engine, symbols intact).
-All networking is native (bundled libcurl); the Java layer only hosts ads/billing/push.
+All networking is native (bundled libcurl); the Java layer only hosts ads, billing and push.
+Function names below are the client's own C++ symbols.
 
-## Servers (both plain HTTP, no TLS, no cert pinning)
+## Servers
 
-| Purpose | Base URL (string in libsdr.so) |
+Both plain HTTP; no TLS, no certificate pinning, responses are not signed.
+
+| Purpose | Base URL in `libsdr.so` |
 |---|---|
 | Tapulous account API (`netcl::ta::Tap*`) | `http://nemo.apps.tapulous.com/nemo/api/` |
 | Game API (`netcl::Action*`, game actions) | `http://nemo.pragueweb.tapulous.com/nemo/` |
-| Push notifications | `http://apps.tapulous.com/misc/notifications/` |
+| Push notifications (unused) | `http://apps.tapulous.com/misc/notifications/` |
 
-Redirect options: patch these strings in `libsdr.so` (same length or shorter, NUL-padded) and re-sign
-the APK, or point the hostnames at our server via DNS.
+The game client concatenates `"/api/..."` onto the game base, so paths arrive as `/nemo//api/...`.
+`patcher/patch_apk.py` rewrites both base URLs in place (new URL ≤ original length).
+
+## Boot sequence (`gi::GameInitiator::startBaseScheme`)
+
+New install (no saved login):
+
+1. `TapAuthorizeUser` → game `/api/authenticate`
+2. `TapRecommendName` → account `recommend_name` (name dialog)
+3. `TapRegisterUser` → account `register_user`
+4. `TapAuthorizeUser` again
+5. `ActionGetCurrentWorldVersion` → `/api/getCurrentWorldVersion`
+6. resource cache sync → `/api/resources/` (only if needed)
+7. `ActionGetDaWorld` ("getCurrentWorld") → `/api/getDaWorld` (skipped if the cached worldDef has the same version)
+8. `ActionStartGame` ("startGame") → `/api/startgame`
+9. `GA_Empty` game action → `/api`
+10. `ActionGetLocalizedTextsBundle` → `/api/getLocalizedTextsBundle`
+
+Existing installs skip steps 2–4. The friend-visit scheme adds `getTutorialWorld` / `getFriendWorld`.
 
 ## Tapulous account API (`netcl::ta::TapAction`)
 
-POST form fields on every call:
+POST form fields on every call: `format=json`, `api_key`, `timestamp` (unix s), `token_info` (device UDID),
+`api-sig`, plus method fields.
 
-- `format=json`
-- `api_key=OI6TWPNH-IEJT-06C2-VG65-HP6HDJH8QHGZ` (`TapConfig::getAPIKey`, candidate)
-- `timestamp=<unix seconds>`
-- `token_info=<UDID>` (`TapConfig::getUDID`)
-- method-specific fields (below)
-- `api-sig` = base64(HMAC-SHA1(key = API secret + "&", msg = "POST&" + urlencode(url) + "&" + urlencode(sorted k=v pairs joined by "&")))
-  — OAuth-1-style; API secret candidate `1VDE5CLX-U1RR-WHLQ-I2IF-HQRHTD609J14`. Server may ignore it.
+- `api_key` candidate: `OI6TWPNH-IEJT-06C2-VG65-HP6HDJH8QHGZ`; API secret candidate `1VDE5CLX-U1RR-WHLQ-I2IF-HQRHTD609J14`
+- `api-sig` = base64(HMAC-SHA1(API secret + "&", "POST&" + urlencode(url) + "&" + urlencode(sorted `k=v` joined by `&`))).
+  OAuth-1 style; our server ignores it.
 
-| Action class | method / path | request fields | response fields |
+Response envelope (`TapAction::loadingFinished`): success `{"response": {...}, "attachedData": {...}}`;
+error `{"status": {"code": int, "reason": str}}`. HTTP status must be 200. Leading junk before the first `{` is skipped.
+
+| Class | method | request fields | `response` |
 |---|---|---|---|
+| TapAuthorizeUser | game `/api/authenticate` | `lang_code` | `user_id`, `username`; `attachedData.clientSignatureKey` |
 | TapRegisterUser | `register_user` | `proposed_name` | `user{user_id, username}` |
+| TapRecommendName | `recommend_name` | | `suggestedName` (required) |
 | TapDeviceLogin | `login` | `username`, `email` | |
 | TapDeviceLogout | `logout` | | |
-| TapRecommendName | `recommend_name` | | `suggestedName` |
 | TapChangeName | `change_username` | `new_username` | |
 | TapGetFriends | `get_friends` | | `friends[{user_id, username, has_app}]` |
 | TapAddFriend | `add_friend` | `friend_name` | `friend{user_id, username}` |
-| TapAuthorizeUser | **game server** `/api/authenticate` | `lang_code` | `user_id`, `username`; `attachedData.clientSignatureKey` |
 
-Response envelope (`TapAction::loadingFinished`): `{ "status": ..., "code": ..., "reason": ..., "response": {...}, "attachedData": {...} }`.
+`TapAuthorizeUser::isAuthorized` is true when `user_id` is non-empty.
 
-## Game API (`netcl::ComManager`)
+## Game API (`netcl::ComManager::sendRequest`)
 
-`POST <game base>/api...` (form-encoded) with fields:
+POST form fields:
 
-- `json` = request body (JSON)
+- `json` = request body
 - `uid` = user id
-- `signature` = `sha1_hex(utf8(secret + json + uid))`
-  - values concatenated in key order (`json` < `uid`); `secret` = `clientSignatureKey`
-    from `/api/authenticate`, or the literal `bsF3Ey6XNn` when no secret is set yet.
+- `signature` = `sha1_hex(utf8(secret + json + uid))` (`DigestComposer`: values concatenated in key order).
+  `secret` = `clientSignatureKey`, or the literal `bsF3Ey6XNn` before one is known. Our server ignores it.
 
-Request JSON header fields (`ComManager::addRequestHeader`):
-`stamp` (incrementing int64), `uid`, `worldVersion`, optional `serverId`, optional `lastStamp`.
+### Batched game actions → `<base>/api`
 
-Response: JSON; game-action results under `reactions`, status in `resultCode`; client picks up
-`serverId` from responses (`trySetServerId`) and errors per entity (`EntityManager::processErrorOnEntity`).
-**Responses are not signed/verified by the client.**
+```json
+{"stamp": 12, "uid": "…", "worldVersion": "…", "serverId": "…", "lastStamp": 11,
+ "actions": [{"action": "entityMove", "aid": 3, ...action fields...}]}
+```
 
-Endpoints referenced: `/api/authenticate`, `/api/startgame`, `/api/getDaWorld`, `/api/getTutorialWorld`,
-`/api/getCurrentWorldVersion`, `/api/getFriendWorld`, `/api/getFriendStatus`, `/api/getFriendLastTime`,
-`/api/getLocalizedTextsBundle`, `/api/getCoopQuestParticipants`, `/api/startCoopQuest`, `/api/reset`,
-`/api/resources/` (asset bundle download, see `assets/bundle.json`).
+Response:
 
-Game-action names (sent inside the request JSON; ~49 `netcl::ga::GA_*` classes), e.g.
-`emptyAction, resumeGame, entityConstruct, entityMove, entityRefund, entitySeed, entityFeed,
-entityCollectReward, friendsEntityCollectReward, entitySpeedupFeed, entityFreeSpeedupFeed,
-entityConstructionSpeedup, entityConstructionFreeSpeedup, entitySpeedupProduction,
+```json
+{"resultCode": 200, "serverTime": <ms>, "serverId": "…", "stamp": 12,
+ "reactions": [{"aid": 3, "resultCode": 200, ...}], "errorData": {...optional...}}
+```
+
+`resultCode` 200 (or absent) means success (`BasicGA::processResult`, `ComManager::getGameActionsResultCode`).
+On errors the client resyncs entities from `errorData` (`EntityManager::processErrorOnEntity`).
+
+Action names (`GA_*::addToJson`): `emptyAction, resumeGame, entityConstruct, entityMove, entityRefund,
+entitySeed, entityFeed, entityCollectReward, friendsEntityCollectReward, entitySpeedupFeed,
+entityFreeSpeedupFeed, entityConstructionSpeedup, entityConstructionFreeSpeedup, entitySpeedupProduction,
 entityFreeSpeedupProduction, seedEntitySeed, getFriendFish, getFriendVitality, dailyRewardCollect,
 dailyTapReward, dailyTapRewardExtraTap, dailyTapRewardGetEverything, placeEntityInPatch,
 placeEntitiesToInventory, getUserWorld, confirmMessages, placeItemForCleaning, cleanItemForCleaning,
-sectorBuy, getCurrentWorld, ...`
+sectorBuy, getCurrentWorld, ...` (≈49 classes; field layouts still to document). `resumeGame`'s reaction
+carries `data` (user info, below).
 
-## Big open item
+### Single-purpose endpoints
 
-Game economy/definitions (`worldDef`: prices, grow/produce times, levels, quests, daily rewards) are
-**sent by the server**, not bundled in the APK. These must be reconstructed from the client's parsers
-(`loadDefinition`, `restoreStateFromServer`, `processResponse*`) and sensible values.
+| Endpoint | Request JSON | Response |
+|---|---|---|
+| `/api/getCurrentWorldVersion` | `uid`, `clientVersion` | root `worldVersion` (string) |
+| `/api/getDaWorld` | `worldVersion` | worldDef JSON, **XOR-obfuscated** (below) |
+| `/api/startgame` | `uid, name, clientVersion, startGameReason, deviceToken, timeZone, language, shop (GOOGLE/AMAZON/ITUNES), age` | user world (below) + root `stamp` (required) |
+| `/api/getTutorialWorld` | `uid` | user world |
+| `/api/getLocalizedTextsBundle` | `id`, `languageCode`, `uid` | text bundle (format TBD, `text::GameTextManager::load`) |
+| `/api/reset` | `stamp`, `uid` | |
+| `/api/resources/` | form `query` = JSON list of bundle names | `{"bundles": [...]}`, same format as `assets/bundle.json` |
+| `/api/getFriendWorld`, `getFriendStatus`, `getFriendLastTime`, `getCoopQuestParticipants`, `startCoopQuest` | | TBD |
 
-## Tooling (in this workspace)
+Every game response may carry `serverTime` (ms), `serverId`, `stamp`, `resultCode`.
 
-- `tools/pic.py` + `tools/strmap.py` → `tools/calls.txt`: every call site with resolved string args.
-- `tools/emu_init.py`: Unicorn-emulates all static initialisers to name global `sdr::String` keys.
-- `tools/fstr.sh <regex>`: string args used per function.
-- Ghidra project (`analyzeHeadless` + `tools/DumpDecomp.java`) (base 0x10000 vs file addresses).
+### getDaWorld obfuscation
+
+`cypher::XorCypher::xorFuncChar`: `plain[i] = body[i] ^ KEY[i & 0x7f]`, 128-byte key at `0xbf8f14`
+(see `XOR_KEY` in `server/nemo_server.py`). The client caches the decoded JSON as `worldDef` (+`.metaData`)
+in its documents directory (`World::saveWorldDefinitionToCache`), so a device that played online may still
+hold the original economy data.
+
+## worldDef (world definition)
+
+`sdr::JSONObject::safeGet` **throws** on missing keys, so include every field a getter may read.
+
+Top level (`World::loadWorldDefinition`, `processCurrentWorld`, `getDefinition`,
+`PrototypeAttrib::loadPrototypePrimaryData/ShopData`):
+
+`version`, `globalSettings`, `abTestSettings`, `coralPrototypeList`, `livingPlantPrototypeList`,
+`housePrototypeList`, `decorationPrototypeList`, `ornamentalPlantPrototypeList`, `fishPrototypeList`,
+`seedPrototypeList`, `rarePlantPrototypeList`, `ambientFishPrototypeList`, `patchList`, `ingameShopItems`,
+`levelList`, `sectorPrototypeList`, `dailyRewardPrototypeList`, `chestsList`, `squirtMinigameList`,
+`newPrototypeList`, `discounts`, `vitalityPatchList`, `conditionDefinitionList`, `questPrototypeList`,
+`dialogPrototypeList`, `colorVariantList`, `patternList`, `inAppPricePoints`, `hintPrototypeList`,
+`exchangePackagePrototypes`, `cooperativeQuests`, `pushNotificationPrototypeList`, `whatsNewList`.
+
+`globalSettings` (`World::WorldSettings::load`): `DMOAnalyticLogLevel, GoogleAnalyticLogLevel,
+facebookAndroidURL, facebookAmazonURL, facebookWallPostURL, gamePictureURL, localTapAuthorizing, timeoutTap,
+timeoutGameAction, aliveMessageInterval, aliveMessageIntervalInactivity, inactivityTreshold,
+minimalClientVersion, URLiTunes, URLAndroid, URLAmazon, burslyPregameInterstitalAndroid`.
+`minimalClientVersion` must be ≤ `1.8.1` (`CU::canClientWorkWithWorldVersion`, `major.minor.patch`).
+
+Prototype (`proto::ServerPrototype` getters): `id`, `graphicalId` (= `.ipro` file name in
+`assets/prototypes/`), `name`, `descriptionId`, `type`, `specificType`, `requiredLevel`, `visibleAtLevel`,
+`visibleMaxLevel`, `availableTimeInterval{start,finish}`, `newUsersOnly`, `supportedShops`, `guiOrder`,
+`shopCategory`, `maxInstancesCount`, `maxPlants`, `cost`, `constructionTime`, `speedupCost`,
+`growingTime`, `growingCycles`, `growingCycleCost`, `producingTime`, `producingCost`, `producingSpeedupCost`,
+`producedReward`, `rewardAfterBuilt`, `refundReward`, `friendReward`, `ownerReward`, `vitality`,
+`colorVariantId`, `timeEvent`, `upgradePrototypeId`, `conditions[{parameterValueList[{index,value}]}]`.
+
+- Cost (`proto::Cost`): `{energy, virtualMoney, hardMoney, lowTool, highTool}` (ints; algae, coins, pearls, tools)
+- Times (`ServerPrototype::getTime`): `{duration: int64, timeWarp: int}`
+- `ingameShopItems`: `[{prototypeId, cost, ...}]` (several per prototype allowed; active one chosen by time/shop)
+
+Level (`data::Level::LevelDefinition::load`): `{level, requiredXP, reward{xp, virtualMoney, hardMoney, energy,
+lowTool, highTool}, minChests, maxChests, squirtCost{...cost}, vitality{vitality, categories[{categoryId, vitality}]}}`.
+
+Still to map: sectors, daily rewards, chests (`TreasureRule`), squirt minigame, quests, dialogs, discounts,
+patterns, color variants, notifications (see `data::*::load`, `quest::QuestManager::load*`).
+
+## User world (`/api/startgame` response)
+
+`World::loadUserWorld` keeps the whole response; parsed by `World::processUserWorld` / `readEntities`:
+
+- `status` (`data::UserStatus::loadUserStatus`): `hardMoney, virtualMoney, level, xp, energy, xpForNextLevel,
+  lowTool, highTool, friendCollectCount, friendCollectMaxCount, friendCollectInterval{start,finish},
+  lastSquirt, squirtStarted, tapRewardsCount, tapRewardsExtraTapAvail, tapRewardsGetAllAvail, vitality,
+  activeDiscount`
+- user info (`loadUserInfo`, also `resumeGame` reaction `data`): `resumeGame, moneySpent, tapjoyMoneySpent,
+  currentDailyRewardCountOffer, lastDailyRewardCountClaimed, dailyTapRewardReady`
+- `user{name, uid}`, `coopQuest` (optional), `friendStatus` (friend visits)
+- entity lists: `corals, houses, decorations, livingPlants, ornamentalPlants, fishes, quests, rarePlants,
+  patches`; entity (`EntityManager::insertEntityOnTileFromServer`): `id, prototypeId, seedPrototypeId,
+  patchPrototypeId, position{x, z}, transform, inventory`
+- `sectors` (optional, `mapunlock::MapUnlockerBase::load`), `finishedTutorialQuests`
+
+## Debug logging
+
+`sdr::Debug::log` is compiled to `bx lr` in release builds. `patch_apk.py --debug-log` branches the
+`log(String)` / `log(int, String, Severity)` overloads to the working `Debug::print` overloads, so the
+engine's own trace shows up in `adb logcat`.
+
+## Tooling (`tools/`)
+
+- `pic.py` + `strmap.py` → every call site with resolved string arguments (`calls.txt`)
+- `emu_init.py`: Unicorn-emulates all static initialisers to name the global `sdr::String` keys
+- `fstr.sh <regex>`: string arguments used per function
+- `DumpDecomp.java`: Ghidra headless decompiler dump (fixes ARM veneers and false noreturn flags)
+- `resolve.py` / `clean.py`: annotate PIC string references in Ghidra output and strip noise
+- Ghidra loads the library at base `0x10000` (file offset = Ghidra address − 0x10000)

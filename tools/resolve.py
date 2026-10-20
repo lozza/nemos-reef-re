@@ -29,6 +29,21 @@ def sub(m):
             s = cstr(p + BASE)
             if s is not None: return m.group(0) + f'/*->"{s}"*/'
     return m.group(0)
+import json
+gmap = {int(k, 16): v for k, v in json.load(open('/home/user/nemos-reef/re/gstrings_emu.json')).items() if 0xc31000 <= int(k, 16) < 0xfd6000}
+_old_sub = sub
+def sub(m):
+    a = int(m.group(2), 16)
+    cands = []
+    if m.group(3):
+        b = int(m.group(3), 16)
+        cands = [b + int.from_bytes(rd(a, 4), 'little') - BASE, a + int.from_bytes(rd(b, 4), 'little') - BASE]
+    else:
+        cands = [int.from_bytes(rd(a, 4), 'little') + int(m.group(4), 16) - BASE]
+    for t in cands:
+        for d in range(0, 0x100, 4):  # Ghidra often folds a field offset in later; try the base itself first
+            if (t + d) in gmap and d == 0: return m.group(0) + f'/*[{gmap[t]}]*/'
+    return _old_sub(m)
 src, dst = sys.argv[2], sys.argv[3]
 os.makedirs(dst, exist_ok=True)
 for f in os.listdir(src):

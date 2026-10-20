@@ -70,6 +70,10 @@ for fa, (fname, thumb, size) in sorted(funcs.items()):
             regs[REG[ops[0].reg]] = None if v is None else (v + (ops[2].imm if mn.startswith('add') else -ops[2].imm)) & 0xffffffff
         elif mn == 'subs' and len(ops) == 2 and ops[0].reg in REG and ops[1].type == A.ARM_OP_IMM:
             v = regs.get(REG[ops[0].reg]); regs[REG[ops[0].reg]] = None if v is None else (v - ops[1].imm) & 0xffffffff
+        elif mn in ('blx',) and ops and ops[0].type == A.ARM_OP_REG:
+            calls.append([ins.address, 0xFFFFFFFE, {i: regs.get(i) for i in range(4) if regs.get(i) is not None}, fa])
+            for i in range(4): regs.pop(i, None)
+            regs.pop(12, None)
         elif mn in ('bl', 'blx') and ops and ops[0].type == A.ARM_OP_IMM:
             calls.append([ins.address, ops[0].imm, {i: regs.get(i) for i in range(4) if regs.get(i) is not None}, fa])
             for i in range(4): regs.pop(i, None)
