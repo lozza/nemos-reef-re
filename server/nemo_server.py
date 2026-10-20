@@ -97,7 +97,9 @@ def new_world(user):
     w['finishedTutorialQuests'] = []
     w['status'] = {
         'hardMoney': 10, 'virtualMoney': 1000, 'energy': 20, 'level': 1, 'xp': 0,
-        'xpForNextLevel': 50, 'lowTool': 0, 'highTool': 0, 'vitality': 100,
+        'xpForNextLevel': 50, 'lowTool': 0, 'highTool': 0,
+        # data::Vitality::load: {vitality, level (optional), categories[{categoryId, ...}]}
+        'vitality': {'vitality': 100, 'level': 1, 'categories': []},
         'friendCollectCount': 0, 'friendCollectMaxCount': 10,
         'friendCollectInterval': {'start': 0, 'finish': 0},
         'lastSquirt': 0, 'squirtStarted': 0,
@@ -182,6 +184,9 @@ class Game:
         w = self.store.world(uid)
         if w is None:
             w = new_world(user)
+            self.store.save_world(uid, w)
+        elif not isinstance(w.get('status', {}).get('vitality'), dict):  # worlds saved by older versions
+            w['status']['vitality'] = new_world(user)['status']['vitality']
             self.store.save_world(uid, w)
         return w
 

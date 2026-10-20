@@ -162,8 +162,8 @@ patterns, color variants, notifications (see `data::*::load`, `quest::QuestManag
 
 - `status` (`data::UserStatus::loadUserStatus`): `hardMoney, virtualMoney, level, xp, energy, xpForNextLevel,
   lowTool, highTool, friendCollectCount, friendCollectMaxCount, friendCollectInterval{start,finish},
-  lastSquirt, squirtStarted, tapRewardsCount, tapRewardsExtraTapAvail, tapRewardsGetAllAvail, vitality,
-  activeDiscount`
+  lastSquirt, squirtStarted, tapRewardsCount, tapRewardsExtraTapAvail, tapRewardsGetAllAvail, activeDiscount`,
+  and `vitality` as an **object** (`data::Vitality::load`): `{vitality, level (optional), categories[{categoryId, ...}]}`
 - user info at the **root** (`TheUser::updateUserInfo(root)` → `loadUserInfo`; `moneySpent` is read unchecked),
   also in the `resumeGame` reaction's `data`: `resumeGame, moneySpent, tapjoyMoneySpent,
   currentDailyRewardCountOffer, lastDailyRewardCountClaimed, dailyTapRewardReady`
