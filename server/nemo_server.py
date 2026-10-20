@@ -214,11 +214,11 @@ class Game:
         elif endpoint in ('getfriendstatus', 'getfriendlasttime'):
             body = {'friends': []}
         elif endpoint == 'getlocalizedtextsbundle':
-            # The whole response object is the {"STR_KEY": "text"} dictionary, so no envelope fields.
-            lang = req.get('languageCode') or 'en'
+            # ActionGetLocalizedTextsBundle::loadingFinished hands response["texts"] to GameTextManager::load.
+            lang = p.get('languageCode') or req.get('languageCode') or 'en'
             if lang not in self.texts:
                 self.texts[lang] = texts.build(self.apk, lang)
-            return json.dumps(self.texts[lang], ensure_ascii=False).encode('utf-8'), 'application/json'
+            body = {'texts': self.texts[lang]}
         else:  # '/api': queued game actions
             body = {'reactions': [self.reaction(uid, a) for a in req.get('actions', [])]}
         return json.dumps(self.envelope(body, req)).encode('utf-8'), 'application/json'

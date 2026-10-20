@@ -102,7 +102,7 @@ carries `data` (user info, below).
 | `/api/getDaWorld` | `worldVersion` | worldDef JSON, **XOR-obfuscated** (below) |
 | `/api/startgame` | `uid, name, clientVersion, startGameReason, deviceToken, timeZone, language, shop (GOOGLE/AMAZON/ITUNES), age` | user world (below) + root `stamp` (required) |
 | `/api/getTutorialWorld` | `uid` | user world |
-| `/api/getLocalizedTextsBundle` | `id`, `languageCode`, `uid` | the whole response is a flat `{"STR_KEY": "text"}` object (`text::GameTextManager::load`) |
+| `/api/getLocalizedTextsBundle` | `id`, `languageCode`, `uid` | `{"texts": {"STR_KEY": "text", ...}}` (`ActionGetLocalizedTextsBundle::loadingFinished` → `text::GameTextManager::load`) |
 | `/api/reset` | `stamp`, `uid` | |
 | `/api/resources/` | form `query` = JSON list of bundle names | `{"bundles": [...]}`, same format as `assets/bundle.json` |
 | `/api/getFriendWorld`, `getFriendStatus`, `getFriendLastTime`, `getCoopQuestParticipants`, `startCoopQuest` | | TBD |
@@ -181,6 +181,12 @@ on Android 11+, so logins (`tapLogin.bin`), the user secret and caches are never
 nops the `move-result-object v3` after `ExternalStorage.getAppDataPath()` in `classes.dex` (offset `0x33a9c8`)
 so the app's internal `dataDir` is used while the folder-creating code still runs, then fixes the dex
 checksum/signature.
+
+## Locating crashes in the emulator
+
+logcat backtraces only show `libndk_translation.so`. The full tombstone (`adb bugreport`, `FS/data/tombstones/`)
+dumps memory near `ecx`/`edx`, which holds the translator's guest state: values inside the `libsdr.so` mapping
+(see the maps section for its base) are guest PC/LR; subtract the base to get a file offset.
 
 ## Debug logging
 

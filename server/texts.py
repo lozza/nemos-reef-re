@@ -1,6 +1,7 @@
 """Builds the localized text bundle (getLocalizedTextsBundle) for the client.
 
-The bundle is a flat JSON object {"STR_KEY": "text"} (text::GameTextManager::load). The original
+The bundle is a flat JSON object {"STR_KEY": "text"}, sent as the response's "texts" member
+(netcl::ActionGetLocalizedTextsBundle::loadingFinished → text::GameTextManager::load). The original
 wording lived on the server and is lost, so every STR_ key referenced by the game code or UI files
 gets a readable placeholder derived from its name. Real wording can be supplied in a JSON file of
 the same shape (texts_<lang>.json next to this script), which takes precedence.
