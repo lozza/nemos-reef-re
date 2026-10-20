@@ -1,9 +1,9 @@
 # Nemo's Reef private server
 
 A replacement server for Disney's *Nemo's Reef* (Android 1.8.1), whose official servers have shut down.
-Protocol details are in [PROTOCOL.md](PROTOCOL.md).
+Protocol details are in [PROTOCOL.md](PROTOCOL.md); game actions in [ACTIONS.md](ACTIONS.md).
 
-**Status:** early and untested on a real device. Login, loading your reef and game actions are implemented;
+**Status:** early. Runs on a real device (Fire 7). Login, loading your reef, and saving what you buy, place, feed, move and collect work;
 prices, timers and levels are placeholder numbers, and quests/daily rewards are not done yet.
 
 The game files are not included: you need your own copy of `nemos-reef-1-8-1-en-android.apk`.

@@ -3,7 +3,7 @@
 
     python nemo_server.py --apk nemos-reef-1-8-1-en-android.apk [--port 8080]
 
-Answers both the Tapulous account API and the game API (see PROTOCOL.md). Every request and
+Answers both the Tapulous account API and the game API (see PROTOCOL.md and ACTIONS.md). Every request and
 response is appended to <data>/requests.log as JSON lines so unknown calls can be studied.
 """
 import argparse
@@ -21,6 +21,7 @@ import urllib.parse
 import zipfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
+import actions
 import texts
 import worlddef
 
@@ -126,6 +127,7 @@ class Game:
         self.store = Store(os.path.join(args.data, 'nemo.db'))
         self.log_path = os.path.join(args.data, 'requests.log')
         self.log_lock = threading.Lock()
+        self.world_lock = threading.Lock()
         if args.worlddef:
             with open(args.worlddef, 'rb') as f:
                 self.worlddef = json.load(f)
@@ -133,6 +135,7 @@ class Game:
                 worlddef.finish(self.worlddef)
         else:
             self.worlddef = worlddef.build(args.apk)
+        self.reef = actions.Reef(actions.Prototypes(self.worlddef))
         self.world_version = str(self.worlddef['version'])
         self.worlddef_blob = xor(json.dumps(self.worlddef, separators=(',', ':')).encode('utf-8'))
         with zipfile.ZipFile(args.apk) as z:
@@ -213,7 +216,12 @@ class Game:
         if endpoint == 'getcurrentworldversion':
             body = {'worldVersion': self.world_version}
         elif endpoint in ('startgame', 'gettutorialworld'):
-            body = dict(self.user_world(uid) or new_world({'uid': uid, 'name': 'Diver'}))
+            w = self.user_world(uid)
+            if w:
+                self.reef.refresh(w, now_ms())
+                self.store.save_world(uid, w)
+            body = dict(w or new_world({'uid': uid, 'name': 'Diver'}))
+            body.pop('nextEntityId', None)
             # World::processUserWorld passes the root to data::TheUser::updateUserInfo
             body['resumeGame'] = user_info()['resumeGame']
             for k in ('moneySpent', 'tapjoyMoneySpent', 'currentDailyRewardCountOffer',
@@ -235,14 +243,23 @@ class Game:
                 self.texts[lang] = texts.build(self.apk, lang)
             body = {'texts': self.texts[lang]}
         else:  # '/api': queued game actions
-            body = {'reactions': [self.reaction(uid, a) for a in req.get('actions', [])]}
+            with self.world_lock:
+                w = self.user_world(uid)
+                body = {'reactions': [self.reaction(w, a) for a in req.get('actions', [])]}
+                if w:
+                    self.store.save_world(uid, w)
         return json.dumps(self.envelope(body, req)).encode('utf-8'), 'application/json'
 
-    def reaction(self, uid, action):
-        r = {'aid': action.get('aid'), 'resultCode': 200}
+    def reaction(self, w, action):
         if action.get('action') == 'resumeGame':
-            r['data'] = user_info()
-        return r
+            return {'aid': action.get('aid'), 'resultCode': 200, 'data': user_info()}
+        if w is None:
+            return {'aid': action.get('aid'), 'resultCode': 200}
+        try:
+            return self.reef.apply(w, action, now_ms())
+        except Exception:
+            traceback.print_exc()
+            return {'aid': action.get('aid'), 'resultCode': 200, 'data': {}}
 
 
 class Handler(BaseHTTPRequestHandler):

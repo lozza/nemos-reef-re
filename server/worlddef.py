@@ -179,6 +179,8 @@ def build(apk_path):
         order += 1
         p = prototype(stem, stem, a.get('name') or stem, etype, st, order)
         p['shopCategory'] = SHOP_CATEGORY.get(etype, '')
+        if etype == 'ET_PATCH':
+            p['maxPlants'] = 3  # EntityPatch::getPlantMax: plants needed before the patch produces
         wd[lst].append(p)
         wd['ingameShopItems'].append(shop_item(p))
 
