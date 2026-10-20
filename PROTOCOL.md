@@ -196,7 +196,19 @@ checksum/signature.
 `PVR3` RGB). Devices without PVRTC (the client reports `Supported compress:png`; this includes Mali/Adreno and
 the emulator) ask for `<name>.png` instead, which the original server delivered through resource bundles; a
 missing one makes `GameScreen::updateLoad` stage 2 throw and retry forever. `patch_apk.py` decodes them
-(`patcher/pvrtc.py`, pure Python) and adds the PNGs next to the originals.
+(`patcher/pvrtc.py`, pure Python; output matches `texture2ddecoder`) and adds the PNGs next to the originals.
+
+`sdr::Texture::load` first reads `<name>.meta` (`Texture::Meta::load`, big-endian): a u16 count, then
+`count` pairs of (u8 key, u8 value): 0/1 = wrap S/T flags, 2/3 = min/mag filter (through a table),
+4 = generate-mipmaps flag, 5 = int, 6 = `IRenderer::PixelFormat` passed to `Bitmap(path, format)`, which
+converts the decoded PNG. Formats seen: 2 = RGBA8, 7 = RGBA4 (the names `getFormatName` prints in the
+texture list); `Bitmap::convertBitmap` handles 1, 2, 7, 8, 9, 10. Most metas are `00 01 06 07` (RGBA4).
+
+Most reef scenery and shop items are sprites (`.sspr`, pixel rectangles) on two atlases that exist only as
+PVRTC, `fr_items_dynamic_02` and `_04` (2048x2048 for `-device_640`, 1024x1024 for `-device_320`). On the
+emulator these still draw white. The textures are decoded correctly, and other converted textures (e.g.
+`bubble2D_01`) work. With `--debug-log` the patcher also hooks `Sprite::load` and `Texture::load` to log
+every name loaded (stubs in the zero padding at `0xc0e940`, first LOAD segment grown to cover them).
 
 ## Music
 

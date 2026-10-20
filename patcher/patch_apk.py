@@ -36,6 +36,17 @@ DEBUG_PATCHES = [
                            # sdr::BaseException message (e.g. "Key 'x' not found") reaches logcat
 ]
 
+# With the debug log on, also log the name of every sprite and texture the engine loads (to find
+# graphics that fail to load). Each hooked function starts with `push {r4-r7, lr}; mov r7, fp`; that is
+# replaced by a b.w into a stub in the zero padding after .rodata, which calls Debug::print(name) and
+# then runs the two displaced instructions and branches back.
+TRACE_HOOKS = [0x9c1bfc,   # sdr::Sprite::load(String const&)
+               0x9c3960]   # sdr::Texture::load(String const&)
+TRACE_PROLOGUE = bytes.fromhex('f0b55f46')
+TRACE_PRINT = 0xa500fc     # sdr::Debug::print(String const&)
+TRACE_CAVE = 0xc0e940      # zero padding past the end of the first LOAD segment (0xc0e934)
+
+
 # sdr::RendererES1::RendererES1 asks glGetIntegerv(GL_MAX_PALETTE_MATRICES_OES) and sizes a vector with
 # the answer; the Android emulator's GLES 1 layer returns garbage there and the game aborts with
 # "vector::reserve". Replace `blx glGetIntegerv` (r1 = &result) with `movs r0, #32; str r0, [r1]`.
@@ -74,6 +85,36 @@ def thumb2_b_w(src, dst):
     return struct.pack('<HH', hw1, hw2)
 
 
+def thumb2_bl(src, dst):
+    """Encodes a Thumb-2 `bl dst` placed at src."""
+    hw1, hw2 = struct.unpack('<HH', thumb2_b_w(src, dst))
+    return struct.pack('<HH', hw1, hw2 | 0x4000)
+
+
+def trace_hooks(lib):
+    at = TRACE_CAVE
+    if any(lib[at:at + 32 * len(TRACE_HOOKS)]):
+        sys.exit('unexpected bytes at %#x; is this the 1.8.1 APK?' % at)
+    for fn in TRACE_HOOKS:
+        if lib[fn:fn + 4] != TRACE_PROLOGUE:
+            sys.exit('unexpected bytes at %#x; is this the 1.8.1 APK?' % fn)
+        stub = (bytes.fromhex('1fb5'          # push {r0-r4, lr}
+                              '0846')         # mov r0, r1 (the name)
+                + thumb2_bl(at + 4, TRACE_PRINT)
+                + bytes.fromhex('bde81f40')   # pop.w {r0-r4, lr}
+                + TRACE_PROLOGUE
+                + thumb2_b_w(at + 16, fn + 4))
+        lib[at:at + len(stub)] = stub
+        lib[fn:fn + 4] = thumb2_b_w(fn, at)
+        at += 32
+    # grow the first LOAD segment (program header 1: p_filesz, p_memsz) over the stubs
+    ph = struct.unpack_from('<I', lib, 28)[0] + 32
+    filesz, memsz = struct.unpack_from('<II', lib, ph + 16)
+    if filesz != memsz or filesz > TRACE_CAVE:
+        sys.exit('unexpected program headers in %s' % LIB)
+    struct.pack_into('<II', lib, ph + 16, at, at)
+
+
 def replace_cstring(lib, old, new):
     if len(new) > len(old):
         sys.exit('URL %r is longer than the original %r (%d > %d characters)'
@@ -93,6 +134,7 @@ def patch_lib(lib, account_url, game_url, debug_log, emulator):
             if lib[src:src + 2] != b'\x70\x47':  # bx lr
                 sys.exit('unexpected bytes at %#x; is this the 1.8.1 APK?' % src)
             lib[src:src + 4] = thumb2_b_w(src, dst)
+        trace_hooks(lib)
     if emulator:
         at, old, new = EMULATOR_PATCH
         if lib[at:at + 4] != old:
