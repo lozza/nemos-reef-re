@@ -172,6 +172,14 @@ patterns, color variants, notifications (see `data::*::load`, `quest::QuestManag
   patchPrototypeId, position{x, z}, transform, inventory`
 - `sectors` (optional, `mapunlock::MapUnlockerBase::load`), `finishedTutorialQuests`
 
+## Storage patch
+
+`SdrRoot.init` (Java) keeps all data under `/sdcard/Android/data/<pkg>/files`, which this old app cannot create
+on Android 11+, so logins (`tapLogin.bin`), the user secret and caches are never saved. `patch_apk.py`
+nops the `move-result-object v3` after `ExternalStorage.getAppDataPath()` in `classes.dex` (offset `0x33a9c8`)
+so the app's internal `dataDir` is used while the folder-creating code still runs, then fixes the dex
+checksum/signature.
+
 ## Debug logging
 
 `sdr::Debug::log` is compiled to `bx lr` in release builds. `patch_apk.py --debug-log` branches the

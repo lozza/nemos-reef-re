@@ -10,6 +10,7 @@ next to this script or given with --signer, or with `apksigner` from the Android
 """
 import argparse
 import glob
+import hashlib
 import os
 import shutil
 import struct
@@ -17,8 +18,10 @@ import subprocess
 import sys
 import tempfile
 import zipfile
+import zlib
 
 LIB = 'lib/armeabi/libsdr.so'
+DEX = 'classes.dex'
 ACCOUNT_URL = b'http://nemo.apps.tapulous.com/nemo/api/'
 GAME_URL = b'http://nemo.pragueweb.tapulous.com/nemo/'
 
@@ -33,6 +36,24 @@ DEBUG_PATCHES = [
 # the answer; the Android emulator's GLES 1 layer returns garbage there and the game aborts with
 # "vector::reserve". Replace `blx glGetIntegerv` (r1 = &result) with `movs r0, #32; str r0, [r1]`.
 EMULATOR_PATCH = (0xa036ee, bytes.fromhex('44f164ec'), bytes.fromhex('20200860'))
+
+
+# SdrRoot.init(SdrActivity, int, int) stores data under /sdcard/Android/data/<pkg>/files, which apps this
+# old may no longer create on Android 11+ (logins and caches are then never saved). Turning the
+# `move-result-object v3` after ExternalStorage.getAppDataPath() into a nop keeps v3 = the app's
+# internal dataDir while still running the mkdirs for .cache/.cache/install.
+DEX_INTERNAL_STORAGE_PATCH = (0x33a9c8, bytes.fromhex('0c03'), bytes.fromhex('0000'))
+
+
+def patch_dex(dex):
+    dex = bytearray(dex)
+    at, old, new = DEX_INTERNAL_STORAGE_PATCH
+    if dex[at:at + len(old)] != old:
+        sys.exit('unexpected bytes in %s at %#x; is this the 1.8.1 APK?' % (DEX, at))
+    dex[at:at + len(new)] = new
+    dex[12:32] = hashlib.sha1(dex[32:]).digest()             # header signature
+    dex[8:12] = struct.pack('<I', zlib.adler32(dex[12:]))    # header checksum
+    return bytes(dex)
 
 
 def thumb2_b_w(src, dst):
@@ -76,12 +97,12 @@ def patch_lib(lib, account_url, game_url, debug_log, emulator):
     return bytes(lib)
 
 
-def rebuild(apk_in, apk_out, lib):
+def rebuild(apk_in, apk_out, lib, dex):
     with zipfile.ZipFile(apk_in) as zin, zipfile.ZipFile(apk_out, 'w') as zout:
         for info in zin.infolist():
             if info.filename.startswith('META-INF/') and info.filename.rsplit('.', 1)[-1] in ('SF', 'RSA', 'DSA', 'MF', 'EC'):
                 continue  # old signature
-            data = lib if info.filename == LIB else zin.read(info.filename)
+            data = {LIB: lib, DEX: dex}.get(info.filename) or zin.read(info.filename)
             zout.writestr(info, data, compress_type=info.compress_type)
 
 
@@ -122,7 +143,8 @@ def main():
 
     with zipfile.ZipFile(args.apk) as z:
         lib = patch_lib(z.read(LIB), account_url, game_url, args.debug_log, args.emulator)
-    rebuild(args.apk, out, lib)
+        dex = patch_dex(z.read(DEX))
+    rebuild(args.apk, out, lib, dex)
     print('account API -> %s\ngame API    -> %s' % (account_url, game_url))
     if sign(out, signer):
         print('wrote signed %s' % out)
