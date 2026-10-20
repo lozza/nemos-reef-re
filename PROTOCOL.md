@@ -209,6 +209,14 @@ PVRTC, `fr_items_dynamic_02` and `_04` (2048x2048 for `-device_640`, 1024x1024 f
 emulator these still draw white. The textures are decoded correctly, and other converted textures (e.g.
 `bubble2D_01`) work. With `--debug-log` the patcher also hooks `Sprite::load` and `Texture::load` to log
 every name loaded (stubs in the zero padding at `0xc0e940`, first LOAD segment grown to cover them).
+That log shows neither atlas is ever requested on an empty reef, so the white areas there are something else.
+
+The white areas on the reef are the sand-path tiles of the iso tile map (`tileset_new.itil` →
+`tiles_new.png`; 188 tile graphics of 92x46 px, 246 tiles). `tiles_new.png` loads correctly (RGB8, meta =
+LINEAR min/mag filters) and its texels are not white, so the tiles are drawn untextured. The tile map is
+the only thing drawn from a vertex buffer (`TileSet::buildGeometry`/`Geometry::draw`) through the
+engine's only renderer, `RendererES1`. The emulator's GLES 1.1 translator is the likely cause; this is
+unconfirmed until tested on a real device.
 
 ## Music
 

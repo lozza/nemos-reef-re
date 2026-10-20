@@ -97,7 +97,8 @@ def new_world(user):
     w['finishedTutorialQuests'] = []
     # mapunlock::MapUnlockerBase::load runs only if "sectors" exists: it unlocks "base" plus every
     # area named in the list (scene areas: tiles, tiles_2 ... tiles_8). Without it the map stays locked.
-    w['sectors'] = []
+    # It recomputes the unlocked tiles only when the list is non-empty, so "base" is always listed.
+    w['sectors'] = ['base']
     w['status'] = {
         'hardMoney': 10, 'virtualMoney': 1000, 'energy': 20, 'level': 1, 'xp': 0,
         'xpForNextLevel': 50, 'lowTool': 0, 'highTool': 0,
@@ -190,10 +191,10 @@ class Game:
             self.store.save_world(uid, w)
         elif (not isinstance(w.get('status', {}).get('vitality'), dict)
               or not isinstance(w.get('data', {}).get('resumeGame'), dict)
-              or 'sectors' not in w):  # worlds saved by older versions
+              or not w.get('sectors')):  # worlds saved by older versions
             w['status']['vitality'] = new_world(user)['status']['vitality']
             w['data'] = user_info()
-            w.setdefault('sectors', [])
+            w['sectors'] = w.get('sectors') or ['base']
             self.store.save_world(uid, w)
         return w
 

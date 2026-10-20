@@ -150,7 +150,8 @@ def build(apk_path):
             'gamePictureURL': '', 'URLiTunes': '', 'URLAndroid': '', 'URLAmazon': '',
             'burslyPregameInterstitalAndroid': False,
         },
-        'abTestSettings': [],
+        # World::loadWorldDefinition reads test/variant (strings), control (int), active (bool)
+        'abTestSettings': {'test': '', 'variant': '', 'control': 0, 'active': False},
         'ambientFishPrototypeList': [],
         'fishPrototypeList': [],
         'ingameShopItems': [],
