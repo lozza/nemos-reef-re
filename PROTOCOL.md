@@ -102,7 +102,7 @@ carries `data` (user info, below).
 | `/api/getDaWorld` | `worldVersion` | worldDef JSON, **XOR-obfuscated** (below) |
 | `/api/startgame` | `uid, name, clientVersion, startGameReason, deviceToken, timeZone, language, shop (GOOGLE/AMAZON/ITUNES), age` | user world (below) + root `stamp` (required) |
 | `/api/getTutorialWorld` | `uid` | user world |
-| `/api/getLocalizedTextsBundle` | `id`, `languageCode`, `uid` | text bundle (format TBD, `text::GameTextManager::load`) |
+| `/api/getLocalizedTextsBundle` | `id`, `languageCode`, `uid` | the whole response is a flat `{"STR_KEY": "text"}` object (`text::GameTextManager::load`) |
 | `/api/reset` | `stamp`, `uid` | |
 | `/api/resources/` | form `query` = JSON list of bundle names | `{"bundles": [...]}`, same format as `assets/bundle.json` |
 | `/api/getFriendWorld`, `getFriendStatus`, `getFriendLastTime`, `getCoopQuestParticipants`, `startCoopQuest` | | TBD |
@@ -118,12 +118,13 @@ hold the original economy data.
 
 ## worldDef (world definition)
 
-`sdr::JSONObject::safeGet` **throws** on missing keys, so include every field a getter may read.
+`sdr::JSONObject::safeGet` **throws** on missing keys, and the virtual `get` (vtable +0x28) returns null, which
+the callers usually dereference unchecked (e.g. `World::getTextBundleId`), so include every field a getter may read.
 
 Top level (`World::loadWorldDefinition`, `processCurrentWorld`, `getDefinition`,
 `PrototypeAttrib::loadPrototypePrimaryData/ShopData`):
 
-`version`, `globalSettings`, `abTestSettings`, `coralPrototypeList`, `livingPlantPrototypeList`,
+`version`, `localizedTextsBundleId` (int), `resourcesBundleId` (int), `globalSettings`, `abTestSettings`, `coralPrototypeList`, `livingPlantPrototypeList`,
 `housePrototypeList`, `decorationPrototypeList`, `ornamentalPlantPrototypeList`, `fishPrototypeList`,
 `seedPrototypeList`, `rarePlantPrototypeList`, `ambientFishPrototypeList`, `patchList`, `ingameShopItems`,
 `levelList`, `sectorPrototypeList`, `dailyRewardPrototypeList`, `chestsList`, `squirtMinigameList`,

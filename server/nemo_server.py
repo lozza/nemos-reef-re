@@ -21,6 +21,7 @@ import urllib.parse
 import zipfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
+import texts
 import worlddef
 
 # 128-byte table from cypher::XorCypher::xorFuncChar; getDaWorld bodies are XORed with key[i & 0x7f].
@@ -130,6 +131,8 @@ class Game:
         self.worlddef_blob = xor(json.dumps(self.worlddef, separators=(',', ':')).encode('utf-8'))
         with zipfile.ZipFile(args.apk) as z:
             self.bundles = json.loads(z.read('assets/bundle.json'))
+        self.apk = args.apk
+        self.texts = {}
         self.server_id = '1'
 
     def log(self, entry):
@@ -208,7 +211,11 @@ class Game:
         elif endpoint in ('getfriendstatus', 'getfriendlasttime'):
             body = {'friends': []}
         elif endpoint == 'getlocalizedtextsbundle':
-            body = {}  # format not reversed yet
+            # The whole response object is the {"STR_KEY": "text"} dictionary, so no envelope fields.
+            lang = req.get('languageCode') or 'en'
+            if lang not in self.texts:
+                self.texts[lang] = texts.build(self.apk, lang)
+            return json.dumps(self.texts[lang], ensure_ascii=False).encode('utf-8'), 'application/json'
         else:  # '/api': queued game actions
             body = {'reactions': [self.reaction(uid, a) for a in req.get('actions', [])]}
         return json.dumps(self.envelope(body, req)).encode('utf-8'), 'application/json'

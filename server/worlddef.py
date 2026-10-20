@@ -110,6 +110,9 @@ def read_prototypes(apk_path):
 def build(apk_path):
     wd = {
         'version': '',  # filled in by finish()
+        # Read with JSONObject::get (null when missing → crash) by World::getTextBundleId/getResourceBundleId.
+        'localizedTextsBundleId': 1,
+        'resourcesBundleId': 1,
         'globalSettings': {
             'minimalClientVersion': '1.0.0',
             'timeoutTap': 30,
