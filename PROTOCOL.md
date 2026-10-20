@@ -148,7 +148,11 @@ Prototype (`proto::ServerPrototype` getters): `id`, `graphicalId` (= `.ipro` fil
 
 - Cost (`proto::Cost`): `{energy, virtualMoney, hardMoney, lowTool, highTool}` (ints; algae, coins, pearls, tools)
 - Times (`ServerPrototype::getTime`): `{duration: int64, timeWarp: int}`
-- `ingameShopItems`: `[{prototypeId, cost, ...}]` (several per prototype allowed; active one chosen by time/shop)
+- `ingameShopItems`: `[{prototypeId, cost, visibleAtLevel, visibleMaxLevel, availableTimeInterval{start,finish},
+  supportedShops, newUsersOnly, maxInstancesCount, ...}]`; `getActiveShopData` picks the entry matching the
+  player's level. `finish` 0 = no time limit. Owning `maxInstancesCount` of an item hides it from the shop.
+- `shopCategory` (shop tab): `CORAL`, `LIVINGPLANT`, `ORNAMENTALPLANT`, `RAREPLANT`, `SPECIAL`
+  (other category constants: `CURRENCY`, `AMBIENTFISH`, `GUESTFISH`)
 
 Level (`data::Level::LevelDefinition::load`): `{level, requiredXP, reward{xp, virtualMoney, hardMoney, energy,
 lowTool, highTool}, minChests, maxChests, squirtCost{...cost}, vitality{vitality, categories[{categoryId, vitality}]}}`.
@@ -173,7 +177,10 @@ patterns, color variants, notifications (see `data::*::load`, `quest::QuestManag
 - entity lists: `corals, houses, decorations, livingPlants, ornamentalPlants, fishes, quests, rarePlants,
   patches`; entity (`EntityManager::insertEntityOnTileFromServer`): `id, prototypeId, seedPrototypeId,
   patchPrototypeId, position{x, z}, transform, inventory`
-- `sectors` (optional, `mapunlock::MapUnlockerBase::load`), `finishedTutorialQuests`
+- `sectors`: list of unlocked area names (`mapunlock::MapUnlockerBase::load`). If the key is missing the
+  whole map stays locked (drawn white); when present, `base` is unlocked plus every listed area
+  (`tiles`, `tiles_2` … `tiles_8`, from `assets/level.iscn`)
+- `finishedTutorialQuests`
 
 ## Storage patch
 
@@ -190,6 +197,11 @@ checksum/signature.
 the emulator) ask for `<name>.png` instead, which the original server delivered through resource bundles; a
 missing one makes `GameScreen::updateLoad` stage 2 throw and retry forever. `patch_apk.py` decodes them
 (`patcher/pvrtc.py`, pure Python) and adds the PNGs next to the originals.
+
+## Music
+
+The APK has `assets/music/mp3index.def` but no `music0..3.ogg`; `SdrMediaPlayer` opens them with `openFd`, so
+they must be stored uncompressed. `patch_apk.py --music DIR` adds your own files.
 
 ## Locating crashes in the emulator
 

@@ -115,8 +115,26 @@ def png_textures(zin):
     return out
 
 
-def rebuild(apk_in, apk_out, lib, dex):
+def music_files(music_dir):
+    """music0.ogg .. music3.ogg from music_dir. The APK this was built for ships no music, and
+    SdrMediaPlayer opens assets/music/musicN.ogg with openFd, which needs them stored uncompressed."""
+    out = {}
+    if music_dir:
+        for i in range(4):
+            path = os.path.join(music_dir, 'music%d.ogg' % i)
+            if os.path.exists(path):
+                with open(path, 'rb') as f:
+                    out['assets/music/music%d.ogg' % i] = f.read()
+        print('adding %d music track(s) from %s' % (len(out), music_dir))
+    return out
+
+
+def rebuild(apk_in, apk_out, lib, dex, music=None):
     with zipfile.ZipFile(apk_in) as zin, zipfile.ZipFile(apk_out, 'w') as zout:
+        names = set(zin.namelist())
+        for name, data in (music or {}).items():
+            if name not in names:
+                zout.writestr(zipfile.ZipInfo(name, date_time=(2015, 8, 28, 20, 56, 0)), data, compress_type=zipfile.ZIP_STORED)
         for name, data in png_textures(zin).items():
             zout.writestr(zipfile.ZipInfo(name, date_time=(2015, 8, 28, 20, 56, 0)), data, compress_type=zipfile.ZIP_STORED)
         for info in zin.infolist():
@@ -153,6 +171,8 @@ def main():
     ap.add_argument('--debug-log', action='store_true', help="send the game's internal log to logcat")
     ap.add_argument('--emulator', action='store_true',
                     help='work around the Android emulator GL driver (only needed when testing in an emulator)')
+    ap.add_argument('--music', metavar='DIR',
+                    help='folder with your own music0.ogg..music3.ogg (the game ships without music)')
     ap.add_argument('--signer', help='path to uber-apk-signer.jar')
     args = ap.parse_args()
 
@@ -164,7 +184,7 @@ def main():
     with zipfile.ZipFile(args.apk) as z:
         lib = patch_lib(z.read(LIB), account_url, game_url, args.debug_log, args.emulator)
         dex = patch_dex(z.read(DEX))
-    rebuild(args.apk, out, lib, dex)
+    rebuild(args.apk, out, lib, dex, music_files(args.music))
     print('account API -> %s\ngame API    -> %s' % (account_url, game_url))
     if sign(out, signer):
         print('wrote signed %s' % out)

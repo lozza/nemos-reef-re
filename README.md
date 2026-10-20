@@ -56,6 +56,9 @@ Double-click **`patch-apk.bat`** in the project folder, type the IP address from
 It converts the game's textures (about a minute), then should say `wrote signed nemo-private.apk`. The new file `nemo-private.apk` appears in the
 project folder. This copy of the game talks to your PC instead of Disney's old servers.
 
+**Music (optional):** this copy of the game has no music files. To add your own, create a `music` folder next
+to `patch-apk.bat` containing `music0.ogg` … `music3.ogg` (Ogg Vorbis) before running it.
+
 ### 7. Install it on the phone
 
 1. Uninstall any old copy of Nemo's Reef from the phone.
