@@ -29,6 +29,11 @@ DEBUG_PATCHES = [
     (0xa4fe40, 0xa50020),  # log(int, String const&, Severity)    -> print(int, String const&)
 ]
 
+# sdr::RendererES1::RendererES1 asks glGetIntegerv(GL_MAX_PALETTE_MATRICES_OES) and sizes a vector with
+# the answer; the Android emulator's GLES 1 layer returns garbage there and the game aborts with
+# "vector::reserve". Replace `blx glGetIntegerv` (r1 = &result) with `movs r0, #32; str r0, [r1]`.
+EMULATOR_PATCH = (0xa036ee, bytes.fromhex('44f164ec'), bytes.fromhex('20200860'))
+
 
 def thumb2_b_w(src, dst):
     """Encodes a Thumb-2 `b.w dst` placed at src (4 bytes, little-endian halfwords)."""
@@ -54,7 +59,7 @@ def replace_cstring(lib, old, new):
     lib[i:i + len(old)] = new.ljust(len(old), b'\0')
 
 
-def patch_lib(lib, account_url, game_url, debug_log):
+def patch_lib(lib, account_url, game_url, debug_log, emulator):
     lib = bytearray(lib)
     replace_cstring(lib, ACCOUNT_URL, account_url.encode())
     replace_cstring(lib, GAME_URL, game_url.encode())
@@ -63,6 +68,11 @@ def patch_lib(lib, account_url, game_url, debug_log):
             if lib[src:src + 2] != b'\x70\x47':  # bx lr
                 sys.exit('unexpected bytes at %#x; is this the 1.8.1 APK?' % src)
             lib[src:src + 4] = thumb2_b_w(src, dst)
+    if emulator:
+        at, old, new = EMULATOR_PATCH
+        if lib[at:at + 4] != old:
+            sys.exit('unexpected bytes at %#x; is this the 1.8.1 APK?' % at)
+        lib[at:at + 4] = new
     return bytes(lib)
 
 
@@ -100,6 +110,8 @@ def main():
     ap.add_argument('server', help='server base URL, e.g. http://192.168.1.20:8080')
     ap.add_argument('-o', '--output', help='output APK (default: <apk>-private.apk)')
     ap.add_argument('--debug-log', action='store_true', help="send the game's internal log to logcat")
+    ap.add_argument('--emulator', action='store_true',
+                    help='work around the Android emulator GL driver (only needed when testing in an emulator)')
     ap.add_argument('--signer', help='path to uber-apk-signer.jar')
     args = ap.parse_args()
 
@@ -109,7 +121,7 @@ def main():
     signer = args.signer or next(iter(sorted(glob.glob(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uber-apk-signer*.jar')))), None)
 
     with zipfile.ZipFile(args.apk) as z:
-        lib = patch_lib(z.read(LIB), account_url, game_url, args.debug_log)
+        lib = patch_lib(z.read(LIB), account_url, game_url, args.debug_log, args.emulator)
     rebuild(args.apk, out, lib)
     print('account API -> %s\ngame API    -> %s' % (account_url, game_url))
     if sign(out, signer):

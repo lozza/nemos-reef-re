@@ -99,6 +99,14 @@ The patched game writes its own internal log, which tells us exactly where it ge
 
 - `server/nemo_server.py --apk <apk> [--port 8080] [--data dir] [--worlddef file.json]`: the server
   (Python standard library only). `worlddef.py` builds the world definition from the APK's prototypes.
-- `patcher/patch_apk.py <apk> <server-url> [--debug-log] [--signer jar]`: rewrites the two server URLs in
-  `lib/armeabi/libsdr.so` (server URL ≤ 29 characters), optionally re-enables the engine's debug log, re-signs.
+- `patcher/patch_apk.py <apk> <server-url> [--debug-log] [--emulator] [--signer jar]`: rewrites the two server
+  URLs in `lib/armeabi/libsdr.so` (server URL ≤ 29 characters), optionally re-enables the engine's debug log,
+  re-signs. `--emulator` works around the Android Studio emulator's GL driver (see below).
+
+### Testing in the Android Studio emulator
+
+Use an **Android 11 (API 30) x86_64** image (it runs the game's 32-bit ARM code; Android 14+ refuses apps
+this old). The emulator reaches the PC at `10.0.2.2`, so type that IP in `patch-apk.bat`; it then also adds
+`--emulator`, which skips the emulator's broken `GL_MAX_PALETTE_MATRICES_OES` query (without it the game
+aborts at start-up with `RendererResize failed with exception: vector::reserve`).
 - `tools/`: reverse-engineering scripts used to derive the protocol (see PROTOCOL.md).

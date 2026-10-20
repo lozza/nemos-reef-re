@@ -7,5 +7,8 @@ if not exist "nemo.apk" (
   exit /b 1
 )
 set /p IP=Type your PC's IPv4 address (see README step 5) and press Enter: 
-python patcher\patch_apk.py nemo.apk http://%IP%:8080 --debug-log
+set EXTRA=
+rem 10.0.2.2 is how the Android Studio emulator reaches this PC; it needs a graphics workaround.
+if "%IP%"=="10.0.2.2" set EXTRA=--emulator
+python patcher\patch_apk.py nemo.apk http://%IP%:8080 --debug-log %EXTRA%
 pause
