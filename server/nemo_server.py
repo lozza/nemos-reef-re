@@ -110,10 +110,10 @@ def new_world(user):
 
 
 def user_info():
-    # data::UserStatus::loadUserInfo
-    return {'resumeGame': False, 'moneySpent': 0, 'tapjoyMoneySpent': 0,
-            'currentDailyRewardCountOffer': 0, 'lastDailyRewardCountClaimed': 0,
-            'dailyTapRewardReady': False}
+    # data::UserStatus::loadUserInfo(obj): if obj has "resumeGame", reads these fields inside it
+    return {'resumeGame': {'moneySpent': False, 'tapjoyMoneySpent': False,
+                           'currentDailyRewardCountOffer': 0, 'lastDailyRewardCountClaimed': 0,
+                           'dailyTapRewardReady': False}}
 
 
 class Game:
@@ -185,8 +185,10 @@ class Game:
         if w is None:
             w = new_world(user)
             self.store.save_world(uid, w)
-        elif not isinstance(w.get('status', {}).get('vitality'), dict):  # worlds saved by older versions
+        elif (not isinstance(w.get('status', {}).get('vitality'), dict)
+              or not isinstance(w.get('data', {}).get('resumeGame'), dict)):  # worlds saved by older versions
             w['status']['vitality'] = new_world(user)['status']['vitality']
+            w['data'] = user_info()
             self.store.save_world(uid, w)
         return w
 
@@ -206,9 +208,11 @@ class Game:
             body = {'worldVersion': self.world_version}
         elif endpoint in ('startgame', 'gettutorialworld'):
             body = dict(self.user_world(uid) or new_world({'uid': uid, 'name': 'Diver'}))
-            # data::TheUser::updateUserInfo reads these from the root (moneySpent unchecked: null → crash)
-            for k, v in user_info().items():
-                body.setdefault(k, v)
+            # World::processUserWorld passes the root to data::TheUser::updateUserInfo
+            body['resumeGame'] = user_info()['resumeGame']
+            for k in ('moneySpent', 'tapjoyMoneySpent', 'currentDailyRewardCountOffer',
+                      'lastDailyRewardCountClaimed', 'dailyTapRewardReady'):
+                body.pop(k, None)  # flat copies sent by older versions
         elif endpoint == 'getfriendworld':
             body = dict(self.user_world(req.get('friendId') or req.get('requestedUid') or uid) or {})
         elif endpoint == 'reset':

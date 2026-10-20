@@ -164,9 +164,10 @@ patterns, color variants, notifications (see `data::*::load`, `quest::QuestManag
   lowTool, highTool, friendCollectCount, friendCollectMaxCount, friendCollectInterval{start,finish},
   lastSquirt, squirtStarted, tapRewardsCount, tapRewardsExtraTapAvail, tapRewardsGetAllAvail, activeDiscount`,
   and `vitality` as an **object** (`data::Vitality::load`): `{vitality, level (optional), categories[{categoryId, ...}]}`
-- user info at the **root** (`TheUser::updateUserInfo(root)` → `loadUserInfo`; `moneySpent` is read unchecked),
-  also in the `resumeGame` reaction's `data`: `resumeGame, moneySpent, tapjoyMoneySpent,
-  currentDailyRewardCountOffer, lastDailyRewardCountClaimed, dailyTapRewardReady`
+- user info: `TheUser::updateUserInfo(root)` → `loadUserInfo`, which (if present) reads the **object**
+  `resumeGame: {moneySpent (bool), tapjoyMoneySpent (bool), currentDailyRewardCountOffer (int),
+  lastDailyRewardCountClaimed (int), dailyTapRewardReady (bool)}` at the root; the `resumeGame` reaction's
+  `data` has the same shape
 - `patterns` (optional, `data::PatternStatus::load`); `status.coopQuest` (optional)
 - `user{name, uid}`, `coopQuest` (optional), `friendStatus` (friend visits)
 - entity lists: `corals, houses, decorations, livingPlants, ornamentalPlants, fishes, quests, rarePlants,
@@ -209,6 +210,10 @@ engine's own trace shows up in `adb logcat`. It also branches the empty `Debug::
 - `pic.py` + `strmap.py` → every call site with resolved string arguments (`calls.txt`)
 - `emu_init.py`: Unicorn-emulates all static initialisers to name the global `sdr::String` keys
 - `fstr.sh <regex>`: string arguments used per function
+- `disx.py <addr> <len>`: Thumb disassembly annotated with JSON key names, strings and callees
+- `jsontypes.py <addr> <len>`: how a parser uses each key it reads (toInt/toBool/get → object, count → list, ...);
+  JSON vtable: +0xc toInt, +0x10 toLong, +0x14 toFloat, +0x18 toBool, +0x1c toString, +0x20 at(i),
+  +0x24 count, +0x28 get(key), +0x2c hasKey, +0x30 key(i)
 - `DumpDecomp.java`: Ghidra headless decompiler dump (fixes ARM veneers and false noreturn flags)
 - `resolve.py` / `clean.py`: annotate PIC string references in Ghidra output and strip noise
 - Ghidra loads the library at base `0x10000` (file offset = Ghidra address − 0x10000)
