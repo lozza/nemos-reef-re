@@ -22,6 +22,7 @@ import zipfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 import actions
+import iscn
 import quests
 import texts
 import worlddef
@@ -102,7 +103,7 @@ def new_world(user):
     # It recomputes the unlocked tiles only when the list is non-empty, so "base" is always listed.
     w['sectors'] = ['base']
     w['status'] = {
-        'hardMoney': 10, 'virtualMoney': 1000, 'energy': 20, 'level': 1, 'xp': 0,
+        'hardMoney': 10, 'virtualMoney': 100, 'energy': 100, 'level': 1, 'xp': 0,
         'xpForNextLevel': 50, 'lowTool': 0, 'highTool': 0,
         # data::Vitality::load: {vitality, level (optional), categories[{categoryId, ...}]}
         'vitality': {'vitality': 100, 'level': 1, 'categories': []},
@@ -129,8 +130,7 @@ class Game:
         self.log_path = os.path.join(args.data, 'requests.log')
         self.log_lock = threading.Lock()
         self.world_lock = threading.Lock()
-        # Story quests are off until every prototype they use exists (colour variants pending).
-        self.story = quests.Story() if args.story else quests.NoStory()
+        self.story = quests.NoStory() if args.no_story else quests.Story()
         if args.worlddef:
             with open(args.worlddef, 'rb') as f:
                 self.worlddef = json.load(f)
@@ -143,6 +143,14 @@ class Game:
         self.worlddef_blob = xor(json.dumps(self.worlddef, separators=(',', ':')).encode('utf-8'))
         with zipfile.ZipFile(args.apk) as z:
             self.bundles = json.loads(z.read('assets/bundle.json'))
+            # The designed starting layout; nemo_2/_3 are later upgrade stages of the same anemone and
+            # Peach's house belongs to a later area.
+            self.starter = [e for e in iscn.entities(z.read('assets/level.iscn'))
+                            if e['ipro'][:-5] not in ('spec_house_nemo_2', 'spec_house_nemo_3', 'spec_house_peach')]
+        if args.reset_worlds:
+            with self.store.lock, self.store.db:
+                self.store.db.execute('DELETE FROM worlds')
+            print('all reefs reset: every player starts again with the starter reef')
         self.apk = args.apk
         self.texts = {}
         self.server_id = '1'
@@ -194,6 +202,7 @@ class Game:
         w = self.store.world(uid)
         if w is None:
             w = new_world(user)
+            self.starter_reef(w)
             self.story.new_player(w)
             self.store.save_world(uid, w)
         elif (not isinstance(w.get('status', {}).get('vitality'), dict)
@@ -293,13 +302,20 @@ class Game:
             return {'aid': action.get('aid'), 'resultCode': 200, 'data': {}}
 
 
+    def starter_reef(self, w):
+        now = now_ms()
+        for e in self.starter:
+            self.reef.add_entity(w, e['ipro'][:-5], e['x'], e['z'], e['mirror'], now)
+        for fish, x, z in (('fish_special_nemo', 77, 79), ('fish_special_marlin', 79, 78)):
+            self.reef.add_entity(w, fish, x, z)
+
     def quest_done(self, w, q, reward):
         """A quest's last task finished: reward, fish that move in, newly opened areas."""
         self.reef.earn(w, reward)
         for fish in q.get('grantFish', []):
             if not any(e.get('prototypeId') == fish for e in w.get('fishes', [])):
                 w.setdefault('fishes', []).append(
-                    {'id': self.reef.new_id(w), 'prototypeId': fish, 'position': {'x': 30, 'z': 125, 'transform': 0}})
+                    {'id': self.reef.new_id(w), 'prototypeId': fish, 'position': {'x': 82, 'z': 84, 'transform': 0}})
         for sector in q.get('unlockSectors', []):
             if sector not in w['sectors']:
                 w['sectors'].append(sector)
@@ -369,7 +385,9 @@ def main():
     ap.add_argument('--port', type=int, default=8080)
     ap.add_argument('--data', default='data', help='directory for the database and request log')
     ap.add_argument('--worlddef', help='use this worldDef JSON instead of generating one')
-    ap.add_argument('--story', action='store_true', help='enable the story quests (story.json); experimental')
+    ap.add_argument('--reset-worlds', action='store_true',
+                    help='delete every saved reef (accounts are kept); players get the starter reef again')
+    ap.add_argument('--no-story', action='store_true', help='turn off the story quests (story.json)')
     args = ap.parse_args()
     Handler.game = Game(args)
     print('Nemo\'s Reef server on http://%s:%d  (world version %s, log: %s)'

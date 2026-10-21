@@ -130,6 +130,24 @@ class Reef:
         if e.get('state') == PRODUCING and e.get('producingInterval', {}).get('finish', 0) <= now:
             e['state'] = READY
 
+    def add_entity(self, w, pid, x, z, mirror=False, now=0):
+        """Puts a fully grown/built entity into the world (starter reef, quest rewards)."""
+        lst, p = self.protos.get(pid)
+        if not lst:
+            return None
+        e = {'id': self.new_id(w), 'prototypeId': pid, 'position': {'x': x, 'z': z, 'transform': int(bool(mirror))}}
+        etype = p.get('type')
+        if etype in HARVESTABLE:
+            e.update(state=READY, seeded=now, growingCycle=int(p.get('growingCycles', 1)))
+        elif etype in GROWABLE:
+            e.update(state=BUILT, seeded=now, growingCycle=int(p.get('growingCycles', 1)))
+        elif etype == 'ET_PATCH':
+            e.update(state=BUILT, plantCount=0)
+        elif lst != 'fishes':
+            e['state'] = BUILT
+        w.setdefault(lst, []).append(e)
+        return e
+
     # ------------------------------------------------------------ actions
     def apply(self, w, action, now):
         """Returns the reaction for one action (always with resultCode)."""

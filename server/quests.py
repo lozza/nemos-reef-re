@@ -8,8 +8,11 @@ is finished the server credits the reward, records the quest as finished and pus
 story.json holds the content: quests (with their tasks, rewards and the quests they unlock), dialogs,
 hints, fish-attraction patterns and the English texts. Text ids are generated from the quest ids.
 """
+import copy
 import json
 import os
+
+import worlddef
 
 STORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'story.json')
 RUNNING, OFFERED = 9, 8
@@ -52,6 +55,7 @@ class Story:
         return t
 
     def extend_worlddef(self, wd):
+        self.add_items(wd)
         wd['questPrototypeList'] = [self.quest_prototype(q) for q in self.data['quests']]
         wd['dialogPrototypeList'] = [
             {'id': d['id'], 'conditionList': [
@@ -66,6 +70,76 @@ class Story:
                                   sorroundingHintCost=cost(p.get('sorroundingHintCost')))
                              for p in self.data.get('patterns', [])]
         wd['conditionDefinitionList'] = []
+        self.check(wd)
+
+    def add_items(self, wd):
+        """Colour variants and the real shop values from story.json "items"."""
+        wd['colorVariantList'] = [{'id': c, 'color': {'alpha': 255, 'red': v[0], 'green': v[1], 'blue': v[2]}}
+                                  for c, v in self.data.get('colors', {}).items()]
+        lists = [k for k in wd if k.endswith('PrototypeList') or k == 'patchList']
+        by_id = {p['id']: (k, p) for k in lists if isinstance(wd[k], list) for p in wd[k] if isinstance(p, dict)}
+        shop = {s['prototypeId']: s for s in wd['ingameShopItems']}
+        has_variants = set()
+        for pid, it in self.data.get('items', {}).items():
+            base = it.get('base')
+            if base:
+                if base not in by_id:
+                    raise ValueError('item %s: unknown base prototype %s' % (pid, base))
+                lst, bp = by_id[base]
+                p = copy.deepcopy(bp)
+                p['id'] = pid
+                p['graphicalId'] = base
+                wd[lst].append(p)
+                by_id[pid] = (lst, p)
+                has_variants.add(base)
+            elif pid in by_id:
+                p = by_id[pid][1]
+            else:
+                raise ValueError('item %s: unknown prototype' % pid)
+            if it.get('color'):
+                p['colorVariantId'] = it['color']
+            if it.get('name'):
+                p['name'] = p['nameId'] = it['name']
+            if it.get('price'):
+                pc = it['price']
+                p['cost'] = worlddef.cost(coins=pc.get('virtualMoney', 0), pearls=pc.get('hardMoney', 0))
+                p['refundReward'] = worlddef.reward(coins=p['cost']['virtualMoney'] // 2)
+            if 'feed' in it:
+                p['growingCycleCost'] = worlddef.cost(algae=it['feed'])
+            if 'step' in it:
+                p['growingTime'] = worlddef.duration(it['step'])
+            if 'produce' in it:
+                pr = it['produce']
+                p['producedReward'] = worlddef.reward(xp=pr.get('xp', 0), coins=pr.get('virtualMoney', 0),
+                                                      algae=pr.get('energy', 0))
+            if 'every' in it:
+                p['producingTime'] = worlddef.duration(it['every'])
+            if 'hearts' in it:
+                p['vitality'] = it['hearts']
+            if 'build' in it:
+                p['constructionTime'] = worlddef.duration(it['build'])
+            shop[pid] = worlddef.shop_item(p)
+        # bases sold only as colour variants would show grey in the shop
+        wd['ingameShopItems'] = [s for pid, s in shop.items() if pid not in has_variants]
+
+    def check(self, wd):
+        """Every prototype the story refers to must exist, or the client crashes."""
+        ids = {p['id'] for k, v in wd.items() if isinstance(v, list) for p in v if isinstance(p, dict) and 'id' in p}
+        missing = set()
+        for q in self.data['quests']:
+            for t in q.get('tasks', []):
+                params = t.get('params', [])
+                if len(params) > 1 and t['cid'] not in ('CID_PATTERN', 'CID_DIALOG_FINISHED') and params[1] not in ids:
+                    missing.add(params[1])
+            for f in [q.get('giver', 'fish_special_nemo')] + q.get('grantFish', []):
+                if f not in ids:
+                    missing.add(f)
+        for d in self.data.get('dialogs', []):
+            missing.update(a for l in d['lines'] for a in l[1:2] + l[3:4] if a and a not in ids)
+        for pt in self.data.get('patterns', []):
+            missing.update(x for x in [pt['centralPrototype'], pt['producedFishId']] + pt['nearPrototypes'] if x not in ids)
+        if missing:
+            raise ValueError('story.json refers to unknown prototypes: %s' % ', '.join(sorted(missing)))
 
     def quest_prototype(self, q):
         key = q['id'].upper()

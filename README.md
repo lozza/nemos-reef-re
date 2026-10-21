@@ -3,8 +3,10 @@
 A replacement server for Disney's *Nemo's Reef* (Android 1.8.1), whose official servers have shut down.
 Protocol details are in [PROTOCOL.md](PROTOCOL.md); game actions in [ACTIONS.md](ACTIONS.md).
 
-**Status:** early. Runs on a real device (Fire 7). Login, loading your reef, and saving what you buy, place, feed, move and collect work;
-prices, timers and levels are placeholder numbers, and quests/daily rewards are not done yet.
+**Status:** early. Runs on a real device (Fire 7). Login, saving what you buy, place, feed, move and collect, the
+original starter reef, and the first story quests (tutorial, dialogue, rewards) work. Story content, prices and timers
+come from a Let's Play of the original game (part 1 of 21 so far); daily rewards and friends are not done yet.
+The Android Studio emulator draws some sand paths white; real devices are fine.
 
 The game files are not included: you need your own copy of `nemos-reef-1-8-1-en-android.apk`.
 

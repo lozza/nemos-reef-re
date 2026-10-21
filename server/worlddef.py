@@ -24,6 +24,8 @@ LIST_FOR_TYPE = {
     'ET_SPEC_HOUSE': 'housePrototypeList',
     'ET_SEED': 'seedPrototypeList',
     'ET_PATCH': 'patchList',
+    # level scenery (mushrooms, reef pieces): built like normal decorations, sent in the starter reef, not sold
+    'ET_SCENE_DECORATION': 'decorationPrototypeList',
 }
 
 # .ipro "type" -> shop tab (ShopScreen::initShopCategories: CORAL, LIVINGPLANT, ORNAMENTALPLANT, RAREPLANT,
@@ -182,7 +184,8 @@ def build(apk_path, story=None):
         if etype == 'ET_PATCH':
             p['maxPlants'] = 3  # EntityPatch::getPlantMax: plants needed before the patch produces
         wd[lst].append(p)
-        wd['ingameShopItems'].append(shop_item(p))
+        if etype != 'ET_SCENE_DECORATION':
+            wd['ingameShopItems'].append(shop_item(p))
 
     patch = next((p for p in wd['patchList'] if p['graphicalId'] == 'spec_house_patch'), None)
     if patch:
