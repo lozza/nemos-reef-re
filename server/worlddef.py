@@ -39,6 +39,9 @@ SHOP_CATEGORY = {
     'ET_SPEC_HOUSE': 'SPECIAL',
 }
 
+PRODUCES = ('ET_CORAL', 'ET_LIVING_PLANT', 'ET_PATCH', 'ET_CHARACTER')
+GROWS = ('ET_CORAL', 'ET_LIVING_PLANT', 'ET_ORN_PLANT', 'ET_RARE_PLANT', 'ET_SEED')
+
 # Tutorial/server-only prototype ids referenced by the client code.
 EXTRA_PATCHES = ['patch_tutorial_01', 'patch_tutorial_02']
 
@@ -181,6 +184,13 @@ def build(apk_path, story=None):
         order += 1
         p = prototype(stem, stem, a.get('name') or stem, etype, st, order)
         p['shopCategory'] = SHOP_CATEGORY.get(etype, '')
+        # ShopItem::setTimeLabels shows the growth / production rows whenever those times are non-zero,
+        # so only items that really grow or produce keep them (keys stay: the getters use safeGet).
+        if etype not in PRODUCES:
+            p['producingTime'] = duration(0)
+            p['producedReward'] = reward()
+        if etype not in GROWS:
+            p['growingTime'] = duration(0)
         if etype == 'ET_PATCH':
             p['maxPlants'] = 3  # EntityPatch::getPlantMax: plants needed before the patch produces
         wd[lst].append(p)
