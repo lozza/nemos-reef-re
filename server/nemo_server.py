@@ -268,6 +268,9 @@ class Game:
                 w = self.user_world(uid)
                 body = {'reactions': [self.reaction(w, a) for a in req.get('actions', [])]}
                 if w:
+                    # The client never changes currencies itself: the HUD only updates from a "status"
+                    # object next to the reactions (ComManager::loadingFinished → updateUserStatus).
+                    body['status'] = w['status']
                     if w.get('messages'):
                         body['messages'] = list(w['messages'])
                     self.store.save_world(uid, w)
@@ -316,8 +319,9 @@ class Game:
         self.reef.earn(w, reward)
         for fish in q.get('grantFish', []):
             if not any(e.get('prototypeId') == fish for e in w.get('fishes', [])):
-                w.setdefault('fishes', []).append(
-                    {'id': self.reef.new_id(w), 'prototypeId': fish, 'position': {'x': 82, 'z': 84, 'transform': 0}})
+                e = self.reef.add_entity(w, fish, 82, 84)
+                if e:  # message type 1: EntityManager::processFishAddedMessage swims the fish in now
+                    w.setdefault('messages', []).append({'id': self.story.message_id(w), 'type': 1, 'data': dict(e)})
         for sector in q.get('unlockSectors', []):
             if sector not in w['sectors']:
                 w['sectors'].append(sector)

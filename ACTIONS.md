@@ -1,5 +1,14 @@
 # Nemo's Reef 1.8.1 (libsdr.so) - game-action protocol spec for a replacement server
 
+> **Correction (verified later):** the client never credits or debits currencies, XP or level itself.
+> Every `/api` response must carry the full user `status` object (same format as in startgame) next to
+> `reactions`; `netcl::ComManager::loadingFinished` (F:2e8720..2e8764) passes it to
+> `TheUser::updateUserStatus`, which updates the HUD (and shows the level-up dialog when `level` rises).
+> The server is therefore authoritative for the balance; section 4.4 below is wrong on this point.
+> Pushed `messages` types: 1 fish added (`data` = a fishes[] entry), 2 open quest, 3 construction ended
+> `{id}`, 4 feed ended `{id,state}`, 6 finish quest, 7 fish removed `{id}`, 8 fish state `{id,state}`,
+> 9 sector added, 11 in-game message `{visualStyle,textId,params}`, 17 entity upgraded `{id,full,plantPrototypeId}`.
+
 Scope: the batched game actions (`actions[]` / `reactions[]`) used for normal reef play, the
 per-entity JSON in the startgame world lists, and the rules a server needs to keep a world consistent.
 
