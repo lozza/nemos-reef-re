@@ -1029,76 +1029,126 @@
  ],
  "texts": {},
  "colors": {
-  "yellow": [
-   255,
-   214,
+  "table_yellow": [
+   246,
+   229,
+   75
+  ],
+  "barrel_rose": [
+   227,
+   78,
+   106
+  ],
+  "seabush_green": [
+   188,
+   213,
    48
   ],
-  "red": [
-   224,
-   52,
+  "tube_red": [
+   223,
+   55,
+   74
+  ],
+  "tube_orange": [
+   227,
+   123,
    44
   ],
-  "violet": [
-   150,
-   90,
-   220
+  "sponge_yellow": [
+   218,
+   201,
+   65
   ],
-  "turquoise": [
-   64,
-   208,
-   200
+  "fan_pink": [
+   217,
+   136,
+   242
   ],
-  "green": [
-   90,
-   200,
-   70
+  "fruit_lime": [
+   211,
+   228,
+   107
   ],
-  "orange": [
-   255,
-   140,
-   40
+  "brain_violet": [
+   212,
+   104,
+   206
   ],
-  "rose": [
-   240,
-   120,
-   150
-  ],
-  "blue": [
-   80,
-   130,
-   230
-  ],
-  "lilac": [
-   200,
-   160,
-   230
-  ],
-  "dark_yellow": [
-   200,
-   160,
-   30
-  ],
-  "purple": [
-   170,
-   70,
-   190
-  ],
-  "pink": [
-   240,
-   110,
-   190
-  ],
-  "cream": [
+  "brain_cream": [
    245,
    225,
    180
+  ],
+  "sunset_yellow": [
+   242,
+   206,
+   75
+  ],
+  "branches_red": [
+   216,
+   74,
+   80
+  ],
+  "branches_violet": [
+   212,
+   124,
+   229
+  ],
+  "stems_turquoise": [
+   110,
+   240,
+   245
+  ],
+  "java_red": [
+   236,
+   105,
+   80
+  ],
+  "seaweed_green": [
+   108,
+   184,
+   46
+  ],
+  "seaweed_orange": [
+   212,
+   207,
+   28
+  ],
+  "seabed_blue": [
+   137,
+   159,
+   241
+  ],
+  "cirripathes_lilac": [
+   207,
+   152,
+   233
+  ],
+  "seaweed_darkyellow": [
+   181,
+   132,
+   21
+  ],
+  "shrub_purple": [
+   170,
+   44,
+   229
+  ],
+  "pillow_cream": [
+   242,
+   221,
+   160
+  ],
+  "moss_blue": [
+   118,
+   165,
+   247
   ]
  },
  "items": {
   "plant_table_yellow": {
    "base": "plant_table",
-   "color": "yellow",
+   "color": "table_yellow",
    "name": "Yellow Table Plant",
    "price": {
     "virtualMoney": 10
@@ -1113,7 +1163,7 @@
   },
   "plant_barrel_sponge_rose": {
    "base": "plant_barrel_sponge",
-   "color": "rose",
+   "color": "barrel_rose",
    "name": "Rose Barrel Sponges",
    "price": {
     "hardMoney": 3
@@ -1128,7 +1178,7 @@
   },
   "plant_giant_seabush_green": {
    "base": "plant_giant_seabush",
-   "color": "green",
+   "color": "seabush_green",
    "name": "Giant Green Seabush",
    "price": {
     "virtualMoney": 50
@@ -1142,8 +1192,8 @@
    "every": 240
   },
   "plant_tube_sponge_red": {
-   "base": "plant_living_01",
-   "color": "red",
+   "base": "plant_living_02",
+   "color": "tube_red",
    "name": "Red Tube Sponge",
    "price": {
     "hardMoney": 5
@@ -1154,12 +1204,11 @@
     "virtualMoney": 8,
     "xp": 8
    },
-   "every": 240,
-   "notes": "base graphics guessed"
+   "every": 240
   },
   "plant_tube_sponge_orange": {
-   "base": "plant_living_01",
-   "color": "orange",
+   "base": "plant_living_02",
+   "color": "tube_orange",
    "name": "Orange Tube Sponge",
    "price": {
     "virtualMoney": 100
@@ -1170,12 +1219,11 @@
     "virtualMoney": 10,
     "xp": 10
    },
-   "every": 3600,
-   "notes": "base graphics guessed"
+   "every": 3600
   },
   "plant_sponge_beds_yellow": {
    "base": "plant_sponge_beds",
-   "color": "yellow",
+   "color": "sponge_yellow",
    "name": "Yellow Sponge Bed",
    "price": {
     "virtualMoney": 120
@@ -1189,7 +1237,7 @@
    "every": 21600
   },
   "coral_fan": {
-   "color": "pink",
+   "color": "fan_pink",
    "name": "Fan Coral",
    "price": {
     "virtualMoney": 10
@@ -1203,7 +1251,7 @@
    "every": 30
   },
   "coral_fruit_loop": {
-   "color": "orange",
+   "color": "fruit_lime",
    "name": "Fruit Loop Coral",
    "price": {
     "virtualMoney": 20
@@ -1217,7 +1265,7 @@
    "every": 60
   },
   "coral_brain": {
-   "color": "cream",
+   "color": "brain_cream",
    "name": "Brain Coral",
    "price": {
     "virtualMoney": 88
@@ -1233,7 +1281,7 @@
   },
   "coral_brain_violet": {
    "base": "coral_brain",
-   "color": "violet",
+   "color": "brain_violet",
    "name": "Violet Brain Coral",
    "price": {
     "hardMoney": 5
@@ -1247,7 +1295,7 @@
    "every": 180
   },
   "coral_sunset_cup": {
-   "color": "yellow",
+   "color": "sunset_yellow",
    "name": "Sunset Cup",
    "price": {
     "virtualMoney": 40
@@ -1262,7 +1310,7 @@
   },
   "orn_plant_branches_red": {
    "base": "orn_plant_branches",
-   "color": "red",
+   "color": "branches_red",
    "name": "Red Branches",
    "price": {
     "virtualMoney": 10
@@ -1273,7 +1321,7 @@
   },
   "orn_plant_branches_violet": {
    "base": "orn_plant_branches",
-   "color": "violet",
+   "color": "branches_violet",
    "name": "Violet Branches",
    "price": {
     "virtualMoney": 20
@@ -1283,21 +1331,9 @@
    "hearts": 15,
    "notes": "values guessed"
   },
-  "orn_plant_stems_turquoise": {
-   "base": "orn_plant_eucheuma_denticulatum",
-   "color": "turquoise",
-   "name": "Turquoise Stems",
-   "price": {
-    "virtualMoney": 16
-   },
-   "feed": 10,
-   "step": 18,
-   "hearts": 15,
-   "notes": "base graphics guessed"
-  },
   "orn_plant_java_moss_red": {
    "base": "orn_plant_java_moss",
-   "color": "red",
+   "color": "java_red",
    "name": "Red Java Moss",
    "price": {
     "hardMoney": 5
@@ -1307,32 +1343,30 @@
    "hearts": 80
   },
   "orn_plant_seaweed_green": {
-   "base": "orn_plant_long_seaweed",
-   "color": "green",
+   "base": "orn_plant_seaweed",
+   "color": "seaweed_green",
    "name": "Green Straight Seaweed",
    "price": {
     "virtualMoney": 20
    },
    "feed": 12,
    "step": 30,
-   "hearts": 20,
-   "notes": "base graphics guessed"
+   "hearts": 20
   },
   "orn_plant_seaweed_orange": {
-   "base": "orn_plant_long_seaweed",
-   "color": "orange",
+   "base": "orn_plant_seaweed",
+   "color": "seaweed_orange",
    "name": "Orange Straight Seaweed",
    "price": {
     "virtualMoney": 20
    },
    "feed": 12,
    "step": 30,
-   "hearts": 20,
-   "notes": "base graphics guessed"
+   "hearts": 20
   },
   "orn_plant_cirripathes_lilac": {
    "base": "orn_plant_cirripathes",
-   "color": "lilac",
+   "color": "cirripathes_lilac",
    "name": "Lilac Cirripathes",
    "price": {
     "virtualMoney": 60
@@ -1342,8 +1376,8 @@
    "hearts": 45
   },
   "orn_plant_big_seaweed_darkyellow": {
-   "base": "orn_plant_big_seaweed",
-   "color": "dark_yellow",
+   "base": "orn_plant_long_seaweed",
+   "color": "seaweed_darkyellow",
    "name": "Giant Dark Yellow Seaweed",
    "price": {
     "virtualMoney": 50
@@ -1351,11 +1385,11 @@
    "feed": 25,
    "step": 180,
    "hearts": 70,
-   "notes": "base graphics guessed"
+   "notes": "base matched from the video, medium-high confidence"
   },
   "orn_plant_marine_shrub_purple": {
    "base": "orn_plant_marine_shrub",
-   "color": "purple",
+   "color": "shrub_purple",
    "name": "Purple Marine Shrub",
    "price": {
     "virtualMoney": 60
@@ -1404,6 +1438,44 @@
     "virtualMoney": 100
    },
    "build": 7195
+  },
+  "orn_plant_coral_01": {
+   "color": "pillow_cream",
+   "name": "Yellow Pillow",
+   "notes": "starting reef; shop values unknown"
+  },
+  "orn_plant_coral_02": {
+   "color": "seabed_blue",
+   "name": "Blue Seabed",
+   "price": {
+    "virtualMoney": 70
+   },
+   "feed": 20,
+   "step": 420,
+   "hearts": 60,
+   "notes": "feed cost guessed"
+  },
+  "orn_plant_coral_03": {
+   "color": "stems_turquoise",
+   "name": "Turquoise Stems",
+   "price": {
+    "virtualMoney": 16
+   },
+   "feed": 10,
+   "step": 18,
+   "hearts": 15
+  },
+  "orn_plant_coral_04": {
+   "color": "moss_blue",
+   "name": "Blue-shaded Moss",
+   "notes": "starting reef; shop values unknown"
+  },
+  "deco_rock_2": {
+   "name": "Flat Rock",
+   "price": {
+    "virtualMoney": 100
+   },
+   "notes": "price guessed"
   }
  }
 }
