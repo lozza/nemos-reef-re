@@ -9,6 +9,8 @@ story.json holds the content: quests (with their tasks, rewards and the quests t
 hints, fish-attraction patterns and the English texts. Text ids are generated from the quest ids.
 """
 import copy
+import glob
+import hashlib
 import json
 import os
 
@@ -56,6 +58,13 @@ class Story:
 
     def extend_worlddef(self, wd):
         self.add_items(wd)
+        # The client keeps a downloaded texts bundle per (id, language) and never asks again for an id it
+        # already has (Action_GetTextBundle::canSkipNetAction), so the id must change whenever the texts do.
+        h = hashlib.sha1(json.dumps(self.texts(), sort_keys=True).encode('utf-8'))
+        for f in sorted(glob.glob(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'texts_*.json'))):
+            with open(f, 'rb') as fh:
+                h.update(fh.read())
+        wd['localizedTextsBundleId'] = 2 + int(h.hexdigest()[:7], 16)
         wd['questPrototypeList'] = [self.quest_prototype(q) for q in self.data['quests']]
         wd['dialogPrototypeList'] = [
             {'id': d['id'], 'conditionList': [
