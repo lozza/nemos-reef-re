@@ -7,6 +7,7 @@ server, so the server repeats the same arithmetic to keep "status" right for the
 Entities are stored in the world lists as the client reads them in startgame (id, prototypeId,
 position, state, intervals ...). States are recomputed from the timers whenever the world is sent.
 """
+import random
 # server ids must stay below the client's temporary ids (EntityIdGenerator starts at 1,000,000)
 MAX_ENTITY_ID = 999999
 
@@ -196,10 +197,12 @@ class Reef:
         return {'id': e['id'] if e else self.new_id(w)}
 
     def a_seedEntitySeed(self, w, d, now):
-        # the seed turns into a plant; pick the first plant prototype as the result for now
+        # A mystery seed grows into a random plant from its "seedResults" (story.json items "results").
         _, seed = self.protos.get(d.get('prototypeId'))
         self.pay(w, self.protos.shop_cost.get(d.get('prototypeId')) or (seed or {}).get('cost'))
-        plant = next((pid for pid, (lst, p) in self.protos.by_id.items() if lst == 'livingPlants'), None)
+        choices = [pid for pid in (seed or {}).get('seedResults', []) if self.protos.get(pid)[0]]
+        plant = random.choice(choices) if choices else next(
+            (pid for pid, (lst, p) in self.protos.by_id.items() if lst == 'livingPlants'), None)
         lst, p = self.protos.get(plant)
         e = {'id': self.new_id(w), 'prototypeId': plant, 'seedPrototypeId': d.get('prototypeId'),
              'position': {'x': int(d.get('x', 0)), 'z': int(d.get('z', 0)), 'transform': int(d.get('transform', 0)) & 1},

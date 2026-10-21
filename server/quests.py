@@ -18,6 +18,10 @@ import worlddef
 
 STORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'story.json')
 RUNNING, OFFERED = 9, 8
+# task conditions whose parameter 2 is a prototype id (QCondition*::loadParameters)
+PROTOTYPE_TASKS = ('CID_CREATED', 'CID_CREATED_EXISTS', 'CID_BUILT', 'CID_BUILT_EXISTS', 'CID_GROWN', 'CID_FERTILIZE',
+                   'CID_HARVESTED', 'CID_HARVESTED_AMOUNT', 'CID_MOVED_ON_PATCH', 'CID_FISH_REWARD_COLLECTED',
+                   'CID_FISH_REWARD_COLLECTED_AMOUNT')
 QUEST_OPEN, QUEST_FINISH = 2, 6  # message types
 
 
@@ -59,6 +63,7 @@ class Story:
 
     def extend_worlddef(self, wd):
         self.add_items(wd)
+        self.levels(wd)
         self.name_keys(wd)
         # The client keeps a downloaded texts bundle per (id, language) and never asks again for an id it
         # already has (Action_GetTextBundle::canSkipNetAction), so the id must change whenever the texts do.
@@ -122,7 +127,11 @@ class Story:
             if 'produce' in it:
                 pr = it['produce']
                 p['producedReward'] = worlddef.reward(xp=pr.get('xp', 0), coins=pr.get('virtualMoney', 0),
-                                                      algae=pr.get('energy', 0))
+                                                      algae=pr.get('energy', 0), pearls=pr.get('hardMoney', 0))
+            if 'fishFeed' in it:  # rare fish: algae per feeding, then produce every "every" seconds
+                p['producingCost'] = worlddef.cost(algae=it['fishFeed'])
+            if 'results' in it:
+                p['seedResults'] = list(it['results'])
             if 'every' in it:
                 p['producingTime'] = worlddef.duration(it['every'])
             if 'hearts' in it:
@@ -132,6 +141,20 @@ class Story:
             shop[pid] = worlddef.shop_item(p)
         # bases sold only as colour variants would show grey in the shop
         wd['ingameShopItems'] = [s for pid, s in shop.items() if pid not in has_variants]
+
+    def levels(self, wd):
+        """Level XP thresholds and level-up rewards (story.json "levels")."""
+        lv = self.data.get('levels')
+        if not lv:
+            return
+        xp = list(lv['xp'])
+        while len(xp) < len(wd['levelList']):
+            xp.append(xp[-1] + (xp[-1] - xp[-2]) + 100)  # gaps keep growing by 100
+        for l in wd['levelList']:
+            l['requiredXP'] = xp[l['level'] - 1]
+            r = lv.get('rewards', {}).get(str(l['level']), {})
+            l['reward'] = worlddef.reward(xp=0, coins=r.get('virtualMoney', 0), pearls=r.get('hardMoney', 0),
+                                          algae=r.get('energy', 0))
 
     def name_keys(self, wd):
         """ServerPrototype::getName looks "name" up in the texts bundle, so names become STR_ keys.
@@ -160,13 +183,15 @@ class Story:
         for q in self.data['quests']:
             for t in q.get('tasks', []):
                 params = t.get('params', [])
-                if len(params) > 1 and t['cid'] not in ('CID_PATTERN', 'CID_DIALOG_FINISHED') and params[1] not in ids:
-                    missing.add(params[1])
+                if t['cid'] in PROTOTYPE_TASKS and len(params) > 1 and params[1] not in ids:
+                    missing.add(str(params[1]))
             for f in [q.get('giver', 'fish_special_nemo')] + q.get('grantFish', []):
                 if f not in ids:
                     missing.add(f)
         for d in self.data.get('dialogs', []):
             missing.update(a for l in d['lines'] for a in l[1:2] + l[3:4] if a and a not in ids)
+        for pid, it in self.data.get('items', {}).items():
+            missing.update(r for r in it.get('results', []) if r not in ids)
         for pt in self.data.get('patterns', []):
             missing.update(x for x in [pt['centralPrototype'], pt['producedFishId']] + pt['nearPrototypes'] if x not in ids)
         if missing:

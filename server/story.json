@@ -388,11 +388,14 @@
     }
    ],
    "reward": {
-    "xp": 150,
-    "energy": 50,
-    "virtualMoney": 100
+    "xp": 250,
+    "virtualMoney": 150
    },
-   "notes": "intro and reward reconstructed"
+   "notes": "intro reconstructed",
+   "completed": "Nemo's reef will be the safest place to be now that these Giant Seaweed are here.",
+   "next": [
+    "spare_no_effort"
+   ]
   },
   {
    "id": "whats_a_coral",
@@ -418,11 +421,11 @@
     }
    ],
    "reward": {
-    "xp": 150,
-    "energy": 50,
-    "virtualMoney": 100
+    "xp": 100,
+    "virtualMoney": 100,
+    "energy": 50
    },
-   "notes": "reward reconstructed"
+   "notes": "XP digit unreadable in the video"
   },
   {
    "id": "what_could_it_be",
@@ -440,10 +443,13 @@
     }
    ],
    "reward": {
-    "xp": 100,
-    "virtualMoney": 100
+    "xp": 200,
+    "virtualMoney": 150
    },
-   "notes": "intro and reward reconstructed; 'Grow a Mystery Seed' task left out"
+   "notes": "intro reconstructed",
+   "next": [
+    "extraordinary"
+   ]
   },
   {
    "id": "all_about_coral",
@@ -463,10 +469,153 @@
    ],
    "reward": {
     "xp": 150,
-    "energy": 50,
+    "virtualMoney": 150
+   },
+   "notes": "intro reconstructed",
+   "completed": "Now that Nemo has his own Brain Coral, Tad's reef doesn't stand a chance."
+  },
+  {
+   "id": "extraordinary",
+   "title": "It's Extraordinary!",
+   "giver": "fish_special_nemo",
+   "startDialogId": "d_mundane",
+   "description": "Tad says Nemo's reef is mundane. An Extraordinary Mystery Seed grows into a rare plant that will make everyone look twice.",
+   "tasks": [
+    {
+     "text": "Grow an Extraordinary Mystery Seed",
+     "cid": "CID_GROWN",
+     "params": [
+      1,
+      "rare_plant_thalassia"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 100,
     "virtualMoney": 100
    },
-   "notes": "intro and reward reconstructed"
+   "grantFish": [
+    "fish_rare_dusky_bat"
+   ],
+   "notes": "intro, task wording and reward reconstructed (the quest never finished in the video); the batfish arrives when the seed grows",
+   "next": [
+    "fish_starve"
+   ]
+  },
+  {
+   "id": "fish_starve",
+   "title": "Don't let the fish starve!",
+   "giver": "fish_special_nemo",
+   "startDialogId": "d_rarefish",
+   "description": "Rare fish need special care. Feed the Yellow Dusky Batfish with Algae and it will reward Nemo with a Pearl.",
+   "tasks": [
+    {
+     "text": "Feed the rare fish with Algae",
+     "cid": "CID_FISH_FEEDED",
+     "params": [
+      1
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 100,
+    "virtualMoney": 100
+   },
+   "notes": "intro and reward reconstructed (not finished in the video)"
+  },
+  {
+   "id": "spare_no_effort",
+   "title": "Spare No Effort",
+   "giver": "fish_special_nemo",
+   "description": "It is time to think about the future. Nemo should start to save some Algae if he is going to grow more and more Plants and Corals.",
+   "completed": "With this additional Algae resource, Tad won't stand a chance of competing with Nemo's reef.",
+   "tasks": [
+    {
+     "text": "Harvest 50 Algae",
+     "cid": "CID_HARVESTED_COUNT_ANY",
+     "params": [
+      "CORAL",
+      50
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 250,
+    "virtualMoney": 150
+   },
+   "next": [
+    "unexpected_party"
+   ]
+  },
+  {
+   "id": "unexpected_party",
+   "title": "An Unexpected Party",
+   "giver": "fish_special_nemo",
+   "startDialogId": "d_crush",
+   "description": "Two welcome visitors have arrived at the reef. Since they have their own houses on their backs, Nemo will build something different.",
+   "completed": "Marlin has his doubts about the reef staying calm, but there's nothing he wouldn't do to make Nemo happy - even if it means inviting a little turtle craziness around.",
+   "tasks": [
+    {
+     "text": "Build Squirt's Underwater Fountain",
+     "cid": "CID_BUILT",
+     "params": [
+      1,
+      "spec_house_spring"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200
+   },
+   "rewardPrototypeIdList": [
+    "fish_special_squirt",
+    "fish_special_crush"
+   ],
+   "grantFish": [
+    "fish_special_squirt",
+    "fish_special_crush"
+   ],
+   "next": [
+    "planting_101"
+   ]
+  },
+  {
+   "id": "planting_101",
+   "title": "Planting 101",
+   "giver": "fish_special_nemo",
+   "startDialogId": "d_squirt",
+   "description": "Squirt is very eager to help Nemo with his reef. Nemo wants to show him how to grow all the basic plants.",
+   "tasks": [
+    {
+     "text": "Plant and grow any 3 Living Plants",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "LIVINGPLANT",
+      3
+     ]
+    },
+    {
+     "text": "Plant and grow any 3 Corals",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "CORAL",
+      3
+     ]
+    },
+    {
+     "text": "Plant and grow any 3 Ornamental Plants",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "ORNAMENTALPLANT",
+      3
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 300,
+    "virtualMoney": 200
+   },
+   "notes": "reward not yet seen (continues in part 3)"
   },
   {
    "id": "story_quest_05",
@@ -960,6 +1109,236 @@
      "fish_special_tad"
     ]
    ]
+  },
+  {
+   "id": "d_mundane",
+   "lines": [
+    [
+     "right",
+     "fish_special_nemo",
+     "Dad, Tad said our reef is still mundane. What's mundane?",
+     "fish_special_marlin"
+    ],
+    [
+     "left",
+     "fish_special_marlin",
+     "Mundane means 'boring.'",
+     "fish_special_nemo"
+    ],
+    [
+     "left",
+     "fish_special_marlin",
+     "Nemo, let me tell you about Extraordinary Mystery Seeds...",
+     "fish_special_nemo"
+    ]
+   ]
+  },
+  {
+   "id": "d_rarefish",
+   "lines": [
+    [
+     "left",
+     "fish_special_nemo",
+     "Dad, look, look! I have never seen such a beautiful fish in our reef before!",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "This is the beauty of Rare Plants, Nemo.",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "That's right son, but we cannot welcome more than one rare fish of the same type.",
+     "fish_special_nemo"
+    ]
+   ]
+  },
+  {
+   "id": "d_crush",
+   "lines": [
+    [
+     "left",
+     "fish_special_crush",
+     "Hey there, Jellyman! The offspring and I had one righteous thrill surfin' the current 'til we found you, dude! Squirt here almost wiped out but I caught him just in time.",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_squirt",
+     "It was so totally cool!",
+     "fish_special_crush"
+    ],
+    [
+     "left",
+     "fish_special_crush",
+     "--- And so here we are, dude.",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Well, hello, Crush. Welcome to our little piece of reef. What brings you by?",
+     "fish_special_crush"
+    ],
+    [
+     "left",
+     "fish_special_crush",
+     "Turns out, the little dude is a much better student than I was. Hard to believe - I know. Anyway, he's been chosen to be an exchange student at your little dude's school...",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_nemo",
+     "Squirt! That is so awesome!",
+     "fish_special_squirt"
+    ],
+    [
+     "left",
+     "fish_special_squirt",
+     "Yeah! Now me and my dad get to stay here with you!",
+     "fish_special_nemo"
+    ],
+    [
+     "left",
+     "fish_special_crush",
+     "Whoah, better not get ahead of ourselves, Squirt. What do you say, mini-man, can the offspring and I crash here for awhile?",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "I guess so. As long as the boys don't get into too much trouble. Nemo?",
+     "fish_special_crush"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Nemo!",
+     "fish_special_crush"
+    ],
+    [
+     "left",
+     "fish_special_nemo",
+     "Yeah, Dad? I was just showing Squirt our anemone...",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "See? You always have to keep an eye on them.",
+     "fish_special_crush"
+    ],
+    [
+     "left",
+     "fish_special_crush",
+     "Aw, I'm sure they'll be fine. I was way more reckless when I was their age.",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Really? I never would have guessed that.",
+     "fish_special_crush"
+    ],
+    [
+     "left",
+     "fish_special_nemo",
+     "Hey, Dad! Dad! Squirt said it would be cool if we had a stream here. What should we do?",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Well, I suppose you could find a spring bubbling out from a crack somewhere. You know, like a geyser -",
+     "fish_special_nemo"
+    ],
+    [
+     "left",
+     "fish_special_nemo",
+     "That's a great idea! Thanks Dad!",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "They can't get into trouble looking for a stream, right?",
+     "fish_special_nemo"
+    ]
+   ]
+  },
+  {
+   "id": "d_squirt",
+   "lines": [
+    [
+     "left",
+     "fish_special_squirt",
+     "Nemo! This place is totally sweet!",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_nemo",
+     "Thanks! I made it all by myself.",
+     "fish_special_squirt"
+    ],
+    [
+     "left",
+     "fish_special_marlin",
+     "Ahem...",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_nemo",
+     "I mean, with my dad. But I did most of the planting!",
+     "fish_special_squirt"
+    ],
+    [
+     "left",
+     "fish_special_squirt",
+     "That is so cool! Can I help?",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_nemo",
+     "Sure! That would be great. Now I'm definitely gonna beat Tad.",
+     "fish_special_squirt"
+    ],
+    [
+     "left",
+     "fish_special_squirt",
+     "Who's Tad? You talk about him a lot.",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_nemo",
+     "He's in my class. He's kind of obnox-",
+     "fish_special_squirt"
+    ],
+    [
+     "left",
+     "fish_special_marlin",
+     "Nemo, be nice.",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_nemo",
+     "Umm... Tad thinks he's gonna have a better reef than I do.",
+     "fish_special_squirt"
+    ],
+    [
+     "left",
+     "fish_special_squirt",
+     "No way. Not if I help you! C'mon!",
+     "fish_special_nemo"
+    ]
+   ]
   }
  ],
  "hints": [
@@ -1268,16 +1647,15 @@
    "color": "brain_cream",
    "name": "Brain Coral",
    "price": {
-    "virtualMoney": 88
+    "virtualMoney": 110
    },
    "feed": 15,
    "step": 600,
    "produce": {
-    "energy": 8,
-    "xp": 3
+    "energy": 65,
+    "xp": 10
    },
-   "every": 600,
-   "notes": "price and production guessed"
+   "every": 86400
   },
   "coral_brain_violet": {
    "base": "coral_brain",
@@ -1404,7 +1782,13 @@
     "virtualMoney": 150
    },
    "feed": 200,
-   "step": 12600
+   "step": 12600,
+   "results": [
+    "orn_plant_cirripathes_lilac",
+    "orn_plant_marine_shrub_purple",
+    "orn_plant_branches_violet",
+    "orn_plant_big_seaweed_darkyellow"
+   ]
   },
   "seed_pearl": {
    "name": "Extraordinary Mystery Seed",
@@ -1412,7 +1796,10 @@
     "hardMoney": 10
    },
    "feed": 10,
-   "step": 4
+   "step": 4,
+   "results": [
+    "rare_plant_thalassia"
+   ]
   },
   "deco_rock": {
    "name": "Rock",
@@ -1476,6 +1863,45 @@
     "virtualMoney": 100
    },
    "notes": "price guessed"
+  },
+  "fish_rare_dusky_bat": {
+   "name": "Yellow Dusky Batfish",
+   "fishFeed": 300,
+   "every": 259200,
+   "produce": {
+    "hardMoney": 1
+   },
+   "hearts": 170
+  },
+  "spec_house_spring": {
+   "name": "Squirt's Underwater Fountain",
+   "price": {
+    "virtualMoney": 250
+   },
+   "build": 7200
+  },
+  "fish_special_crush": {
+   "name": "Crush"
+  },
+  "fish_special_squirt": {
+   "name": "Squirt"
+  }
+ },
+ "levels": {
+  "about": "XP needed to reach each level (index = level-1), from the profile screens in the video (L6 = 900, L7 = 1300); earlier levels estimated from when level-ups happened. Later levels continue the pattern.",
+  "xp": [
+   0,
+   40,
+   120,
+   250,
+   450,
+   900,
+   1300
+  ],
+  "rewards": {
+   "4": {
+    "hardMoney": 2
+   }
   }
  }
 }
