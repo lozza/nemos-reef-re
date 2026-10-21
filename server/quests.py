@@ -40,7 +40,8 @@ class Story:
 
     # ------------------------------------------------------------ worldDef / texts
     def texts(self):
-        t = dict(self.data.get('texts', {}))
+        t = dict(getattr(self, 'names', {}))
+        t.update(self.data.get('texts', {}))
         for q in self.data['quests']:
             key = q['id'].upper()
             t['STR_%s_TITLE' % key] = q.get('title', '')
@@ -58,6 +59,7 @@ class Story:
 
     def extend_worlddef(self, wd):
         self.add_items(wd)
+        self.name_keys(wd)
         # The client keeps a downloaded texts bundle per (id, language) and never asks again for an id it
         # already has (Action_GetTextBundle::canSkipNetAction), so the id must change whenever the texts do.
         h = hashlib.sha1(json.dumps(self.texts(), sort_keys=True).encode('utf-8'))
@@ -130,6 +132,26 @@ class Story:
             shop[pid] = worlddef.shop_item(p)
         # bases sold only as colour variants would show grey in the shop
         wd['ingameShopItems'] = [s for pid, s in shop.items() if pid not in has_variants]
+
+    def name_keys(self, wd):
+        """ServerPrototype::getName looks "name" up in the texts bundle, so names become STR_ keys.
+        ShopItem::refresh shows a Vitality heart whenever "vitality" is present, so it is dropped at 0."""
+        self.names = {}
+        for k, v in wd.items():
+            if not (k.endswith('PrototypeList') or k == 'patchList') or not isinstance(v, list):
+                continue
+            for p in v:
+                if not isinstance(p, dict) or 'id' not in p:
+                    continue
+                key = 'STR_PROTO_%s' % p['id'].upper()
+                if not str(p.get('name', '')).startswith('STR_'):
+                    text = str(p.get('name') or p['id'])
+                    self.names[key] = text[:1].upper() + text[1:]
+                    p['name'] = p['nameId'] = key
+                if not p.get('vitality'):
+                    p.pop('vitality', None)
+        for s in wd.get('ingameShopItems', []):
+            s.pop('vitality', None)
 
     def check(self, wd):
         """Every prototype the story refers to must exist, or the client crashes."""

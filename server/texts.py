@@ -12,7 +12,7 @@ import re
 import zipfile
 
 _KEY = re.compile(rb'STR_[A-Z0-9_]{2,80}')
-_SUFFIXES = ('_ALLCAPS', '_CAPITAL', '_CAPS', '_SMALL', '_SHORT')
+_SUFFIXES = ('_ALLCAPS', '_UP_CASE', '_CAPITAL', '_CAPS', '_SMALL', '_SHORT')
 
 
 def humanize(key):
@@ -20,7 +20,7 @@ def humanize(key):
     upper = False
     for suffix in _SUFFIXES:
         if words.endswith(suffix):
-            upper = suffix in ('_ALLCAPS', '_CAPS')
+            upper = suffix in ('_ALLCAPS', '_CAPS', '_UP_CASE')
             words = words[:-len(suffix)]
             break
     text = words.replace('_', ' ').strip().lower()
