@@ -212,6 +212,18 @@ class Story:
                 for qid in self.first:
                     self.open(w, qid, push=False)
 
+    def catch_up(self, w):
+        """Opens quests whose predecessors are all finished but that were never opened: story added
+        after a player had already finished the quests before it. Returns True if anything changed."""
+        before = len(w['quests'])
+        done = set(w['finishedTutorialQuests'])
+        for q in self.data['quests']:
+            for nxt in q.get('next', []):
+                prev = [p['id'] for p in self.data['quests'] if nxt in p.get('next', [])]
+                if all(pid in done for pid in prev):
+                    self.open(w, nxt, push=False)
+        return len(w['quests']) != before
+
     def open(self, w, qid, push=True):
         q = self.quests.get(qid)
         if not q or qid in w['finishedTutorialQuests'] or any(e['prototypeId'] == qid for e in w['quests']):

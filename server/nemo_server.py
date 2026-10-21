@@ -215,6 +215,8 @@ class Game:
         if 'nextQuestId' not in w:
             self.story.migrate(w)
             self.store.save_world(uid, w)
+        if self.story.catch_up(w):
+            self.store.save_world(uid, w)
         return w
 
     def game(self, endpoint, p):
