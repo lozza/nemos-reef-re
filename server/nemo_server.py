@@ -260,7 +260,7 @@ class Game:
         elif endpoint == 'resources':
             body = self.bundles
         elif endpoint in ('getfriendstatus', 'getfriendlasttime'):
-            body = {'friends': []}
+            body = {'participants': []}  # data::FriendList::update reads "participants" (a missing key crashes)
         elif endpoint == 'getlocalizedtextsbundle':
             # ActionGetLocalizedTextsBundle::loadingFinished hands response["texts"] to GameTextManager::load.
             lang = p.get('languageCode') or req.get('languageCode') or 'en'
