@@ -142,7 +142,7 @@ def build(apk_path, story=None):
             'minimalClientVersion': '1.0.0',
             'timeoutTap': 30,
             'timeoutGameAction': 30,
-            'aliveMessageInterval': 60,
+            'aliveMessageInterval': 10,  # keep-alives also deliver pushed messages (growth/construction ends)
             'aliveMessageIntervalInactivity': 300,
             'inactivityTreshold': 300,
             'localTapAuthorizing': False,

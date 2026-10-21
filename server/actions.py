@@ -17,6 +17,7 @@ CURRENCIES = {'hardMoney': 'hardMoney', 'virtualMoney': 'virtualMoney', 'energy'
 # client state codes read by restoreStateFromServer
 BUILT, CONSTRUCTING = 1, 0
 GROWING, WAITING_FEED, PRODUCING, READY = 3, 5, 6, 7
+END_CONSTRUCT, END_FEED = 3, 4  # pushed message types
 GROWABLE = ('ET_CORAL', 'ET_LIVING_PLANT', 'ET_ORN_PLANT', 'ET_RARE_PLANT')
 HARVESTABLE = ('ET_CORAL', 'ET_LIVING_PLANT', 'ET_RARE_PLANT')
 
@@ -48,6 +49,7 @@ class Prototypes:
 class Reef:
     def __init__(self, protos):
         self.protos = protos
+        self.events = []  # (message type, data) produced by advance(); taken by the server per request
 
     # ------------------------------------------------------------ helpers
     @staticmethod
@@ -104,13 +106,26 @@ class Reef:
 
     # ------------------------------------------------------------ state shown to the client
     def refresh(self, w, now):
-        """Advances every entity whose timer ran out (called before the world is sent)."""
+        """Advances every entity whose timer ran out. Returns the messages the client needs for what
+        finished: growth and construction completion only reach the quest system through pushed messages
+        (EntityManager::processEntityEndFeedMessage / processEntityEndConstructMessage)."""
         for lst in ('corals', 'houses', 'decorations', 'livingPlants', 'ornamentalPlants', 'rarePlants',
                     'patches', 'fishes'):
             for e in w.get(lst, []):
                 self.advance(e, now)
 
     def advance(self, e, now):
+        """Moves one entity on by its timers; finished growth/building is recorded in self.events as
+        (message type, data) for the caller to push."""
+        before = e.get('state')
+        self._advance(e, now)
+        after = e.get('state')
+        if before == CONSTRUCTING and after == BUILT:
+            self.events.append((END_CONSTRUCT, {'id': e['id']}))
+        elif before == GROWING and after in (BUILT, PRODUCING, READY):
+            self.events.append((END_FEED, {'id': e['id'], 'state': after}))
+
+    def _advance(self, e, now):
         _, p = self.protos.get(e.get('prototypeId'))
         etype = (p or {}).get('type')
         st = e.get('state')
@@ -306,8 +321,9 @@ class Reef:
             self.pay(w, (p or {}).get('speedupCost'))
         ci = e.get('constructionInterval') or interval(now, 0)
         out = {'constructionInterval': {'start': ci['start'], 'finish': now}}
-        e['state'] = BUILT
-        e.pop('constructionInterval', None)
+        e['state'] = CONSTRUCTING
+        e['constructionInterval'] = dict(out['constructionInterval'])
+        self.advance(e, now)  # -> built, and the construction-ended message for CID_BUILT
         return out
 
     def a_entityConstructionSpeedup(self, w, d, now):

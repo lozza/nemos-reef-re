@@ -236,9 +236,14 @@ class Game:
         elif endpoint in ('startgame', 'gettutorialworld'):
             w = self.user_world(uid)
             if w:
-                self.reef.refresh(w, now_ms())
-                w['messages'] = []  # the quests list carries everything pending
-                self.store.save_world(uid, w)
+                with self.world_lock:
+                    self.reef.events = []
+                    self.reef.refresh(w, now_ms())
+                    # quest messages are covered by the quests list; entity events still have to be pushed
+                    w['messages'] = [m for m in w.get('messages', []) if m['type'] != quests.QUEST_OPEN]
+                    self.push_events(w)
+                    self.unstick_quests(w)
+                    self.store.save_world(uid, w)
             body = dict(w or new_world({'uid': uid, 'name': 'Diver'}))
             for k in ('nextEntityId', 'nextQuestId', 'nextMessageId', 'messages', 'patterns'):
                 body.pop(k, None)
@@ -266,8 +271,11 @@ class Game:
         else:  # '/api': queued game actions
             with self.world_lock:
                 w = self.user_world(uid)
+                self.reef.events = []
                 body = {'reactions': [self.reaction(w, a) for a in req.get('actions', [])]}
                 if w:
+                    self.reef.refresh(w, now_ms())
+                    self.push_events(w)
                     # The client never changes currencies itself: the HUD only updates from a "status"
                     # object next to the reactions (ComManager::loadingFinished → updateUserStatus).
                     body['status'] = w['status']
@@ -306,6 +314,35 @@ class Game:
             traceback.print_exc()
             return {'aid': action.get('aid'), 'resultCode': 200, 'data': {}}
 
+
+    def push_events(self, w):
+        for kind, data in self.reef.events:
+            w.setdefault('messages', []).append({'id': self.story.message_id(w), 'type': kind, 'data': data})
+        self.reef.events = []
+
+    def unstick_quests(self, w):
+        """A running grow/build task whose item is already grown/built (finished while the game was closed,
+        or before the server sent completion messages) never ticks, so resend the completion message."""
+        queued = {(m['type'], m['data'].get('id')) for m in w.get('messages', []) if isinstance(m.get('data'), dict)}
+        for q in w.get('quests', []):
+            proto = self.story.quests.get(q['prototypeId'], {})
+            for i, task in enumerate(proto.get('tasks', [])):
+                st = next((t for t in q['tasks'] if t['tid'] == i + 1), {})
+                if st.get('finished') or task['cid'] not in ('CID_GROWN', 'CID_BUILT') or len(task.get('params', [])) < 2:
+                    continue
+                for lst in ('corals', 'livingPlants', 'ornamentalPlants', 'rarePlants', 'houses', 'decorations', 'patches'):
+                    for e in w.get(lst, []):
+                        if e.get('prototypeId') != task['params'][1]:
+                            continue
+                        if task['cid'] == 'CID_GROWN' and e.get('state') in (actions.BUILT, actions.PRODUCING, actions.READY):
+                            msg = (actions.END_FEED, {'id': e['id'], 'state': e['state']})
+                        elif task['cid'] == 'CID_BUILT' and e.get('state') == actions.BUILT:
+                            msg = (actions.END_CONSTRUCT, {'id': e['id']})
+                        else:
+                            continue
+                        if (msg[0], e['id']) not in queued:
+                            queued.add((msg[0], e['id']))
+                            w.setdefault('messages', []).append({'id': self.story.message_id(w), 'type': msg[0], 'data': msg[1]})
 
     def starter_reef(self, w):
         now = now_ms()
