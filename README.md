@@ -80,6 +80,10 @@ In that case use BlueStacks on the PC (drag `nemo-private.apk` onto the BlueStac
 
 When something goes wrong, send `server\data\requests.log` from the project folder.
 
+To start over with a fresh starter reef (for example after updating the server), close the server window and
+double-click **`reset-reef.bat`**. It asks for confirmation, deletes the saved reefs (your account stays), and then
+runs the server.
+
 ### Optional: game logs (much more detail)
 
 The patched game writes its own internal log, which tells us exactly where it gets stuck. Reading it needs
