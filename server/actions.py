@@ -129,7 +129,7 @@ class Reef:
         _, p = self.protos.get(e.get('prototypeId'))
         etype = (p or {}).get('type')
         st = e.get('state')
-        if st == CONSTRUCTING and e.get('constructionInterval', {}).get('finish', 0) <= now:
+        if st == CONSTRUCTING and (etype != 'ET_SPEC_HOUSE' or e.get('constructionInterval', {}).get('finish', 0) <= now):
             e['state'] = BUILT
             e.pop('constructionInterval', None)
         elif st == GROWING and e.get('growingInterval', {}).get('finish', 0) <= now:
@@ -195,10 +195,14 @@ class Reef:
         if p['type'] == 'ET_PATCH':
             e.update(state=BUILT, plantCount=0)
             return {'id': e['id']}
-        e['state'] = CONSTRUCTING
         e['constructionInterval'] = interval(now, self.ms(p, 'constructionTime'))
+        e['state'] = CONSTRUCTING
+        out = {'id': e['id'], 'constructionInterval': dict(e['constructionInterval'])}
+        if p['type'] != 'ET_SPEC_HOUSE':
+            e['state'] = BUILT  # decorations are placed finished (they have no construction graphics)
+            e.pop('constructionInterval', None)
         self.earn(w, p.get('rewardAfterBuilt'))
-        return {'id': e['id'], 'constructionInterval': e['constructionInterval']}
+        return out
 
     def a_entitySeed(self, w, d, now):
         lst, p, e = self.place(w, d, now)

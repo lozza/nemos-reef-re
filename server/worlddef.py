@@ -192,6 +192,10 @@ def build(apk_path, story=None):
             p['producedReward'] = reward()
         if etype not in GROWS:
             p['growingTime'] = duration(0)
+        if etype != 'ET_SPEC_HOUSE':
+            # only houses have construction graphics (constr_0); a decoration under construction has no
+            # drawable group to show and crashes the client (Entity::calculateDrawablesHeight)
+            p['constructionTime'] = duration(0)
         if etype == 'ET_PATCH':
             p['maxPlants'] = 3  # EntityPatch::getPlantMax: plants needed before the patch produces
         wd[lst].append(p)
