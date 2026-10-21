@@ -139,8 +139,9 @@ class Story:
             if 'build' in it:
                 p['constructionTime'] = worlddef.duration(it['build'])
             shop[pid] = worlddef.shop_item(p)
-        # bases sold only as colour variants would show grey in the shop
-        wd['ingameShopItems'] = [s for pid, s in shop.items() if pid not in has_variants]
+        # bases sold only as colour variants would show grey in the shop; rare plants only grow from seeds
+        rare = {p['id'] for p in wd.get('rarePlantPrototypeList', [])}
+        wd['ingameShopItems'] = [s for pid, s in shop.items() if pid not in has_variants and pid not in rare]
 
     def levels(self, wd):
         """Level XP thresholds and level-up rewards (story.json "levels")."""

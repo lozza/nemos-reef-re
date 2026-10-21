@@ -486,7 +486,7 @@
      "cid": "CID_GROWN",
      "params": [
       1,
-      "rare_plant_thalassia"
+      "rare_plant_thalassia_yellow"
      ]
     }
    ],
@@ -1469,9 +1469,9 @@
    80
   ],
   "branches_violet": [
-   212,
-   124,
-   229
+   226,
+   94,
+   217
   ],
   "stems_turquoise": [
    110,
@@ -1522,6 +1522,101 @@
    118,
    165,
    247
+  ],
+  "plateau_yellow": [
+   255,
+   233,
+   24
+  ],
+  "grass_brown": [
+   200,
+   160,
+   90
+  ],
+  "pipe_blue": [
+   145,
+   190,
+   255
+  ],
+  "pipe_maroon": [
+   213,
+   95,
+   110
+  ],
+  "mushroom_blue": [
+   80,
+   160,
+   233
+  ],
+  "catspaw_blue": [
+   120,
+   199,
+   255
+  ],
+  "brain_raspberry": [
+   189,
+   100,
+   115
+  ],
+  "pillar_orange": [
+   255,
+   183,
+   37
+  ],
+  "mushroom_green": [
+   200,
+   255,
+   90
+  ],
+  "carnation_purple": [
+   118,
+   1,
+   170
+  ],
+  "acropora_purple": [
+   154,
+   49,
+   255
+  ],
+  "moss_violet": [
+   172,
+   66,
+   221
+  ],
+  "stems_violet": [
+   255,
+   119,
+   255
+  ],
+  "seaweed_violet": [
+   123,
+   94,
+   240
+  ],
+  "thalassia_yellow": [
+   190,
+   222,
+   62
+  ],
+  "thalassia_green": [
+   130,
+   197,
+   100
+  ],
+  "hyssop_pink": [
+   246,
+   157,
+   205
+  ],
+  "nymph_amber": [
+   200,
+   185,
+   60
+  ],
+  "batfish_yellow": [
+   255,
+   215,
+   40
   ]
  },
  "items": {
@@ -1644,7 +1739,7 @@
    "every": 60
   },
   "coral_brain": {
-   "color": "brain_cream",
+   "color": "brain_raspberry",
    "name": "Brain Coral",
    "price": {
     "virtualMoney": 110
@@ -1702,12 +1797,11 @@
    "color": "branches_violet",
    "name": "Violet Branches",
    "price": {
-    "virtualMoney": 20
+    "virtualMoney": 50
    },
-   "feed": 10,
-   "step": 18,
-   "hearts": 15,
-   "notes": "values guessed"
+   "feed": 15,
+   "step": 300,
+   "hearts": 50
   },
   "orn_plant_java_moss_red": {
    "base": "orn_plant_java_moss",
@@ -1784,10 +1878,7 @@
    "feed": 200,
    "step": 12600,
    "results": [
-    "orn_plant_cirripathes_lilac",
-    "orn_plant_marine_shrub_purple",
-    "orn_plant_branches_violet",
-    "orn_plant_big_seaweed_darkyellow"
+    "orn_plant_cirripathes_lilac"
    ]
   },
   "seed_pearl": {
@@ -1798,7 +1889,7 @@
    "feed": 10,
    "step": 4,
    "results": [
-    "rare_plant_thalassia"
+    "rare_plant_thalassia_yellow"
    ]
   },
   "deco_rock": {
@@ -1871,7 +1962,8 @@
    "produce": {
     "hardMoney": 1
    },
-   "hearts": 170
+   "hearts": 170,
+   "color": "batfish_yellow"
   },
   "spec_house_spring": {
    "name": "Squirt's Underwater Fountain",
@@ -1885,6 +1977,218 @@
   },
   "fish_special_squirt": {
    "name": "Squirt"
+  },
+  "plant_plateau_yellow": {
+   "base": "plant_plateau",
+   "color": "plateau_yellow",
+   "name": "Yellow Plateau Plant",
+   "price": {
+    "virtualMoney": 150
+   },
+   "feed": 20,
+   "step": 300,
+   "produce": {
+    "virtualMoney": 30,
+    "xp": 30
+   },
+   "every": 43200
+  },
+  "plant_giant_kelp_brown": {
+   "base": "plant_giant_kelp",
+   "color": "grass_brown",
+   "name": "Giant Brown Grass",
+   "price": {
+    "virtualMoney": 300
+   },
+   "feed": 50,
+   "step": 2700,
+   "produce": {
+    "virtualMoney": 10,
+    "xp": 10
+   },
+   "every": 1800,
+   "notes": "colour tuned by eye"
+  },
+  "plant_pipe_sponge_blue": {
+   "base": "plant_living_01",
+   "color": "pipe_blue",
+   "name": "Blue Pipe Sponge",
+   "price": {
+    "hardMoney": 8
+   },
+   "feed": 65,
+   "step": 60,
+   "produce": {
+    "virtualMoney": 20,
+    "xp": 20
+   },
+   "every": 1800,
+   "notes": "price not seen (GET IT EARLY card)"
+  },
+  "plant_pipe_sponge_maroon": {
+   "base": "plant_living_01",
+   "color": "pipe_maroon",
+   "name": "Maroon Pipe Sponge",
+   "price": {
+    "virtualMoney": 400
+   },
+   "feed": 150,
+   "step": 1800,
+   "produce": {
+    "virtualMoney": 30,
+    "xp": 30
+   },
+   "every": 7200,
+   "notes": "price not seen (GET IT EARLY card)"
+  },
+  "coral_bell_blue": {
+   "base": "coral_bell",
+   "color": "mushroom_blue",
+   "name": "Blue Mushroom Coral",
+   "price": {
+    "virtualMoney": 80
+   },
+   "feed": 10,
+   "step": 120,
+   "produce": {
+    "energy": 10,
+    "xp": 4
+   },
+   "every": 3600
+  },
+  "coral_cats_paw_blue": {
+   "base": "coral_cats_paw",
+   "color": "catspaw_blue",
+   "name": "Blue Cat's Paw Coral",
+   "price": {
+    "hardMoney": 7
+   },
+   "feed": 20,
+   "step": 120,
+   "produce": {
+    "energy": 7,
+    "xp": 3
+   },
+   "every": 600
+  },
+  "coral_pillar_orange": {
+   "base": "coral_pillar",
+   "color": "pillar_orange",
+   "name": "Orange Pillar Coral",
+   "price": {
+    "hardMoney": 10
+   },
+   "feed": 20,
+   "step": 60,
+   "produce": {
+    "energy": 10,
+    "xp": 4
+   },
+   "every": 1800
+  },
+  "coral_circles_green": {
+   "base": "coral_circles",
+   "color": "mushroom_green",
+   "name": "Green Mushroom Coral",
+   "price": {
+    "virtualMoney": 150
+   },
+   "feed": 25,
+   "step": 1500,
+   "produce": {
+    "energy": 15,
+    "xp": 6
+   },
+   "every": 18000
+  },
+  "coral_carnation": {
+   "color": "carnation_purple",
+   "name": "Carnation Coral",
+   "price": {
+    "virtualMoney": 200
+   },
+   "feed": 20,
+   "step": 2700,
+   "produce": {
+    "energy": 30,
+    "xp": 10
+   },
+   "every": 43200
+  },
+  "coral_acropora": {
+   "color": "acropora_purple",
+   "name": "Purple Bonsai Acropora Coral",
+   "price": {
+    "hardMoney": 15
+   },
+   "feed": 30,
+   "step": 60,
+   "produce": {
+    "energy": 10,
+    "xp": 4
+   },
+   "every": 300
+  },
+  "orn_plant_moss_violet": {
+   "base": "orn_plant_coral_04",
+   "color": "moss_violet",
+   "name": "Violet Moss",
+   "price": {
+    "hardMoney": 6
+   },
+   "feed": 15,
+   "step": 60,
+   "hearts": 90
+  },
+  "orn_plant_stems_violet": {
+   "base": "orn_plant_coral_03",
+   "color": "stems_violet",
+   "name": "Violet Stems",
+   "price": {
+    "hardMoney": 7
+   },
+   "feed": 20,
+   "step": 300,
+   "hearts": 100
+  },
+  "orn_plant_seaweed02": {
+   "color": "seaweed_violet",
+   "name": "Violet Seaweed",
+   "price": {
+    "hardMoney": 8
+   },
+   "feed": 30,
+   "step": 150,
+   "hearts": 150
+  },
+  "rare_plant_thalassia_yellow": {
+   "base": "rare_plant_thalassia",
+   "color": "thalassia_yellow",
+   "name": "Yellow Thalassia",
+   "hearts": 120,
+   "notes": "grows from the Extraordinary Mystery Seed; hearts guessed"
+  },
+  "rare_plant_thalassia": {
+   "color": "thalassia_green",
+   "name": "Green Thalassia",
+   "hearts": 60
+  },
+  "rare_plant_water_hyssop": {
+   "color": "hyssop_pink",
+   "name": "Pink Water Hyssop Flowers",
+   "hearts": 100
+  },
+  "rare_plant_amphibolis_antarctica": {
+   "color": "nymph_amber",
+   "name": "Amber Sea Nymph",
+   "hearts": 120
+  },
+  "deco_sand_dunes_2": {
+   "name": "Large Dune",
+   "price": {
+    "virtualMoney": 150
+   },
+   "notes": "price not seen"
   }
  },
  "levels": {
