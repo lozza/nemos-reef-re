@@ -22,6 +22,7 @@ import zipfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 import actions
+import quests
 import texts
 import worlddef
 
@@ -128,13 +129,15 @@ class Game:
         self.log_path = os.path.join(args.data, 'requests.log')
         self.log_lock = threading.Lock()
         self.world_lock = threading.Lock()
+        # Story quests are off until every prototype they use exists (colour variants pending).
+        self.story = quests.Story() if args.story else quests.NoStory()
         if args.worlddef:
             with open(args.worlddef, 'rb') as f:
                 self.worlddef = json.load(f)
             if not self.worlddef.get('version'):
                 worlddef.finish(self.worlddef)
         else:
-            self.worlddef = worlddef.build(args.apk)
+            self.worlddef = worlddef.build(args.apk, self.story)
         self.reef = actions.Reef(actions.Prototypes(self.worlddef))
         self.world_version = str(self.worlddef['version'])
         self.worlddef_blob = xor(json.dumps(self.worlddef, separators=(',', ':')).encode('utf-8'))
@@ -191,6 +194,7 @@ class Game:
         w = self.store.world(uid)
         if w is None:
             w = new_world(user)
+            self.story.new_player(w)
             self.store.save_world(uid, w)
         elif (not isinstance(w.get('status', {}).get('vitality'), dict)
               or not isinstance(w.get('data', {}).get('resumeGame'), dict)
@@ -198,6 +202,9 @@ class Game:
             w['status']['vitality'] = new_world(user)['status']['vitality']
             w['data'] = user_info()
             w['sectors'] = w.get('sectors') or ['base']
+            self.store.save_world(uid, w)
+        if 'nextQuestId' not in w:
+            self.story.migrate(w)
             self.store.save_world(uid, w)
         return w
 
@@ -219,9 +226,11 @@ class Game:
             w = self.user_world(uid)
             if w:
                 self.reef.refresh(w, now_ms())
+                w['messages'] = []  # the quests list carries everything pending
                 self.store.save_world(uid, w)
             body = dict(w or new_world({'uid': uid, 'name': 'Diver'}))
-            body.pop('nextEntityId', None)
+            for k in ('nextEntityId', 'nextQuestId', 'nextMessageId', 'messages', 'patterns'):
+                body.pop(k, None)
             # World::processUserWorld passes the root to data::TheUser::updateUserInfo
             body['resumeGame'] = user_info()['resumeGame']
             for k in ('moneySpent', 'tapjoyMoneySpent', 'currentDailyRewardCountOffer',
@@ -241,12 +250,15 @@ class Game:
             lang = p.get('languageCode') or req.get('languageCode') or 'en'
             if lang not in self.texts:
                 self.texts[lang] = texts.build(self.apk, lang)
+                self.texts[lang].update(self.story.texts())
             body = {'texts': self.texts[lang]}
         else:  # '/api': queued game actions
             with self.world_lock:
                 w = self.user_world(uid)
                 body = {'reactions': [self.reaction(w, a) for a in req.get('actions', [])]}
                 if w:
+                    if w.get('messages'):
+                        body['messages'] = list(w['messages'])
                     self.store.save_world(uid, w)
         return json.dumps(self.envelope(body, req)).encode('utf-8'), 'application/json'
 
@@ -256,10 +268,41 @@ class Game:
         if w is None:
             return {'aid': action.get('aid'), 'resultCode': 200}
         try:
+            name, d = action.get('action'), action.get('data') or {}
+            ok = {'aid': action.get('aid'), 'resultCode': 200}
+            if name == 'questTaskSetState':
+                return dict(ok, data=self.story.task_state(w, d, lambda q, r: self.quest_done(w, q, r)))
+            if name == 'questStart':
+                self.story.start(w, d)
+                return ok
+            if name == 'questBuyHint':
+                self.story.buy_hint(w, d, self.reef.pay)
+                return ok
+            if name == 'confirmMessages':
+                self.story.confirm(w, d)
+                return ok
+            if name == 'savePattern':
+                if d.get('patternId') and d['patternId'] not in w.setdefault('patterns', []):
+                    w['patterns'].append(d['patternId'])
+                return ok
+            if name == 'buyPatternHint':
+                return ok
             return self.reef.apply(w, action, now_ms())
         except Exception:
             traceback.print_exc()
             return {'aid': action.get('aid'), 'resultCode': 200, 'data': {}}
+
+
+    def quest_done(self, w, q, reward):
+        """A quest's last task finished: reward, fish that move in, newly opened areas."""
+        self.reef.earn(w, reward)
+        for fish in q.get('grantFish', []):
+            if not any(e.get('prototypeId') == fish for e in w.get('fishes', [])):
+                w.setdefault('fishes', []).append(
+                    {'id': self.reef.new_id(w), 'prototypeId': fish, 'position': {'x': 30, 'z': 125, 'transform': 0}})
+        for sector in q.get('unlockSectors', []):
+            if sector not in w['sectors']:
+                w['sectors'].append(sector)
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -326,6 +369,7 @@ def main():
     ap.add_argument('--port', type=int, default=8080)
     ap.add_argument('--data', default='data', help='directory for the database and request log')
     ap.add_argument('--worlddef', help='use this worldDef JSON instead of generating one')
+    ap.add_argument('--story', action='store_true', help='enable the story quests (story.json); experimental')
     args = ap.parse_args()
     Handler.game = Game(args)
     print('Nemo\'s Reef server on http://%s:%d  (world version %s, log: %s)'

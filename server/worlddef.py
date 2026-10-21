@@ -130,7 +130,7 @@ def read_prototypes(apk_path):
         return [(n.rsplit('/', 1)[1][:-5], read_attributes(z.read(n))) for n in names]
 
 
-def build(apk_path):
+def build(apk_path, story=None):
     wd = {
         'version': '',  # filled in by finish()
         # Read with JSONObject::get (null when missing → crash) by World::getTextBundleId/getResourceBundleId.
@@ -188,6 +188,8 @@ def build(apk_path):
     if patch:
         for pid in EXTRA_PATCHES:
             wd['patchList'].append(dict(patch, id=pid))
+    if story:
+        story.extend_worlddef(wd)
     return finish(wd)
 
 
