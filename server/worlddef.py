@@ -29,13 +29,14 @@ LIST_FOR_TYPE = {
 }
 
 # .ipro "type" -> shop tab (ShopScreen::initShopCategories: CORAL, LIVINGPLANT, ORNAMENTALPLANT, RAREPLANT,
-# SPECIAL). Decorations have no tab of their own; they are put with the ornamental plants for now.
+# SPECIAL). Decorations are sold under SPECIAL, as in the original shop.
 SHOP_CATEGORY = {
     'ET_CORAL': 'CORAL',
     'ET_LIVING_PLANT': 'LIVINGPLANT',
     'ET_ORN_PLANT': 'ORNAMENTALPLANT',
-    'ET_NORMAL_DECORATION': 'ORNAMENTALPLANT',
+    'ET_NORMAL_DECORATION': 'SPECIAL',
     'ET_RARE_PLANT': 'RAREPLANT',
+    'ET_SEED': 'RAREPLANT',  # Mystery Seeds are sold in the Rare tab
     'ET_SPEC_HOUSE': 'SPECIAL',
 }
 
