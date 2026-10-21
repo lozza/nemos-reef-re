@@ -10,3 +10,4 @@ server/data/
 nemo.apk
 nemo-private.apk
 patcher/*.jar
+!server/story.json

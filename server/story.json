@@ -1,0 +1,1409 @@
+{
+ "about": "Story quests transcribed from a 2014 Let's Play of the original game (part 1). Lines marked 'notes' were not visible in the video and are reconstructed.",
+ "first": [
+  "story_quest_01"
+ ],
+ "quests": [
+  {
+   "id": "story_quest_01",
+   "title": "The Algae Harvest",
+   "giver": "fish_special_nemo",
+   "startDialogId": "d_intro",
+   "description": "After learning that Algae helps reefs grow, Nemo and Marlin set out to carefully harvest some Algae from a nearby coral.",
+   "tasks": [
+    {
+     "text": "Harvest Algae from the Fan Coral",
+     "cid": "CID_HARVESTED",
+     "params": [
+      1,
+      "coral_fan"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 10,
+    "virtualMoney": 20
+   },
+   "notes": "reward read from the HUD",
+   "next": [
+    "story_quest_02"
+   ]
+  },
+  {
+   "id": "story_quest_02",
+   "title": "Starting from a Seed",
+   "giver": "fish_special_marlin",
+   "startDialogId": "d_seed",
+   "description": "Plants don't just appear out of nowhere. Nemo must learn to plant what he wants to grow in his reef.",
+   "tasks": [
+    {
+     "text": "Plant a Yellow Table Plant",
+     "cid": "CID_CREATED",
+     "params": [
+      1,
+      "plant_table_yellow"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 10,
+    "virtualMoney": 40
+   },
+   "notes": "task text and reward reconstructed",
+   "next": [
+    "story_quest_03"
+   ]
+  },
+  {
+   "id": "story_quest_03",
+   "title": "Food for Growth",
+   "giver": "fish_special_marlin",
+   "startDialogId": "d_food",
+   "description": "Just like Nemo, the plants need care to grow. It's a good thing, Nemo knows exactly what to do. Algae time!",
+   "completed": "That fully grown plant is the beginning of Nemo's reef and a great place to start! What will Nemo plant next?",
+   "tasks": [
+    {
+     "text": "Grow the Table Plant until maturation using Algae 3 times",
+     "cid": "CID_GROWN",
+     "params": [
+      1,
+      "plant_table_yellow"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 25,
+    "virtualMoney": 50
+   },
+   "next": [
+    "story_quest_04"
+   ]
+  },
+  {
+   "id": "story_quest_04",
+   "title": "Time for a Change",
+   "giver": "fish_special_marlin",
+   "startDialogId": "d_change",
+   "endDialogId": "d_change_end",
+   "description": "Nemo grew a Living Plant, but no fish have arrived yet. Help Nemo attract a fish by planting Red Branches next to the Table Plant.",
+   "tasks": [
+    {
+     "text": "Plant the Red Branches",
+     "cid": "CID_CREATED",
+     "params": [
+      1,
+      "orn_plant_branches_red"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 20,
+    "virtualMoney": 50
+   },
+   "notes": "reward reconstructed from the HUD",
+   "next": [
+    "rock_on"
+   ]
+  },
+  {
+   "id": "rock_on",
+   "title": "Rock On!",
+   "giver": "fish_special_marlin",
+   "startDialogId": "d_rock",
+   "description": "Some fish love the protective nooks a rock can offer. Place a Rock next to the Table Plant.",
+   "completed": "It worked! Who would've thought? Nemo now has several tools at his disposal to not only make his reef beautiful, but to attract different fish too!",
+   "tasks": [
+    {
+     "text": "Place a Rock Decoration near the Table Plant",
+     "cid": "CID_CREATED",
+     "params": [
+      1,
+      "deco_rock"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 50,
+    "energy": 20,
+    "virtualMoney": 30
+   },
+   "notes": "intro text reconstructed",
+   "next": [
+    "sunset_cup"
+   ]
+  },
+  {
+   "id": "sunset_cup",
+   "title": "Dad's Favorite",
+   "giver": "fish_special_marlin",
+   "startDialogId": "d_sunset",
+   "description": "Marlin's favorite coral is the Sunset Cup. Nemo wants to plant some, just for him.",
+   "completed": "Marlin loves that Nemo gave him the gift of his favorite coral. Plus, another coral means more Algae for the reef!",
+   "tasks": [
+    {
+     "text": "Grow a Sunset Cup",
+     "cid": "CID_GROWN",
+     "params": [
+      1,
+      "coral_sunset_cup"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 65,
+    "energy": 20,
+    "virtualMoney": 50
+   },
+   "notes": "title and intro reconstructed",
+   "next": [
+    "story_quest_06"
+   ]
+  },
+  {
+   "id": "story_quest_06",
+   "title": "Looking for Inspiration",
+   "giver": "fish_special_nemo",
+   "startDialogId": "d_inspiration",
+   "description": "Nemo is making great progress on the reef, but he could use some ideas. What better way to get new ideas than to visit another reef and see what kinds of things they are doing?",
+   "tasks": [
+    {
+     "text": "Visit a Friends' Reef",
+     "cid": "CID_FRIEND_VISIT",
+     "params": []
+    }
+   ],
+   "reward": {
+    "xp": 50,
+    "virtualMoney": 50
+   },
+   "notes": "reward reconstructed",
+   "next": [
+    "vitality_quest_01"
+   ]
+  },
+  {
+   "id": "vitality_quest_01",
+   "title": "Room for Everyone",
+   "giver": "fish_special_marlin",
+   "startDialogId": "d_sharks",
+   "description": "Fish from a nearby reef need a new home. Vitality plays a part in attracting rare fish to your reef.",
+   "tasks": [
+    {
+     "text": "Check your reef's Vitality",
+     "cid": "CID_VITALITY_CHECK",
+     "params": []
+    }
+   ],
+   "reward": {
+    "xp": 20,
+    "virtualMoney": 50,
+    "energy": 4
+   },
+   "notes": "title, intro, task text and reward reconstructed",
+   "grantFish": [
+    "fish_special_dory"
+   ],
+   "unlockSectors": [
+    "tiles"
+   ],
+   "next": [
+    "story_quest_11"
+   ]
+  },
+  {
+   "id": "story_quest_11",
+   "title": "Dory's Tiki Heads",
+   "giver": "fish_special_dory",
+   "startDialogId": "d_dory",
+   "description": "Dory wants to stay for a while. Build her a home: Dory's Tiki Heads.",
+   "completed": "Nemo started building Dory's Tiki Heads and it's looking like it's going to be really cool when it's done. Here's hoping Nemo can finish building it before Dory gets lost again.",
+   "tasks": [
+    {
+     "text": "Build Dory's Tiki Heads",
+     "cid": "CID_CREATED",
+     "params": [
+      1,
+      "spec_house_dory"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 150,
+    "virtualMoney": 80
+   },
+   "notes": "intro and task text reconstructed",
+   "next": [
+    "pearls_tutorial_01"
+   ]
+  },
+  {
+   "id": "pearls_tutorial_01",
+   "title": "The Benefit of Pearls",
+   "giver": "fish_special_marlin",
+   "startDialogId": "d_pearls",
+   "description": "Pearls make things happen faster. Use a Pearl to finish building Dory's Tiki Heads.",
+   "tasks": [
+    {
+     "text": "Finish Dory's Tiki Heads",
+     "cid": "CID_BUILT",
+     "params": [
+      1,
+      "spec_house_dory"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 20,
+    "energy": 50,
+    "virtualMoney": 80
+   },
+   "notes": "title, intro, task text reconstructed; reward from the HUD",
+   "next": [
+    "seadragon",
+    "seabush"
+   ]
+  },
+  {
+   "id": "seadragon",
+   "type": "MISSION",
+   "title": "What Seadragon?",
+   "giver": "fish_special_nemo",
+   "endDialogId": "d_seadragon",
+   "description": "Seadragons enjoy using their seaweed-like shape as camouflage. Where do you suppose they would like to spend their time?",
+   "completed": "Nemo has met one of the refugees from the reef now taken over by the mean sharks. He was excited because he's never met a Seadragon before.",
+   "tasks": [
+    {
+     "text": "Attract the Brown Seadragon",
+     "cid": "CID_PATTERN",
+     "params": [
+      1,
+      "pattern_seadragon"
+     ]
+    }
+   ],
+   "hintIdList": [
+    "hint_seadragon_1",
+    "hint_seadragon_2"
+   ],
+   "reward": {
+    "xp": 300,
+    "energy": 50,
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "seabush",
+   "title": "Under the Seabush",
+   "giver": "fish_special_nemo",
+   "startDialogId": "d_seabush",
+   "description": "With the competition against Tad heating up, Nemo needs to plant a new Living Plant to give his reef some variety.",
+   "completed": "That Giant Seabush is definitely something different. It's amazing how much Marlin seems to know about reef design.",
+   "tasks": [
+    {
+     "text": "Grow a Giant Green Seabush",
+     "cid": "CID_GROWN",
+     "params": [
+      1,
+      "plant_giant_seabush_green"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 250,
+    "energy": 100,
+    "virtualMoney": 100
+   },
+   "next": [
+    "more_color"
+   ]
+  },
+  {
+   "id": "more_color",
+   "title": "A Splash of Color",
+   "giver": "fish_special_nemo",
+   "startDialogId": "d_color",
+   "description": "Nemo thinks the reef could use some more color. Orange Tube Sponges should do the trick!",
+   "tasks": [
+    {
+     "text": "Grow 2 Orange Tube Sponges",
+     "cid": "CID_GROWN",
+     "params": [
+      2,
+      "plant_tube_sponge_orange"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "energy": 150,
+    "virtualMoney": 100
+   },
+   "notes": "title, intro and task reconstructed",
+   "next": [
+    "wormy_mess"
+   ]
+  },
+  {
+   "id": "wormy_mess",
+   "title": "A Wormy Mess",
+   "giver": "fish_special_dory",
+   "startDialogId": "d_worms",
+   "description": "Dory is worried about worms on the reef. A Heap of Stones will keep them out of sight.",
+   "tasks": [
+    {
+     "text": "Place a Heap of Stones in the reef",
+     "cid": "CID_CREATED",
+     "params": [
+      1,
+      "deco_heap_stones"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 40,
+    "energy": 50,
+    "virtualMoney": 50
+   },
+   "notes": "intro reconstructed; reward from the HUD",
+   "next": [
+    "playground",
+    "whats_a_coral",
+    "what_could_it_be",
+    "all_about_coral"
+   ]
+  },
+  {
+   "id": "playground",
+   "title": "Protecting the Playground",
+   "giver": "fish_special_dory",
+   "description": "Dory wants a safe place to play. Tall seaweed makes a great hiding spot.",
+   "tasks": [
+    {
+     "text": "Grow 2 Giant Dark Yellow Seaweeds",
+     "cid": "CID_GROWN",
+     "params": [
+      2,
+      "orn_plant_big_seaweed_darkyellow"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 150,
+    "energy": 50,
+    "virtualMoney": 100
+   },
+   "notes": "intro and reward reconstructed"
+  },
+  {
+   "id": "whats_a_coral",
+   "title": "What's a Coral?",
+   "giver": "fish_special_marlin",
+   "description": "Has Nemo learned the difference between a Coral and a Living Plant? It is time to check it.",
+   "tasks": [
+    {
+     "text": "Harvest 30 Algae from Fruit Loop Coral",
+     "cid": "CID_HARVESTED_AMOUNT",
+     "params": [
+      30,
+      "coral_fruit_loop"
+     ]
+    },
+    {
+     "text": "Harvest 30 Algae from Sunset Cup",
+     "cid": "CID_HARVESTED_AMOUNT",
+     "params": [
+      30,
+      "coral_sunset_cup"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 150,
+    "energy": 50,
+    "virtualMoney": 100
+   },
+   "notes": "reward reconstructed"
+  },
+  {
+   "id": "what_could_it_be",
+   "title": "What Could it Be?",
+   "giver": "fish_special_nemo",
+   "description": "A Mystery Seed could grow into anything. Plant one and find out!",
+   "tasks": [
+    {
+     "text": "Plant a Mystery Seed",
+     "cid": "CID_CREATED",
+     "params": [
+      1,
+      "seed_coin"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 100,
+    "virtualMoney": 100
+   },
+   "notes": "intro and reward reconstructed; 'Grow a Mystery Seed' task left out"
+  },
+  {
+   "id": "all_about_coral",
+   "title": "It's All About Coral",
+   "giver": "fish_special_tad",
+   "startDialogId": "d_tad",
+   "description": "Tad is bragging about his Brain Coral. Nemo had better grow one too!",
+   "tasks": [
+    {
+     "text": "Grow a Brain Coral",
+     "cid": "CID_GROWN",
+     "params": [
+      1,
+      "coral_brain"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 150,
+    "energy": 50,
+    "virtualMoney": 100
+   },
+   "notes": "intro and reward reconstructed"
+  },
+  {
+   "id": "story_quest_05",
+   "title": "Moving Day",
+   "giver": "fish_special_marlin",
+   "description": "Move the Red Branches next to the Table Plant.",
+   "tasks": [
+    {
+     "text": "Move the Red Branches",
+     "cid": "CID_UNDEFINED",
+     "params": []
+    }
+   ],
+   "reward": {},
+   "notes": "referenced by the client; not offered"
+  },
+  {
+   "id": "story_quest_08",
+   "title": "Story",
+   "description": "",
+   "tasks": [
+    {
+     "text": "",
+     "cid": "CID_UNDEFINED",
+     "params": []
+    }
+   ],
+   "reward": {},
+   "notes": "referenced by the client; not offered"
+  },
+  {
+   "id": "patch_tutorial_01",
+   "title": "Patches",
+   "description": "",
+   "tasks": [
+    {
+     "text": "",
+     "cid": "CID_UNDEFINED",
+     "params": []
+    }
+   ],
+   "reward": {},
+   "notes": "referenced by the client; not offered"
+  },
+  {
+   "id": "patch_tutorial_02",
+   "title": "Patches",
+   "description": "",
+   "tasks": [
+    {
+     "text": "",
+     "cid": "CID_UNDEFINED",
+     "params": []
+    }
+   ],
+   "reward": {},
+   "notes": "referenced by the client; not offered"
+  },
+  {
+   "id": "pearls_tutorial_02",
+   "title": "Pearls",
+   "description": "",
+   "tasks": [
+    {
+     "text": "",
+     "cid": "CID_UNDEFINED",
+     "params": []
+    }
+   ],
+   "reward": {},
+   "notes": "referenced by the client; not offered"
+  },
+  {
+   "id": "squirt_quest_03",
+   "title": "Squirt",
+   "description": "",
+   "tasks": [
+    {
+     "text": "",
+     "cid": "CID_UNDEFINED",
+     "params": []
+    }
+   ],
+   "reward": {},
+   "notes": "referenced by the client; not offered"
+  },
+  {
+   "id": "chest_tutorial_02",
+   "title": "Treasure",
+   "description": "",
+   "tasks": [
+    {
+     "text": "",
+     "cid": "CID_UNDEFINED",
+     "params": []
+    }
+   ],
+   "reward": {},
+   "notes": "referenced by the client; not offered"
+  }
+ ],
+ "dialogs": [
+  {
+   "id": "d_intro",
+   "lines": [
+    [
+     "left",
+     "fish_special_nemo",
+     "Hey Dad, guess what we learned about in school today?! C'mon, guess! Guess!",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Well, I already know it wasn't patience...",
+     "fish_special_nemo"
+    ],
+    [
+     "left",
+     "fish_special_nemo",
+     "Huh? No! REEF BUILDING! It's soooo cool!",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_tad",
+     "Hey Nemo, did you start your reef building project yet?",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_tad",
+     "My Dad and I are going to build the coolest reef in class!",
+     "fish_special_nemo"
+    ],
+    [
+     "left",
+     "fish_special_nemo",
+     "Not if we build it first! Come on Dad, let's get building!",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Wait! What?! Oh, okay, I guess we're building a reef...",
+     "fish_special_nemo"
+    ],
+    [
+     "left",
+     "fish_special_nemo",
+     "Mr. Ray says that Algae and sunlight are the secret to growing reefs.",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Huh? Why Algae?",
+     "fish_special_nemo"
+    ],
+    [
+     "left",
+     "fish_special_nemo",
+     "Mr. Ray said that Coral and Algae work together to take advantage of sunlight. And Algae lives in coral.",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Well what are we waiting for? Let's find a coral and get our fins on some Algae!",
+     "fish_special_nemo"
+    ]
+   ]
+  },
+  {
+   "id": "d_seed",
+   "lines": [
+    [
+     "left",
+     "fish_special_nemo",
+     "We have Algae. Now what?",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Well, ya know, even the biggest reefs start out tiny.",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Take a tiny cutting, and with care, it'll grow into a beautiful reef plant in no time.",
+     "fish_special_nemo"
+    ],
+    [
+     "left",
+     "fish_special_nemo",
+     "You got it!",
+     "fish_special_marlin"
+    ]
+   ]
+  },
+  {
+   "id": "d_food",
+   "lines": [
+    [
+     "left",
+     "fish_special_nemo",
+     "Dad, our plant isn't growing!",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Plants need care to grow, just like you Nemo.",
+     "fish_special_nemo"
+    ],
+    [
+     "left",
+     "fish_special_nemo",
+     "Algae time!",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Yep, prepare to be amazed.",
+     "fish_special_nemo"
+    ]
+   ]
+  },
+  {
+   "id": "d_change",
+   "lines": [
+    [
+     "left",
+     "fish_special_nemo",
+     "Hey Dad, does everything on the reef make good homes for fish?",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Not all, some plants and animals are good for just sprucing up the reef.",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Red Branches, for example. Beautiful plant!",
+     "fish_special_nemo"
+    ]
+   ]
+  },
+  {
+   "id": "d_change_end",
+   "lines": [
+    [
+     "left",
+     "fish_special_marlin",
+     "Good planting, Nemo! You're a natural.",
+     "fish_special_nemo"
+    ],
+    [
+     "left",
+     "fish_special_marlin",
+     "That's my boy!",
+     "fish_special_nemo"
+    ]
+   ]
+  },
+  {
+   "id": "d_rock",
+   "lines": [
+    [
+     "left",
+     "fish_special_nemo",
+     "What plant should we grow next? Violet Branches? Turquoise Stems? Ooh, a Bell Sea Pen?!",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Whoa, Nemo. Plants aren't the only attractive things in the ocean.",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Some fish love the protective nooks a rock can offer.",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Put a rock next to a Table Plant and I'll show you what I mean.",
+     "fish_special_nemo"
+    ]
+   ]
+  },
+  {
+   "id": "d_sunset",
+   "lines": [
+    [
+     "left",
+     "fish_special_marlin",
+     "You know, Nemo, when I was looking for you, I saw so many different kinds of coral.",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_nemo",
+     "Really?! Which one was your favorite?",
+     "fish_special_marlin"
+    ],
+    [
+     "left",
+     "fish_special_marlin",
+     "You can't beat a Sunset Cup! They live near caves in big groups.",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_nemo",
+     "Cool! I'll plant some now, just for you!",
+     "fish_special_marlin"
+    ]
+   ]
+  },
+  {
+   "id": "d_inspiration",
+   "lines": [
+    [
+     "left",
+     "fish_special_nemo",
+     "Hey Dad, got any great ideas for anything else the reef needs?",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Great ideas?! I've got plenty of great ideas, like... uh...",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "Uh... Hey! Feel like going for a swim around the neighborhood?",
+     "fish_special_nemo"
+    ],
+    [
+     "left",
+     "fish_special_nemo",
+     "Sure! And on the way, we can see what others are doing in their reefs!",
+     "fish_special_marlin"
+    ]
+   ]
+  },
+  {
+   "id": "d_sharks",
+   "lines": [
+    [
+     "right",
+     "fish_special_marlin",
+     "Nemo, listen to this!",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "A nearby reef was overrun by some very mean sharks!",
+     "fish_special_nemo"
+    ],
+    [
+     "left",
+     "fish_special_nemo",
+     "No problem! We've got plenty of room for everyone!",
+     "fish_special_marlin"
+    ],
+    [
+     "right",
+     "fish_special_marlin",
+     "You had me worried for a minute, but he's right. Vitality plays a part in attracting rare fish to your reef.",
+     "fish_special_nemo"
+    ]
+   ]
+  },
+  {
+   "id": "d_dory",
+   "lines": [
+    [
+     "left",
+     "fish_special_nemo",
+     "I'm Nemo, Dory! What do you think of our reef?",
+     "fish_special_dory"
+    ],
+    [
+     "right",
+     "fish_special_dory",
+     "Thanks...Hey, it's nice here. Mind if I stay for a while?",
+     "fish_special_nemo"
+    ]
+   ]
+  },
+  {
+   "id": "d_pearls",
+   "lines": [
+    [
+     "left",
+     "fish_special_marlin",
+     "Son, let me show you the benefit of Pearls.",
+     "fish_special_nemo"
+    ]
+   ]
+  },
+  {
+   "id": "d_seadragon",
+   "lines": [
+    [
+     "right",
+     "fish_special_nemo",
+     "If proprietor means builder, then that's me all right!",
+     "fish_guest_seadragon"
+    ],
+    [
+     "right",
+     "fish_special_nemo",
+     "Oh no! Why don't you stay here?!",
+     "fish_guest_seadragon"
+    ]
+   ]
+  },
+  {
+   "id": "d_seabush",
+   "lines": [
+    [
+     "left",
+     "fish_special_nemo",
+     "What should we plant to attract more fish?",
+     "fish_special_marlin"
+    ]
+   ]
+  },
+  {
+   "id": "d_color",
+   "lines": [
+    [
+     "left",
+     "fish_special_nemo",
+     "This reef building is a lot of fun, isn't it Dad?",
+     "fish_special_marlin"
+    ],
+    [
+     "left",
+     "fish_special_nemo",
+     "Speaking of which, I think we could use some more color. What do you think?",
+     "fish_special_marlin"
+    ]
+   ]
+  },
+  {
+   "id": "d_worms",
+   "lines": [
+    [
+     "left",
+     "fish_special_dory",
+     "Worms?! Where?! Who has worms? Eew!",
+     "fish_special_marlin"
+    ],
+    [
+     "left",
+     "fish_special_marlin",
+     "They grow the most wondrous, \"un-boring\" things.",
+     "fish_special_nemo"
+    ]
+   ]
+  },
+  {
+   "id": "d_tad",
+   "lines": [
+    [
+     "left",
+     "fish_special_tad",
+     "Hey Nemo. Do you have a Brain Coral yet?",
+     "fish_special_nemo"
+    ],
+    [
+     "right",
+     "fish_special_nemo",
+     "Uh... I think I hear my Dad calling! See ya later!",
+     "fish_special_tad"
+    ]
+   ]
+  }
+ ],
+ "hints": [
+  {
+   "id": "hint_seadragon_1",
+   "index": 0,
+   "cost": {
+    "virtualMoney": 200
+   },
+   "text": "Seadragons are shy; they swim straight into seaweed they can hide within. An orange and green hideout is their best home."
+  },
+  {
+   "id": "hint_seadragon_2",
+   "index": 1,
+   "cost": {
+    "hardMoney": 1
+   },
+   "text": "Grow a Green Straight Seaweed right next to an Orange Straight Seaweed."
+  }
+ ],
+ "patterns": [
+  {
+   "id": "pattern_seadragon",
+   "centralPrototype": "orn_plant_seaweed_green",
+   "producedFishId": "fish_guest_seadragon",
+   "areaSize": 3,
+   "centralHintCost": {
+    "virtualMoney": 200
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 200
+   },
+   "nearPrototypes": [
+    "orn_plant_seaweed_orange"
+   ]
+  },
+  {
+   "id": "pattern_coralfish",
+   "centralPrototype": "plant_table_yellow",
+   "producedFishId": "fish_ambient_coralfish",
+   "areaSize": 3,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   },
+   "nearPrototypes": [
+    "orn_plant_branches_red"
+   ]
+  },
+  {
+   "id": "pattern_firefish",
+   "centralPrototype": "plant_table_yellow",
+   "producedFishId": "fish_ambient_firefish",
+   "areaSize": 3,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   },
+   "nearPrototypes": [
+    "deco_rock"
+   ]
+  }
+ ],
+ "texts": {},
+ "colors": {
+  "yellow": [
+   255,
+   214,
+   48
+  ],
+  "red": [
+   224,
+   52,
+   44
+  ],
+  "violet": [
+   150,
+   90,
+   220
+  ],
+  "turquoise": [
+   64,
+   208,
+   200
+  ],
+  "green": [
+   90,
+   200,
+   70
+  ],
+  "orange": [
+   255,
+   140,
+   40
+  ],
+  "rose": [
+   240,
+   120,
+   150
+  ],
+  "blue": [
+   80,
+   130,
+   230
+  ],
+  "lilac": [
+   200,
+   160,
+   230
+  ],
+  "dark_yellow": [
+   200,
+   160,
+   30
+  ],
+  "purple": [
+   170,
+   70,
+   190
+  ],
+  "pink": [
+   240,
+   110,
+   190
+  ],
+  "cream": [
+   245,
+   225,
+   180
+  ]
+ },
+ "items": {
+  "plant_table_yellow": {
+   "base": "plant_table",
+   "color": "yellow",
+   "name": "Yellow Table Plant",
+   "price": {
+    "virtualMoney": 10
+   },
+   "feed": 1,
+   "step": 12,
+   "produce": {
+    "virtualMoney": 2,
+    "xp": 2
+   },
+   "every": 30
+  },
+  "plant_barrel_sponge_rose": {
+   "base": "plant_barrel_sponge",
+   "color": "rose",
+   "name": "Rose Barrel Sponges",
+   "price": {
+    "hardMoney": 3
+   },
+   "feed": 8,
+   "step": 30,
+   "produce": {
+    "virtualMoney": 4,
+    "xp": 4
+   },
+   "every": 120
+  },
+  "plant_giant_seabush_green": {
+   "base": "plant_giant_seabush",
+   "color": "green",
+   "name": "Giant Green Seabush",
+   "price": {
+    "virtualMoney": 50
+   },
+   "feed": 5,
+   "step": 60,
+   "produce": {
+    "virtualMoney": 5,
+    "xp": 5
+   },
+   "every": 240
+  },
+  "plant_tube_sponge_red": {
+   "base": "plant_living_01",
+   "color": "red",
+   "name": "Red Tube Sponge",
+   "price": {
+    "hardMoney": 5
+   },
+   "feed": 10,
+   "step": 30,
+   "produce": {
+    "virtualMoney": 8,
+    "xp": 8
+   },
+   "every": 240,
+   "notes": "base graphics guessed"
+  },
+  "plant_tube_sponge_orange": {
+   "base": "plant_living_01",
+   "color": "orange",
+   "name": "Orange Tube Sponge",
+   "price": {
+    "virtualMoney": 100
+   },
+   "feed": 12,
+   "step": 120,
+   "produce": {
+    "virtualMoney": 10,
+    "xp": 10
+   },
+   "every": 3600,
+   "notes": "base graphics guessed"
+  },
+  "plant_sponge_beds_yellow": {
+   "base": "plant_sponge_beds",
+   "color": "yellow",
+   "name": "Yellow Sponge Bed",
+   "price": {
+    "virtualMoney": 120
+   },
+   "feed": 15,
+   "step": 600,
+   "produce": {
+    "virtualMoney": 25,
+    "xp": 25
+   },
+   "every": 21600
+  },
+  "coral_fan": {
+   "color": "pink",
+   "name": "Fan Coral",
+   "price": {
+    "virtualMoney": 10
+   },
+   "feed": 1,
+   "step": 9,
+   "produce": {
+    "energy": 2,
+    "xp": 1
+   },
+   "every": 30
+  },
+  "coral_fruit_loop": {
+   "color": "orange",
+   "name": "Fruit Loop Coral",
+   "price": {
+    "virtualMoney": 20
+   },
+   "feed": 2,
+   "step": 15,
+   "produce": {
+    "energy": 3,
+    "xp": 1
+   },
+   "every": 60
+  },
+  "coral_brain": {
+   "color": "cream",
+   "name": "Brain Coral",
+   "price": {
+    "virtualMoney": 88
+   },
+   "feed": 15,
+   "step": 600,
+   "produce": {
+    "energy": 8,
+    "xp": 3
+   },
+   "every": 600,
+   "notes": "price and production guessed"
+  },
+  "coral_brain_violet": {
+   "base": "coral_brain",
+   "color": "violet",
+   "name": "Violet Brain Coral",
+   "price": {
+    "hardMoney": 5
+   },
+   "feed": 10,
+   "step": 30,
+   "produce": {
+    "energy": 5,
+    "xp": 2
+   },
+   "every": 180
+  },
+  "coral_sunset_cup": {
+   "color": "yellow",
+   "name": "Sunset Cup",
+   "price": {
+    "virtualMoney": 40
+   },
+   "feed": 7,
+   "step": 30,
+   "produce": {
+    "energy": 5,
+    "xp": 2
+   },
+   "every": 300
+  },
+  "orn_plant_branches_red": {
+   "base": "orn_plant_branches",
+   "color": "red",
+   "name": "Red Branches",
+   "price": {
+    "virtualMoney": 10
+   },
+   "feed": 10,
+   "step": 12,
+   "hearts": 10
+  },
+  "orn_plant_branches_violet": {
+   "base": "orn_plant_branches",
+   "color": "violet",
+   "name": "Violet Branches",
+   "price": {
+    "virtualMoney": 20
+   },
+   "feed": 10,
+   "step": 18,
+   "hearts": 15,
+   "notes": "values guessed"
+  },
+  "orn_plant_stems_turquoise": {
+   "base": "orn_plant_eucheuma_denticulatum",
+   "color": "turquoise",
+   "name": "Turquoise Stems",
+   "price": {
+    "virtualMoney": 16
+   },
+   "feed": 10,
+   "step": 18,
+   "hearts": 15,
+   "notes": "base graphics guessed"
+  },
+  "orn_plant_java_moss_red": {
+   "base": "orn_plant_java_moss",
+   "color": "red",
+   "name": "Red Java Moss",
+   "price": {
+    "hardMoney": 5
+   },
+   "feed": 15,
+   "step": 30,
+   "hearts": 80
+  },
+  "orn_plant_seaweed_green": {
+   "base": "orn_plant_long_seaweed",
+   "color": "green",
+   "name": "Green Straight Seaweed",
+   "price": {
+    "virtualMoney": 20
+   },
+   "feed": 12,
+   "step": 30,
+   "hearts": 20,
+   "notes": "base graphics guessed"
+  },
+  "orn_plant_seaweed_orange": {
+   "base": "orn_plant_long_seaweed",
+   "color": "orange",
+   "name": "Orange Straight Seaweed",
+   "price": {
+    "virtualMoney": 20
+   },
+   "feed": 12,
+   "step": 30,
+   "hearts": 20,
+   "notes": "base graphics guessed"
+  },
+  "orn_plant_cirripathes_lilac": {
+   "base": "orn_plant_cirripathes",
+   "color": "lilac",
+   "name": "Lilac Cirripathes",
+   "price": {
+    "virtualMoney": 60
+   },
+   "feed": 30,
+   "step": 120,
+   "hearts": 45
+  },
+  "orn_plant_big_seaweed_darkyellow": {
+   "base": "orn_plant_big_seaweed",
+   "color": "dark_yellow",
+   "name": "Giant Dark Yellow Seaweed",
+   "price": {
+    "virtualMoney": 50
+   },
+   "feed": 25,
+   "step": 180,
+   "hearts": 70,
+   "notes": "base graphics guessed"
+  },
+  "orn_plant_marine_shrub_purple": {
+   "base": "orn_plant_marine_shrub",
+   "color": "purple",
+   "name": "Purple Marine Shrub",
+   "price": {
+    "virtualMoney": 60
+   },
+   "feed": 35,
+   "step": 120,
+   "hearts": 50
+  },
+  "seed_coin": {
+   "name": "Mystery Seed",
+   "price": {
+    "virtualMoney": 150
+   },
+   "feed": 200,
+   "step": 12600
+  },
+  "seed_pearl": {
+   "name": "Extraordinary Mystery Seed",
+   "price": {
+    "hardMoney": 10
+   },
+   "feed": 10,
+   "step": 4
+  },
+  "deco_rock": {
+   "name": "Rock",
+   "price": {
+    "virtualMoney": 70
+   }
+  },
+  "deco_heap_stones": {
+   "name": "Heap of Stones",
+   "price": {
+    "virtualMoney": 80
+   }
+  },
+  "deco_sea_urchin": {
+   "name": "Urchin's Shell",
+   "price": {
+    "virtualMoney": 90
+   }
+  },
+  "spec_house_dory": {
+   "name": "Dory's Tiki Heads",
+   "price": {
+    "virtualMoney": 100
+   },
+   "build": 7195
+  }
+ }
+}
