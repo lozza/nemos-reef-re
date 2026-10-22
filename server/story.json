@@ -553,6 +553,32 @@
    }
   },
   {
+   "id": "xpbar_tutorial_01",
+   "level": 6,
+   "after": [
+    "story_quest_16"
+   ],
+   "order": 17,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_XPBAR_TUTORIAL_NAME",
+   "descKey": "STR_XPBAR_TUTORIAL_DESCRIPTION",
+   "rewardKey": "STR_XPBAR_TUTORIAL_REWARD",
+   "startDialogId": "xpbar_tutorial_01_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_XPBAR_TUTORIAL_TASK_01",
+     "cid": "CID_XPBAR_CHECK",
+     "params": []
+    }
+   ],
+   "reward": {
+    "xp": 110,
+    "virtualMoney": 160,
+    "energy": 60
+   }
+  },
+  {
    "id": "side_quest_us_07",
    "level": 6,
    "after": [
@@ -749,6 +775,34 @@
    "reward": {
     "xp": 250,
     "virtualMoney": 150
+   }
+  },
+  {
+   "id": "pearls_tutorial_02",
+   "level": 6,
+   "after": [
+    "pearls_tutorial_01"
+   ],
+   "order": 23,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_COLLECT_RARE_FISH_TUTORIAL_NAME",
+   "descKey": "STR_COLLECT_RARE_FISH_TUTORIAL_DESCRIPTION",
+   "rewardKey": "STR_COLLECT_RARE_FISH_TUTORIAL_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_COLLECT_RARE_FISH_TUTORIAL_TASK_01",
+     "cid": "CID_FISH_REWARD_COLLECTED",
+     "params": [
+      1,
+      ""
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 110,
+    "virtualMoney": 160,
+    "energy": 60
    }
   },
   {
@@ -4981,34 +5035,6 @@
    ]
   },
   {
-   "id": "pearls_tutorial_02",
-   "level": 6,
-   "after": [
-    "pearls_tutorial_01"
-   ],
-   "order": 1392,
-   "type": "STORY",
-   "giver": "fish_special_nemo",
-   "nameKey": "STR_COLLECT_RARE_FISH_TUTORIAL_NAME",
-   "descKey": "STR_COLLECT_RARE_FISH_TUTORIAL_DESCRIPTION",
-   "rewardKey": "STR_COLLECT_RARE_FISH_TUTORIAL_REWARD",
-   "tasks": [
-    {
-     "textKey": "STR_COLLECT_RARE_FISH_TUTORIAL_TASK_01",
-     "cid": "CID_FISH_REWARD_COLLECTED",
-     "params": [
-      1,
-      ""
-     ]
-    }
-   ],
-   "reward": {
-    "xp": 110,
-    "virtualMoney": 160,
-    "energy": 60
-   }
-  },
-  {
    "id": "mission_01",
    "level": 6,
    "after": [
@@ -7918,32 +7944,6 @@
     "xp": 640,
     "virtualMoney": 860,
     "energy": 410
-   }
-  },
-  {
-   "id": "xpbar_tutorial_01",
-   "level": 6,
-   "after": [
-    "story_quest_16"
-   ],
-   "order": 2809,
-   "type": "STORY",
-   "giver": "fish_special_nemo",
-   "nameKey": "STR_XPBAR_TUTORIAL_NAME",
-   "descKey": "STR_XPBAR_TUTORIAL_DESCRIPTION",
-   "rewardKey": "STR_XPBAR_TUTORIAL_REWARD",
-   "startDialogId": "xpbar_tutorial_01_dialog",
-   "tasks": [
-    {
-     "textKey": "STR_XPBAR_TUTORIAL_TASK_01",
-     "cid": "CID_XPBAR_CHECK",
-     "params": []
-    }
-   ],
-   "reward": {
-    "xp": 110,
-    "virtualMoney": 160,
-    "energy": 60
    }
   },
   {

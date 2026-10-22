@@ -260,8 +260,9 @@ def main():
             i = missions.index(qid)
             e['after'] = [missions[i - 1]] if i else [EARLY_END]
             e['level'] = e['level'] or min(MAX_LEVEL, 6 + 2 * i)
-        elif qid == 'pearls_tutorial_02':
+        elif qid == 'pearls_tutorial_02':  # "The Pearl Harvest": straight after feeding the rare fish
             e['after'] = ['pearls_tutorial_01']
+            e['order'] = 23
         elif qid.startswith('squirt_quest_'):
             n = int(qid[-2:])
             e['after'] = ['squirt_quest_%02d' % (n - 1)]
@@ -284,6 +285,10 @@ def main():
             e['after'] = [EARLY_END]
             e['level'] = 9
             e['order'] = 75
+        elif qid == 'xpbar_tutorial_01':  # "Exact Science": tap the XP bar (a moment's tutorial, early)
+            e['after'] = [EARLY_END]
+            e['level'] = 6
+            e['order'] = 17
         elif qid == 'patch_tutorial_01':  # patches need 3500 Vitality (vitalityPatchList), about level 10
             e['after'] = [EARLY_END]
             e['level'] = 10
