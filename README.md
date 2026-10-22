@@ -4,8 +4,10 @@ A replacement server for Disney's *Nemo's Reef* (Android 1.8.1), whose official 
 Protocol details are in [PROTOCOL.md](PROTOCOL.md); game actions in [ACTIONS.md](ACTIONS.md).
 
 **Status:** early. Runs on a real device (Fire 7). Login, saving what you buy, place, feed, move and collect, the
-original starter reef, and the first story quests (tutorial, dialogue, rewards) work. Story content, prices and timers
-come from a Let's Play of the original game (part 1 of 21 so far); daily rewards and friends are not done yet.
+original starter reef, friend visits (to a stand-in reef) and the story work. The story has 189 of the original
+quests (story, side quests, Tank Gang, guest missions, tutorials) under their original ids and texts, offered in the
+order of a Let's Play of the original game and then by level. Treasure chests, minigames, co-op, patches and daily
+rewards are not done yet, so the quests that need them are left out.
 The Android Studio emulator draws some sand paths white; real devices are fine.
 
 The game files are not included: you need your own copy of `nemos-reef-1-8-1-en-android.apk`.
@@ -119,3 +121,6 @@ this old). The emulator reaches the PC at `10.0.2.2`, so type that IP in `patch-
 `--emulator`, which skips the emulator's broken `GL_MAX_PALETTE_MATRICES_OES` query (without it the game
 aborts at start-up with `RendererResize failed with exception: vector::reserve`).
 - `tools/`: reverse-engineering scripts used to derive the protocol (see PROTOCOL.md).
+- `tools/build_story.py`: generates `server/story.json` (quests, dialogs, hints, patterns, items) from the quest
+  catalogue made from the game's text table and the fan wiki's prices and timers. story.json holds text keys only;
+  the server reads the texts from the APK.

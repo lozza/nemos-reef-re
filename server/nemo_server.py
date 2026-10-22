@@ -217,10 +217,7 @@ class Game:
             w['data'] = user_info()
             w['sectors'] = w.get('sectors') or ['base']
             self.store.save_world(uid, w)
-        if 'nextQuestId' not in w:
-            self.story.migrate(w)
-            self.store.save_world(uid, w)
-        if self.story.catch_up(w):
+        if self.story.migrate(w):
             self.store.save_world(uid, w)
         return w
 
@@ -247,6 +244,7 @@ class Game:
                     self.reef.events = []
                     self.reef.refresh(w, now_ms())
                     self.finish_visit(w)
+                    self.story.catch_up(w, push=False)  # in the startgame quests list
                     # quest messages are covered by the quests list; entity events still have to be pushed
                     w['messages'] = [m for m in w.get('messages', []) if m['type'] != quests.QUEST_OPEN]
                     self.push_events(w)
@@ -282,6 +280,7 @@ class Game:
                 if w:
                     self.reef.refresh(w, now_ms())
                     self.push_events(w)
+                    self.story.catch_up(w)  # quests that open with a level-up
                     # The client never changes currencies itself: the HUD only updates from a "status"
                     # object next to the reactions (ComManager::loadingFinished → updateUserStatus).
                     body['status'] = w['status']
