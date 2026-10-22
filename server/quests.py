@@ -39,6 +39,17 @@ def cost(c):
     return {k: int(c.get(k, 0)) for k in ('energy', 'virtualMoney', 'hardMoney', 'lowTool', 'highTool')}
 
 
+# Fish whose prototype "name" is a placeholder: the game's own text keys (or plain names) for them
+NAME_FIXES = {
+    'fish_ambient_0': 'STF_AMBIENT_FISH_0',
+    'fish_ambient_1': 'STF_AMBIENT_FISH_1',
+    'fish_ambient_coralfish': 'STF_AMBIENT_CORALFISH',
+    'fish_ambient_firefish': 'STF_AMBIENT_FIREFISH',
+    'fish_rare_lion': 'Lionfish',
+    'fish_rare_vampire': 'STR_NAME_CRAB_VAMPIRE',
+}
+
+
 class Story:
     def __init__(self, path=STORY, kids=False):
         """kids: build the Kids edition's worldDef (players under the game's age limit): the Kids missions' texts,
@@ -265,7 +276,8 @@ class Story:
                 if not isinstance(p, dict) or 'id' not in p:
                     continue
                 key = 'STR_PROTO_%s' % p['id'].upper()
-                if not str(p.get('name', '')).startswith('STR_'):
+                p['name'] = p['nameId'] = NAME_FIXES.get(p['id'], p.get('name'))
+                if not str(p.get('name', '')).startswith(('STR_', 'STF_')):
                     text = str(p.get('name') or p['id'])
                     self.names[key] = text[:1].upper() + text[1:]
                     p['name'] = p['nameId'] = key
