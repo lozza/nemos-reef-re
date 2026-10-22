@@ -124,4 +124,5 @@ aborts at start-up with `RendererResize failed with exception: vector::reserve`)
 - `tools/`: reverse-engineering scripts used to derive the protocol (see PROTOCOL.md).
 - `tools/build_story.py`: generates `server/story.json` (quests, dialogs, hints, patterns, items) from the quest
   catalogue made from the game's text table and the fan wiki's prices and timers. story.json holds text keys only;
-  the server reads the texts from the APK.
+  the server reads the texts from the APK. `--rare-fish` / `--vitality-patches` take the 2014 worldDef lists
+  (rareFishList, vitalityPatchList) saved on the fan wiki.

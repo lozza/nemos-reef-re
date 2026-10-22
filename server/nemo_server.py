@@ -339,9 +339,30 @@ class Game:
 
 
     def push_events(self, w):
-        for kind, data in self.reef.events:
+        events, self.reef.events = self.reef.events, []
+        for kind, data in events:
             w.setdefault('messages', []).append({'id': self.story.message_id(w), 'type': kind, 'data': data})
-        self.reef.events = []
+            if kind == actions.END_FEED:
+                self.attract_rare_fish(w, data['id'])
+
+    def attract_rare_fish(self, w, plant_id):
+        """A rare plant has grown: the rare fish that loves it comes to the reef (or, for plants without a
+        partner, a rare fish the reef does not have yet). A reef welcomes one fish of each kind."""
+        e = next((x for x in w.get('rarePlants', []) if x['id'] == plant_id), None)
+        rare = self.story.data.get('rareFish') or {}
+        if not e or e.get('attracted') or not rare.get('all'):
+            return
+        e['attracted'] = True
+        owned = {f.get('prototypeId') for f in w.get('fishes', [])}
+        fish = rare.get('pairs', {}).get(e['prototypeId'])
+        if not fish or fish in owned:
+            fish = next((f for f in rare['all'] if f not in owned), None)
+        if not fish:
+            return
+        pos = e.get('position', {})
+        f = self.reef.add_entity(w, fish, pos.get('x', 80), pos.get('z', 80))
+        if f:  # message type 1: EntityManager::processFishAddedMessage swims the fish in
+            w.setdefault('messages', []).append({'id': self.story.message_id(w), 'type': 1, 'data': dict(f)})
 
     def unstick_quests(self, w):
         """A running grow/build task whose item is already grown/built (finished while the game was closed,

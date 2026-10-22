@@ -74,6 +74,8 @@ class Story:
                                   sorroundingHintCost=cost(p.get('sorroundingHintCost')))
                              for p in self.data.get('patterns', [])]
         wd['conditionDefinitionList'] = []
+        if self.data.get('vitalityPatchList'):  # the 2014 game's own list
+            wd['vitalityPatchList'] = self.data['vitalityPatchList']
         self.check(wd)
 
     def add_items(self, wd):
