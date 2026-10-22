@@ -49,7 +49,11 @@ RENAMED = {
     'unexpected_party': 'squirt_quest_01', 'planting_101': 'squirt_quest_02',
 }
 FAMILIES = ('story_quest_', 'side_quest_', 'tankgang_', 'narrative_quest_', 'vitality_quest_',
-            'pearls_tutorial_', 'squirt_quest_', 'mission_', 'chest_tutorial_02', 'minigame_squirt')
+            'pearls_tutorial_', 'squirt_quest_', 'mission_', 'chest_tutorial_02', 'minigame_squirt',
+            'kids_story_quest_')
+# Kids edition quests (players who entered an age under the game's limit), placed by what they ask for.
+KIDS_AFTER = {'kids_story_quest_01': 'story_quest_13', 'kids_story_quest_02': 'kids_story_quest_01',
+              'kids_story_quest_03': 'kids_story_quest_02', 'kids_story_quest_04': 'pearls_tutorial_01'}
 UNSUPPORTED = {
                'CID_COOP_QUEST_CHECK', 'CID_HOMEWORK_QUEST_CHECK', 'CID_MOVED_ON_PATCH', '<per template>'}
 # The early game ends with A Wormy Mess (level 5); later quests wait for it.
@@ -205,8 +209,6 @@ def main():
             continue
         why = [t['cid'] for t in q['tasks'] if t['cid'] in UNSUPPORTED]
         why += [p for p in needs(q) if not available(p)]
-        if q['id'].startswith('kids_'):
-            why.append('kids build')
         if why:
             skipped.append((q['id'], sorted(set(why))))
             continue
@@ -243,6 +245,9 @@ def main():
             e['after'] = ['squirt_quest_%02d' % (n - 1)]
         elif qid == 'minigame_squirt_tutorial':  # the first game, with "Let's Play!"
             e['after'] = ['squirt_quest_02']
+        elif qid in KIDS_AFTER:
+            e['after'] = [KIDS_AFTER[qid]]
+            e['kidsOnly'] = True
         elif qid == 'minigame_squirt':  # then Hide and Seek whenever Squirt is ready
             e['after'] = ['minigame_squirt_tutorial']
             e['repeat'] = True
@@ -262,7 +267,7 @@ def main():
                     e['level'] = out_quests[p]['level']
 
     # ---- quest bodies
-    dialogs_needed, pattern_ids, fish_rewards = set(), set(), set()
+    dialogs_needed, pattern_ids, fish_rewards, kids_patterns = set(), set(), set(), set()
     for qid, e in out_quests.items():
         q = chosen[qid]
         oldq = old_quests.get(qid, {})
@@ -304,6 +309,21 @@ def main():
         hints = q.get('hints') or []
         if hints:
             e['hintIdList'] = [h['id'] for h in hints]
+        kv = q.get('kids_variant')
+        if kv:  # the Kids edition of a guest mission: its own texts, hints and an easier combination
+            kids = {'nameKey': kv['nameStringId'], 'descKey': kv['descriptionStringId'],
+                    'rewardKey': kv['rewardStringId']}
+            if kv.get('hints'):
+                kids['hintIdList'] = ['%s_kids_%d' % (qid, i) for i in range(len(kv['hints']))]
+            pat = kv.get('pattern')
+            if pat and pat in proposed and all(available(x) for x in [proposed[pat]['centralPrototype']]
+                                                + proposed[pat]['nearPrototypes']):
+                kids['pattern'] = pat
+                kids_patterns.add(pat)
+            e['kids'] = kids
+        ko = q.get('kids_overrides') or {}
+        if set(ko) == {'reward'}:  # only wording; other Kids edition changes swap the tutorial's items
+            e['kids'] = {'rewardKey': ko['reward']['textId']}
         fish = [f for f in (q.get('rewardPrototypeIdList_proposed') or []) if f.startswith('fish_') and available(f)]
         if oldq.get('grantFish'):
             fish = oldq['grantFish']
@@ -336,15 +356,20 @@ def main():
         for h in q.get('hints') or []:
             hints.append({'id': h['id'], 'index': h.get('index', 0), 'key': h['textId'],
                           'cost': h.get('cost_proposed') or {'virtualMoney': 200}})
+        for i, h in enumerate((q.get('kids_variant') or {}).get('hints') or []):
+            hints.append({'id': '%s_kids_%d' % (q['id'], i), 'index': i, 'key': h['textId'],
+                          'cost': {'virtualMoney': 200} if i == 0 else {'hardMoney': 1}})
 
     # ---- patterns
     out_patterns = []
-    for i, pid in enumerate(sorted(pattern_ids)):
+    for i, pid in enumerate(sorted(pattern_ids | kids_patterns)):
         p = dict(patterns.get(pid) or proposed[pid])
         for k in ('confidence', 'notes', 'source'):
             p.pop(k, None)
         if not p.get('producedFishId'):
             p['producedFishId'] = AMBIENT[i % len(AMBIENT)]
+        if pid in kids_patterns and pid not in pattern_ids:
+            p['kidsOnly'] = True
         p.setdefault('centralHintCost', {'virtualMoney': 100})
         p.setdefault('sorroundingHintCost', {'virtualMoney': 100})
         p.setdefault('areaSize', 3)
@@ -356,6 +381,9 @@ def main():
         wanted |= {p for p in needs(chosen[qid]) if not p.startswith('?')}
     for e in out_quests.values():
         wanted.add(e['giver'])
+    for pid in kids_patterns:
+        pat = proposed[pid]
+        wanted |= {pat['centralPrototype'], *pat['nearPrototypes']} | ({pat['producedFishId']} if pat.get('producedFishId') else set())
     items = dict(old['items'])
     colors = dict(old['colors'])
     for pid, it in items.items():  # names from the game's text table

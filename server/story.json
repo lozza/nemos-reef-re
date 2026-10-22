@@ -421,6 +421,16 @@
     "hint_seadragon_brown_1",
     "hint_seadragon_brown_2"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_02_NAME",
+    "descKey": "STR_KIDS_MISSION_02_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_02_REWARD",
+    "hintIdList": [
+     "mission_02_kids_0",
+     "mission_02_kids_1"
+    ],
+    "pattern": "pattern_seadragon_kids"
+   },
    "rewardPrototypeIdList": [
     "fish_guest_seadragon"
    ],
@@ -709,6 +719,9 @@
    "reward": {
     "xp": 100,
     "virtualMoney": 100
+   },
+   "kids": {
+    "rewardKey": "STR_KIDS_FEED_RARE_FISH_TUTORIAL_REWARD"
    }
   },
   {
@@ -4516,6 +4529,16 @@
     "hint_seahorse_green_1",
     "hint_seahorse_green_2"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_01_NAME",
+    "descKey": "STR_KIDS_MISSION_01_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_01_REWARD",
+    "hintIdList": [
+     "mission_01_kids_0",
+     "mission_01_kids_1"
+    ],
+    "pattern": "pattern_seahorse_green_kids"
+   },
    "rewardPrototypeIdList": [
     "fish_guest_seahorse_green"
    ],
@@ -4555,6 +4578,15 @@
     "hint_seahorse_white_2",
     "hint_seahorse_white_3"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_03_NAME",
+    "descKey": "STR_KIDS_MISSION_03_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_03_REWARD",
+    "hintIdList": [
+     "mission_03_kids_0",
+     "mission_03_kids_1"
+    ]
+   },
    "rewardPrototypeIdList": [
     "fish_guest_seahorse_white"
    ],
@@ -4594,6 +4626,16 @@
     "hint_jellyfish_light_blue_2",
     "hint_jellyfish_light_blue_3"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_04_NAME",
+    "descKey": "STR_KIDS_MISSION_04_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_04_REWARD",
+    "hintIdList": [
+     "mission_04_kids_0",
+     "mission_04_kids_1"
+    ],
+    "pattern": "pattern_jellyfish_lightblue_kids"
+   },
    "rewardPrototypeIdList": [
     "fish_guest_jellyfish_lightblue"
    ],
@@ -4633,6 +4675,16 @@
     "hint_octopus_yellow_2",
     "hint_octopus_yellow_3"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_05_NAME",
+    "descKey": "STR_KIDS_MISSION_05_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_05_REWARD",
+    "hintIdList": [
+     "mission_05_kids_0",
+     "mission_05_kids_1"
+    ],
+    "pattern": "pattern_octopus_yellow_kids"
+   },
    "rewardPrototypeIdList": [
     "fish_guest_octopus_yellow"
    ],
@@ -4672,6 +4724,16 @@
     "hint_jellyfish_yellow_2",
     "hint_jellyfish_yellow_3"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_06_NAME",
+    "descKey": "STR_KIDS_MISSION_06_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_06_REWARD",
+    "hintIdList": [
+     "mission_06_kids_0",
+     "mission_06_kids_1"
+    ],
+    "pattern": "pattern_jellyfish_yellow_kids"
+   },
    "rewardPrototypeIdList": [
     "fish_guest_jellyfish_yellow"
    ],
@@ -4711,6 +4773,16 @@
     "hint_seahorse_red_2",
     "hint_seahorse_red_3"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_07_NAME",
+    "descKey": "STR_KIDS_MISSION_07_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_07_REWARD",
+    "hintIdList": [
+     "mission_07_kids_0",
+     "mission_07_kids_1"
+    ],
+    "pattern": "pattern_seahorse_red_kids"
+   },
    "rewardPrototypeIdList": [
     "fish_guest_seahorse_red"
    ],
@@ -4750,6 +4822,16 @@
     "hint_seadragon_white_2",
     "hint_seadragon_white_3"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_08_NAME",
+    "descKey": "STR_KIDS_MISSION_08_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_08_REWARD",
+    "hintIdList": [
+     "mission_08_kids_0",
+     "mission_08_kids_1"
+    ],
+    "pattern": "pattern_seadragon_white_kids"
+   },
    "rewardPrototypeIdList": [
     "fish_guest_seadragon_white"
    ],
@@ -4789,6 +4871,16 @@
     "hint_octopus_green_2",
     "hint_octopus_green_3"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_09_NAME",
+    "descKey": "STR_KIDS_MISSION_09_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_09_REWARD",
+    "hintIdList": [
+     "mission_09_kids_0",
+     "mission_09_kids_1"
+    ],
+    "pattern": "pattern_octopus_green_kids"
+   },
    "rewardPrototypeIdList": [
     "fish_guest_octopus_green"
    ],
@@ -4828,6 +4920,16 @@
     "hint_seadragon_yellow_2",
     "hint_seadragon_yellow_3"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_10_NAME",
+    "descKey": "STR_KIDS_MISSION_10_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_10_REWARD",
+    "hintIdList": [
+     "mission_10_kids_0",
+     "mission_10_kids_1"
+    ],
+    "pattern": "pattern_seadragon_yellow_kids"
+   },
    "rewardPrototypeIdList": [
     "fish_guest_seadragon_yellow"
    ],
@@ -4867,6 +4969,16 @@
     "hint_octopus_orange_2",
     "hint_octopus_orange_3"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_11_NAME",
+    "descKey": "STR_KIDS_MISSION_11_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_11_REWARD",
+    "hintIdList": [
+     "mission_11_kids_0",
+     "mission_11_kids_1"
+    ],
+    "pattern": "pattern_octopus_orange_kids"
+   },
    "rewardPrototypeIdList": [
     "fish_guest_octopus_orange"
    ],
@@ -4906,6 +5018,16 @@
     "hint_jellyfish_pink_2",
     "hint_jellyfish_pink_3"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_12_NAME",
+    "descKey": "STR_KIDS_MISSION_12_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_12_REWARD",
+    "hintIdList": [
+     "mission_12_kids_0",
+     "mission_12_kids_1"
+    ],
+    "pattern": "pattern_jellyfish_pink_kids"
+   },
    "rewardPrototypeIdList": [
     "fish_guest_jellyfish_pink"
    ],
@@ -4945,6 +5067,16 @@
     "hint_octopus_red_2",
     "hint_octopus_red_3"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_13_NAME",
+    "descKey": "STR_KIDS_MISSION_13_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_13_REWARD",
+    "hintIdList": [
+     "mission_13_kids_0",
+     "mission_13_kids_1"
+    ],
+    "pattern": "pattern_octopus_red_kids"
+   },
    "rewardPrototypeIdList": [
     "fish_guest_octopus_red"
    ],
@@ -4984,6 +5116,16 @@
     "hint_octopus_lightblue_2",
     "hint_octopus_lightblue_3"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_14_NAME",
+    "descKey": "STR_KIDS_MISSION_14_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_14_REWARD",
+    "hintIdList": [
+     "mission_14_kids_0",
+     "mission_14_kids_1"
+    ],
+    "pattern": "pattern_octopus_lightblue_kids"
+   },
    "rewardPrototypeIdList": [
     "fish_guest_octopus_lightblue"
    ],
@@ -5023,6 +5165,16 @@
     "hint_seadragon_pink_2",
     "hint_seadragon_pink_3"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_15_NAME",
+    "descKey": "STR_KIDS_MISSION_15_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_15_REWARD",
+    "hintIdList": [
+     "mission_15_kids_0",
+     "mission_15_kids_1"
+    ],
+    "pattern": "pattern_seadragon_pink_kids"
+   },
    "rewardPrototypeIdList": [
     "fish_guest_seadragon_pink"
    ],
@@ -5062,12 +5214,136 @@
     "hint_jellyfish_orange_2",
     "hint_jellyfish_orange_3"
    ],
+   "kids": {
+    "nameKey": "STR_KIDS_MISSION_16_NAME",
+    "descKey": "STR_KIDS_MISSION_16_DESCRIPTION",
+    "rewardKey": "STR_KIDS_MISSION_16_REWARD",
+    "hintIdList": [
+     "mission_16_kids_0",
+     "mission_16_kids_1"
+    ],
+    "pattern": "pattern_jellyfish_orange_kids"
+   },
    "rewardPrototypeIdList": [
     "fish_guest_jellyfish_orange"
    ],
    "grantFish": [
     "fish_guest_jellyfish_orange"
    ]
+  },
+  {
+   "id": "kids_story_quest_01",
+   "level": 6,
+   "after": [
+    "story_quest_13"
+   ],
+   "order": 2515,
+   "kidsOnly": true,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_KIDS_STORY_QUEST_01_NAME",
+   "descKey": "STR_KIDS_STORY_QUEST_01_DESCRIPTION",
+   "rewardKey": "STR_KIDS_STORY_QUEST_01_REWARD",
+   "startDialogId": "kids_dialog_story_quest_01",
+   "tasks": [
+    {
+     "textKey": "STR_KIDS_STORY_QUEST_01_TASK_01",
+     "cid": "CID_GROWN",
+     "params": [
+      1,
+      "orn_plant_seaweed_green"
+     ]
+    },
+    {
+     "textKey": "STR_KIDS_STORY_QUEST_01_TASK_02",
+     "cid": "CID_PATTERN",
+     "params": [
+      1,
+      "pattern_giant_seabush_green_seaweed_green"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 110,
+    "virtualMoney": 160,
+    "energy": 60
+   }
+  },
+  {
+   "id": "kids_story_quest_02",
+   "level": 6,
+   "after": [
+    "kids_story_quest_01"
+   ],
+   "order": 2524,
+   "kidsOnly": true,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_KIDS_STORY_QUEST_02_NAME",
+   "descKey": "STR_KIDS_STORY_QUEST_02_DESCRIPTION",
+   "rewardKey": "STR_KIDS_STORY_QUEST_02_REWARD",
+   "startDialogId": "kids_dialog_story_quest_02",
+   "tasks": [
+    {
+     "textKey": "STR_KIDS_STORY_QUEST_02_TASK_01",
+     "cid": "CID_GROWN",
+     "params": [
+      1,
+      "plant_barrel_sponge_rose"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 110,
+    "virtualMoney": 160,
+    "energy": 60
+   }
+  },
+  {
+   "id": "kids_story_quest_03",
+   "level": 6,
+   "after": [
+    "kids_story_quest_02"
+   ],
+   "order": 2530,
+   "kidsOnly": true,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_KIDS_STORY_QUEST_03_NAME",
+   "descKey": "STR_KIDS_STORY_QUEST_03_DESCRIPTION",
+   "rewardKey": "STR_KIDS_STORY_QUEST_03_REWARD",
+   "startDialogId": "kids_dialog_story_quest_03",
+   "tasks": [
+    {
+     "textKey": "STR_KIDS_STORY_QUEST_03_TASK_01",
+     "cid": "CID_GROWN",
+     "params": [
+      1,
+      "plant_tube_sponge_red"
+     ]
+    },
+    {
+     "textKey": "STR_KIDS_STORY_QUEST_03_TASK_02",
+     "cid": "CID_GROWN",
+     "params": [
+      1,
+      "orn_plant_branches_red"
+     ]
+    },
+    {
+     "textKey": "STR_KIDS_STORY_QUEST_03_TASK_03",
+     "cid": "CID_PATTERN",
+     "params": [
+      1,
+      "pattern_tube_sponge_red_branches_red"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 110,
+    "virtualMoney": 160,
+    "energy": 60
+   }
   },
   {
    "id": "side_quest_68",
@@ -8061,6 +8337,93 @@
    ]
   },
   {
+   "id": "kids_dialog_story_quest_01",
+   "lines": [
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_KIDS_DIALOG_STORY_QUEST_01_01",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_KIDS_DIALOG_STORY_QUEST_01_02",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_KIDS_DIALOG_STORY_QUEST_01_03",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_KIDS_DIALOG_STORY_QUEST_01_04",
+     "listener": "fish_special_marlin"
+    }
+   ]
+  },
+  {
+   "id": "kids_dialog_story_quest_02",
+   "lines": [
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_KIDS_DIALOG_STORY_QUEST_02_01",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_KIDS_DIALOG_STORY_QUEST_02_02",
+     "listener": "fish_special_nemo"
+    }
+   ]
+  },
+  {
+   "id": "kids_dialog_story_quest_03",
+   "lines": [
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_KIDS_DIALOG_STORY_QUEST_03_01",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_KIDS_DIALOG_STORY_QUEST_03_02",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_KIDS_DIALOG_STORY_QUEST_03_03",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_KIDS_DIALOG_STORY_QUEST_03_04",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_KIDS_DIALOG_STORY_QUEST_03_05",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_KIDS_DIALOG_STORY_QUEST_03_06",
+     "listener": "fish_special_nemo"
+    }
+   ]
+  },
+  {
    "id": "squirt_quest_01_dialog",
    "lines": [
     {
@@ -8926,6 +9289,22 @@
    }
   },
   {
+   "id": "mission_01_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_SEAHORSE_GREEN",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_01_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_SEAHORSE_GREEN_2",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
    "id": "hint_seadragon_brown_1",
    "index": 0,
    "key": "STR_HINT_SEADRAGON_BROWN",
@@ -8937,6 +9316,22 @@
    "id": "hint_seadragon_brown_2",
    "index": 1,
    "key": "STR_HINT_SEADRAGON_BROWN_2",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
+   "id": "mission_02_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_SEADRAGON_BROWN",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_02_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_SEADRAGON_BROWN_2",
    "cost": {
     "hardMoney": 1
    }
@@ -8966,6 +9361,22 @@
    }
   },
   {
+   "id": "mission_03_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_SEAHORSE_WHITE_2",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_03_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_SEAHORSE_WHITE_3",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
    "id": "hint_jellyfish_light_blue_1",
    "index": 0,
    "key": "STR_HINT_JELLYFISH_LIGHT_BLUE",
@@ -8985,6 +9396,22 @@
    "id": "hint_jellyfish_light_blue_3",
    "index": 2,
    "key": "STR_HINT_JELLYFISH_LIGHT_BLUE_3",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
+   "id": "mission_04_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_JELLYFISH_LIGHT_BLUE_2",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_04_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_JELLYFISH_LIGHT_BLUE_3",
    "cost": {
     "hardMoney": 1
    }
@@ -9014,6 +9441,22 @@
    }
   },
   {
+   "id": "mission_05_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_OCTOPUS_YELLOW_2",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_05_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_OCTOPUS_YELLOW_3",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
    "id": "hint_jellyfish_yellow_1",
    "index": 0,
    "key": "STR_HINT_JELLYFISH_YELLOW",
@@ -9033,6 +9476,22 @@
    "id": "hint_jellyfish_yellow_3",
    "index": 2,
    "key": "STR_HINT_JELLYFISH_YELLOW_3",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
+   "id": "mission_06_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_JELLYFISH_YELLOW_2",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_06_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_JELLYFISH_YELLOW_3",
    "cost": {
     "hardMoney": 1
    }
@@ -9062,6 +9521,22 @@
    }
   },
   {
+   "id": "mission_07_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_SEAHORSE_RED_2",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_07_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_SEAHORSE_RED_3",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
    "id": "hint_seadragon_white_1",
    "index": 0,
    "key": "STR_HINT_SEADRAGON_WHITE",
@@ -9081,6 +9556,22 @@
    "id": "hint_seadragon_white_3",
    "index": 2,
    "key": "STR_HINT_SEADRAGON_WHITE_3",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
+   "id": "mission_08_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_SEADRAGON_WHITE_2",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_08_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_SEADRAGON_WHITE_3",
    "cost": {
     "hardMoney": 1
    }
@@ -9110,6 +9601,22 @@
    }
   },
   {
+   "id": "mission_09_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_OCTOPUS_GREEN_2",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_09_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_OCTOPUS_GREEN_3",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
    "id": "hint_seadragon_yellow_1",
    "index": 0,
    "key": "STR_HINT_SEADRAGON_YELLOW",
@@ -9129,6 +9636,22 @@
    "id": "hint_seadragon_yellow_3",
    "index": 2,
    "key": "STR_HINT_SEADRAGON_YELLOW_3",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
+   "id": "mission_10_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_SEADRAGON_YELLOW_2",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_10_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_SEADRAGON_YELLOW_3",
    "cost": {
     "hardMoney": 1
    }
@@ -9158,6 +9681,22 @@
    }
   },
   {
+   "id": "mission_11_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_OCTOPUS_ORANGE_2",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_11_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_OCTOPUS_ORANGE_3",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
    "id": "hint_jellyfish_pink_1",
    "index": 0,
    "key": "STR_HINT_JELLYFISH_PINK",
@@ -9177,6 +9716,22 @@
    "id": "hint_jellyfish_pink_3",
    "index": 2,
    "key": "STR_HINT_JELLYFISH_PINK_3",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
+   "id": "mission_12_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_JELLYFISH_PINK_2",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_12_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_JELLYFISH_PINK_3",
    "cost": {
     "hardMoney": 1
    }
@@ -9206,6 +9761,22 @@
    }
   },
   {
+   "id": "mission_13_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_OCTOPUS_RED_2",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_13_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_OCTOPUS_RED_3",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
    "id": "hint_octopus_lightblue_1",
    "index": 0,
    "key": "STR_HINT_OCTOPUS_LIGHTBLUE",
@@ -9225,6 +9796,22 @@
    "id": "hint_octopus_lightblue_3",
    "index": 2,
    "key": "STR_HINT_OCTOPUS_LIGHTBLUE_3",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
+   "id": "mission_14_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_OCTOPUS_LIGHTBLUE_2",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_14_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_OCTOPUS_LIGHTBLUE_3",
    "cost": {
     "hardMoney": 1
    }
@@ -9254,6 +9841,22 @@
    }
   },
   {
+   "id": "mission_15_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_SEADRAGON_PINK_2",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_15_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_SEADRAGON_PINK_3",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
    "id": "hint_jellyfish_orange_1",
    "index": 0,
    "key": "STR_HINT_JELLIFISH_ORANGE",
@@ -9273,6 +9876,22 @@
    "id": "hint_jellyfish_orange_3",
    "index": 2,
    "key": "STR_HINT_JELLIFISH_ORANGE_3",
+   "cost": {
+    "hardMoney": 1
+   }
+  },
+  {
+   "id": "mission_16_kids_0",
+   "index": 0,
+   "key": "STR_KIDS_HINT_JELLIFISH_ORANGE_2",
+   "cost": {
+    "virtualMoney": 200
+   }
+  },
+  {
+   "id": "mission_16_kids_1",
+   "index": 1,
+   "key": "STR_KIDS_HINT_JELLIFISH_ORANGE_3",
    "cost": {
     "hardMoney": 1
    }
@@ -9394,6 +10013,20 @@
    }
   },
   {
+   "id": "pattern_jellyfish_lightblue_kids",
+   "centralPrototype": "orn_plant_coral_02",
+   "nearPrototypes": [],
+   "producedFishId": "fish_guest_jellyfish_lightblue",
+   "areaSize": 3,
+   "kidsOnly": true,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
    "id": "pattern_jellyfish_orange",
    "centralPrototype": "orn_plant_java_moss_saffron",
    "nearPrototypes": [
@@ -9401,6 +10034,20 @@
    ],
    "producedFishId": "fish_guest_jellyfish_orange",
    "areaSize": 3,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_jellyfish_orange_kids",
+   "centralPrototype": "orn_plant_java_moss_saffron",
+   "nearPrototypes": [],
+   "producedFishId": "fish_guest_jellyfish_orange",
+   "areaSize": 3,
+   "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -9424,6 +10071,20 @@
    }
   },
   {
+   "id": "pattern_jellyfish_pink_kids",
+   "centralPrototype": "orn_plant_sea_blossom_pink",
+   "nearPrototypes": [],
+   "producedFishId": "fish_guest_jellyfish_pink",
+   "areaSize": 3,
+   "kidsOnly": true,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
    "id": "pattern_jellyfish_yellow",
    "centralPrototype": "orn_plant_coral_01",
    "nearPrototypes": [],
@@ -9437,11 +10098,39 @@
    }
   },
   {
+   "id": "pattern_jellyfish_yellow_kids",
+   "centralPrototype": "orn_plant_coral_01",
+   "nearPrototypes": [],
+   "producedFishId": "fish_guest_jellyfish_yellow",
+   "areaSize": 3,
+   "kidsOnly": true,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
    "id": "pattern_octopus_green",
    "centralPrototype": "orn_plant_sea_flower_green",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_octopus_green",
    "areaSize": 3,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_octopus_green_kids",
+   "centralPrototype": "orn_plant_sea_flower_green",
+   "nearPrototypes": [],
+   "producedFishId": "fish_guest_octopus_green",
+   "areaSize": 3,
+   "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -9465,6 +10154,20 @@
    }
   },
   {
+   "id": "pattern_octopus_lightblue_kids",
+   "centralPrototype": "orn_plant_cirripathes_blue",
+   "nearPrototypes": [],
+   "producedFishId": "fish_guest_octopus_lightblue",
+   "areaSize": 3,
+   "kidsOnly": true,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
    "id": "pattern_octopus_orange",
    "centralPrototype": "orn_plant_seaweed_big_yellowgreen",
    "nearPrototypes": [
@@ -9480,6 +10183,20 @@
    }
   },
   {
+   "id": "pattern_octopus_orange_kids",
+   "centralPrototype": "orn_plant_seaweed_big_yellowgreen",
+   "nearPrototypes": [],
+   "producedFishId": "fish_guest_octopus_orange",
+   "areaSize": 3,
+   "kidsOnly": true,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
    "id": "pattern_octopus_red",
    "centralPrototype": "orn_plant_cirripathes_lilac",
    "nearPrototypes": [
@@ -9487,6 +10204,20 @@
    ],
    "producedFishId": "fish_guest_octopus_red",
    "areaSize": 3,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_octopus_red_kids",
+   "centralPrototype": "orn_plant_cirripathes_lilac",
+   "nearPrototypes": [],
+   "producedFishId": "fish_guest_octopus_red",
+   "areaSize": 3,
+   "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -9511,6 +10242,20 @@
    }
   },
   {
+   "id": "pattern_octopus_yellow_kids",
+   "centralPrototype": "orn_plant_marine_shrub_yellow",
+   "nearPrototypes": [],
+   "producedFishId": "fish_guest_octopus_yellow",
+   "areaSize": 3,
+   "kidsOnly": true,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
    "id": "pattern_seadragon",
    "centralPrototype": "orn_plant_seaweed_green",
    "producedFishId": "fish_guest_seadragon",
@@ -9526,6 +10271,20 @@
    ]
   },
   {
+   "id": "pattern_seadragon_kids",
+   "centralPrototype": "orn_plant_seaweed_orange",
+   "nearPrototypes": [],
+   "producedFishId": "fish_guest_seadragon",
+   "areaSize": 3,
+   "kidsOnly": true,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
    "id": "pattern_seadragon_pink",
    "centralPrototype": "orn_plant_coral_04",
    "nearPrototypes": [
@@ -9533,6 +10292,20 @@
    ],
    "producedFishId": "fish_guest_seadragon_pink",
    "areaSize": 3,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_seadragon_pink_kids",
+   "centralPrototype": "orn_plant_cluster_seaweed_brown",
+   "nearPrototypes": [],
+   "producedFishId": "fish_guest_seadragon_pink",
+   "areaSize": 3,
+   "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -9554,11 +10327,39 @@
    }
   },
   {
+   "id": "pattern_seadragon_white_kids",
+   "centralPrototype": "orn_plant_sea_flower_white",
+   "nearPrototypes": [],
+   "producedFishId": "fish_guest_seadragon_white",
+   "areaSize": 3,
+   "kidsOnly": true,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
    "id": "pattern_seadragon_yellow",
    "centralPrototype": "orn_plant_sea_flower_ruby",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_seadragon_yellow",
    "areaSize": 3,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_seadragon_yellow_kids",
+   "centralPrototype": "orn_plant_sea_flower_ruby",
+   "nearPrototypes": [],
+   "producedFishId": "fish_guest_seadragon_yellow",
+   "areaSize": 3,
+   "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -9595,6 +10396,20 @@
    }
   },
   {
+   "id": "pattern_seahorse_green_kids",
+   "centralPrototype": "orn_plant_cluster_seaweed_green",
+   "nearPrototypes": [],
+   "producedFishId": "fish_guest_seahorse_green",
+   "areaSize": 3,
+   "kidsOnly": true,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
    "id": "pattern_seahorse_red",
    "centralPrototype": "orn_plant_bonsai_bright_green",
    "nearPrototypes": [
@@ -9610,12 +10425,41 @@
    }
   },
   {
+   "id": "pattern_seahorse_red_kids",
+   "centralPrototype": "orn_plant_bonsai_bright_green",
+   "nearPrototypes": [],
+   "producedFishId": "fish_guest_seahorse_red",
+   "areaSize": 3,
+   "kidsOnly": true,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
    "id": "pattern_seahorse_white",
    "centralPrototype": "coral_bubble_silver",
    "nearPrototypes": [
     "deco_rock"
    ],
    "producedFishId": "fish_guest_seahorse_white",
+   "areaSize": 3,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_tube_sponge_red_branches_red",
+   "centralPrototype": "plant_tube_sponge_red",
+   "nearPrototypes": [
+    "orn_plant_branches_red"
+   ],
+   "producedFishId": "fish_ambient_1",
    "areaSize": 3,
    "centralHintCost": {
     "virtualMoney": 100
@@ -9977,6 +10821,11 @@
    180,
    60
   ],
+  "cirripathes_blue": [
+   60,
+   110,
+   220
+  ],
   "cirripathes_red": [
    215,
    50,
@@ -10046,6 +10895,11 @@
    240,
    120,
    170
+  ],
+  "marine_shrub_yellow": [
+   246,
+   222,
+   60
   ],
   "pillow_blue": [
    60,
@@ -11779,6 +12633,18 @@
    "feed": 1000,
    "step": 60
   },
+  "orn_plant_cirripathes_blue": {
+   "base": "orn_plant_cirripathes",
+   "color": "cirripathes_blue",
+   "name": "STR_ORN_CIRRIPATHES_BLUE",
+   "hearts": 500,
+   "level": 20,
+   "price": {
+    "virtualMoney": 700
+   },
+   "feed": 600,
+   "step": 60
+  },
   "orn_plant_cirripathes_red": {
    "base": "orn_plant_cirripathes",
    "color": "cirripathes_red",
@@ -11956,6 +12822,18 @@
     "virtualMoney": 4500
    },
    "feed": 1400,
+   "step": 60
+  },
+  "orn_plant_marine_shrub_yellow": {
+   "base": "orn_plant_marine_shrub",
+   "color": "marine_shrub_yellow",
+   "name": "STR_ORN_MARINE_SHRUB_YELLOW",
+   "hearts": 60,
+   "level": 7,
+   "price": {
+    "virtualMoney": 80
+   },
+   "feed": 35,
    "step": 60
   },
   "orn_plant_moss_green": {

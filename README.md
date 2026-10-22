@@ -4,7 +4,7 @@ A replacement server for Disney's *Nemo's Reef* (Android 1.8.1), whose official 
 Protocol details are in [PROTOCOL.md](PROTOCOL.md); game actions in [ACTIONS.md](ACTIONS.md).
 
 **Status:** early. Runs on a real device (Fire 7). Login, saving what you buy, place, feed, move and collect, the
-original starter reef, friend visits (to a stand-in reef) and the story work. The story has 195 of the original
+original starter reef, friend visits (to a stand-in reef) and the story work. The story has 198 of the original
 quests (story, side quests, Tank Gang, guest missions, tutorials) under their original ids and texts, offered in the
 order of a Let's Play of the original game and then by level. The shop locks items until their level (GET IT EARLY
 costs double and gives free algae) and the daily reward (tap the hidden plants) opens once a day. Treasure chests
@@ -74,6 +74,13 @@ to `patch-apk.bat` containing `music0.ogg` … `music3.ogg` (Ogg Vorbis) before 
 
 The game is 32-bit only, so it will not install on 64-bit-only phones (Pixel 7 and newer, some 2023+ phones).
 In that case use BlueStacks on the PC (drag `nemo-private.apk` onto the BlueStacks window to install).
+
+## Players
+
+Each device is its own player. The first time the game starts on a device it asks for a profile name (names are
+unique; a taken one gets a number added). Players who enter an age under the game's age limit get the Kids edition:
+easier fish combinations and hints for the guest missions, and three Kids-only quests. It takes effect from the
+second time the game is started (the game only tells the server the age group after loading the world).
 
 ## Playing / testing
 

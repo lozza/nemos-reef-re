@@ -76,6 +76,21 @@ class Store:
             self.db.execute('INSERT INTO users VALUES (?,?,?,?,?)', (uid, udid, name, secret, int(time.time())))
         return {'uid': uid, 'name': name, 'secret': secret}
 
+    def name_taken(self, name, uid=None):
+        with self.lock:
+            r = self.db.execute('SELECT uid FROM users WHERE lower(name)=lower(?) AND uid IS NOT ?', (name, uid)).fetchone()
+        return bool(r)
+
+    def unique_name(self, name, uid=None):
+        """Player names are unique (friends find each other by name): a taken one gets a number."""
+        name = (name or '').strip()[:20] or 'Diver'
+        if not self.name_taken(name, uid):
+            return name
+        n = 2
+        while self.name_taken('%s%d' % (name, n), uid):
+            n += 1
+        return '%s%d' % (name, n)
+
     def rename(self, uid, name):
         with self.lock, self.db:
             self.db.execute('UPDATE users SET name=? WHERE uid=?', (name, uid))
@@ -155,10 +170,19 @@ class Game:
         # (GameTextManager::existTextBundle), so the id covers every text the server sends.
         h = hashlib.sha1(str(self.worlddef.get('localizedTextsBundleId')).encode())
         h.update(json.dumps(texts.build(args.apk, 'en'), sort_keys=True).encode('utf-8'))
-        self.worlddef['localizedTextsBundleId'] = 2 + int(h.hexdigest()[:7], 16)
-        worlddef.finish(self.worlddef)  # new version stamp, so clients fetch the definition with the new id
-        self.world_version = str(self.worlddef['version'])
-        self.worlddef_blob = xor(json.dumps(self.worlddef, separators=(',', ':')).encode('utf-8'))
+        bundle_id = 2 + int(h.hexdigest()[:7], 16)
+        # The Kids edition (age under the game's limit) gets its own worldDef; getCurrentWorldVersion tells each
+        # player which one, and the client downloads it by version.
+        self.worlddefs = {False: self.worlddef}
+        if not args.worlddef and not args.no_story:
+            self.worlddefs[True] = worlddef.build(args.apk, quests.Story(kids=True))
+        self.world_versions, self.worlddef_blobs = {}, {}
+        for kids, wd in self.worlddefs.items():
+            wd['localizedTextsBundleId'] = bundle_id
+            worlddef.finish(wd)  # new version stamp, so clients fetch the definition with the new id
+            self.world_versions[kids] = str(wd['version'])
+            self.worlddef_blobs[str(wd['version'])] = xor(json.dumps(wd, separators=(',', ':')).encode('utf-8'))
+        self.world_version = self.world_versions[False]
         with zipfile.ZipFile(args.apk) as z:
             self.bundles = json.loads(z.read('assets/bundle.json'))
             # The designed starting layout; nemo_2/_3 are later upgrade stages of the same anemone and
@@ -178,25 +202,32 @@ class Game:
             f.write(json.dumps(entry, ensure_ascii=False) + '\n')
 
     # ---------------------------------------------------------------- Tapulous account API
-    def tap_user(self, p):
+    def tap_user(self, p, create_name=None):
+        """The account of this device (token_info is the device id). Accounts are only made by register_user,
+        after the player has chosen a name in the PROFILE NAME dialog."""
         udid = p.get('token_info') or p.get('udid') or 'unknown'
-        return self.store.user_by_udid(udid) or self.store.create_user(udid, 'Diver' + udid[-4:])
+        user = self.store.user_by_udid(udid)
+        if not user and create_name:
+            user = self.store.create_user(udid, self.store.unique_name(create_name))
+        return user
 
     def tap(self, method, p):
         if method == 'recommend_name':
-            return {'response': {'suggestedName': 'Diver%04d' % random.randint(0, 9999)}}
-        user = self.tap_user(p)
-        if method == 'register_user':
-            name = p.get('proposed_name') or user['name']
-            self.store.rename(user['uid'], name)
-            return {'response': {'user': {'user_id': user['uid'], 'username': name}}}
-        if method == 'change_username':
-            name = p.get('new_username') or user['name']
-            self.store.rename(user['uid'], name)
-            return {'response': {'user_id': user['uid'], 'username': name}}
+            return {'response': {'suggestedName': self.store.unique_name('Diver%04d' % random.randint(0, 9999))}}
         if method == 'authenticate':
+            user = self.tap_user(p)
+            if not user:  # a new device: an empty user_id makes the client ask for a name and register
+                return {'response': {'user_id': '', 'username': ''}}
             return {'response': {'user_id': user['uid'], 'username': user['name']},
                     'attachedData': {'clientSignatureKey': user['secret']}}
+        if method == 'register_user':
+            user = self.tap_user(p, create_name=p.get('proposed_name'))
+            return {'response': {'user': {'user_id': user['uid'], 'username': user['name']}}}
+        user = self.tap_user(p, create_name='Diver%04d' % random.randint(0, 9999))
+        if method == 'change_username':
+            name = self.store.unique_name(p.get('new_username') or user['name'], user['uid'])
+            self.store.rename(user['uid'], name)
+            return {'response': {'user_id': user['uid'], 'username': name}}
         if method in ('login', 'logout'):
             return {'response': {'user_id': user['uid'], 'username': user['name']}}
         if method == 'get_friends':
@@ -245,9 +276,11 @@ class Game:
         uid = p.get('uid') or req.get('uid') or ''
 
         if endpoint == 'getdaworld':
-            return self.worlddef_blob, 'application/octet-stream'
+            version = p.get('worldVersion') or req.get('worldVersion') or ''
+            return self.worlddef_blobs.get(version) or self.worlddef_blobs[self.world_version], 'application/octet-stream'
         if endpoint == 'getcurrentworldversion':
-            body = {'worldVersion': self.world_version}
+            w = self.store.world(uid) if uid else None
+            body = {'worldVersion': self.world_versions.get(bool(w and w.get('kids')), self.world_version)}
         elif endpoint in ('gettutorialworld', 'getfriendworld'):
             body = self.friend_world(uid)
         elif endpoint == 'startgame':
@@ -256,6 +289,9 @@ class Game:
                 with self.world_lock:
                     self.reef.events = []
                     self.reef.refresh(w, now_ms())
+                    # "age" (ActionStartGame): 1 = under the age limit the player entered, 2 = at or over it
+                    if req.get('age') in (1, 2):
+                        w['kids'] = req['age'] == 1
                     self.finish_visit(w)
                     self.reef.new_day(w)
                     self.expand(w, push=False)

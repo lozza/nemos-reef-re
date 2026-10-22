@@ -37,7 +37,10 @@ def cost(c):
 
 
 class Story:
-    def __init__(self, path=STORY):
+    def __init__(self, path=STORY, kids=False):
+        """kids: build the Kids edition's worldDef (players under the game's age limit): the Kids missions' texts,
+        hints and easier combinations. Quest progress works the same for both."""
+        self.kids = kids
         with open(path, encoding='utf-8') as f:
             self.data = json.load(f)
         self.quests = {q['id']: q for q in self.data['quests']}
@@ -70,9 +73,10 @@ class Story:
             for d in self.data.get('dialogs', [])]
         wd['hintPrototypeList'] = [{'id': h['id'], 'cost': cost(h.get('cost')), 'index': h.get('index', 0),
                                     'textId': h['key']} for h in self.data.get('hints', [])]
-        wd['patternList'] = [dict(p, centralHintCost=cost(p.get('centralHintCost')),
+        wd['patternList'] = [dict({k: v for k, v in p.items() if k != 'kidsOnly'},
+                                  centralHintCost=cost(p.get('centralHintCost')),
                                   sorroundingHintCost=cost(p.get('sorroundingHintCost')))
-                             for p in self.data.get('patterns', [])]
+                             for p in self.data.get('patterns', []) if self.kids or not p.get('kidsOnly')]
         wd['conditionDefinitionList'] = []
         if self.data.get('vitalityPatchList'):  # the 2014 game's own list
             wd['vitalityPatchList'] = self.data['vitalityPatchList']
@@ -201,6 +205,12 @@ class Story:
             raise ValueError('story.json refers to unknown prototypes: %s' % ', '.join(sorted(missing)))
 
     def quest_prototype(self, q):
+        if self.kids and q.get('kids'):
+            k = q['kids']
+            q = dict(q, **{f: k[f] for f in ('nameKey', 'descKey', 'rewardKey', 'hintIdList') if f in k})
+            if k.get('pattern'):
+                q['tasks'] = [dict(t, params=[t['params'][0], k['pattern']]) if t['cid'] == 'CID_PATTERN' else t
+                              for t in q['tasks']]
         p = {
             'id': q['id'],
             'type': q.get('type', 'STORY'),
@@ -286,7 +296,7 @@ class Story:
         level = int(w.get('status', {}).get('level', 1))
         open_ids = {e['prototypeId'] for e in w['quests']}
         ready = [q for q in self.data['quests']
-                 if q['id'] not in done and q['id'] not in open_ids
+                 if q['id'] not in done and q['id'] not in open_ids and (w.get('kids') or not q.get('kidsOnly'))
                  and all(p in done for p in q.get('after', []))]
         opened = False
         story_open = lambda: sum(1 for e in w['quests'] if not self.quests.get(e['prototypeId'], {}).get('repeat'))
@@ -378,7 +388,8 @@ class Story:
 class NoStory(Story):
     """No quests: the client gets empty quest data, as before the story existed."""
 
-    def __init__(self):
+    def __init__(self, kids=False):
+        self.kids = kids
         self.data = {'quests': [], 'dialogs': [], 'hints': [], 'patterns': []}
         self.quests = {}
         self.renamed = {}
