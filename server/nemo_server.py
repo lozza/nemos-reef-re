@@ -185,6 +185,7 @@ class Game:
             self.worlddef = worlddef.build(args.apk, self.story)
         self.reef = actions.Reef(actions.Prototypes(self.worlddef))
         self.dummy_friend = None
+        self.last_seen = {}  # uid -> ms of the player's last request (getFriendLastTime)
         # The client keeps one downloaded text bundle and only asks again when this id changes
         # (GameTextManager::existTextBundle), so the id covers every text the server sends.
         h = hashlib.sha1(str(self.worlddef.get('localizedTextsBundleId')).encode())
@@ -318,6 +319,8 @@ class Game:
             except ValueError:
                 pass
         uid = p.get('uid') or req.get('uid') or ''
+        if uid:
+            self.last_seen[uid] = now_ms()
 
         if endpoint == 'getdaworld':
             version = p.get('worldVersion') or req.get('worldVersion') or ''
@@ -326,7 +329,7 @@ class Game:
             w = self.store.world(uid) if uid else None
             body = {'worldVersion': self.world_versions.get(bool(w and w.get('kids')), self.world_version)}
         elif endpoint in ('gettutorialworld', 'getfriendworld'):
-            body = self.friend_world(uid)
+            body = self.friend_world(uid, req.get('friendUid') if endpoint == 'getfriendworld' else None)
         elif endpoint == 'startgame':
             w = self.user_world(uid)
             if w:
@@ -362,8 +365,18 @@ class Game:
             body = {}
         elif endpoint == 'resources':
             body = self.bundles
-        elif endpoint in ('getfriendstatus', 'getfriendlasttime'):
-            body = {'participants': []}  # data::FriendList::update reads "participants" (a missing key crashes)
+        elif endpoint == 'getfriendstatus':
+            # data::FriendList::update reads "participants" (a missing key crashes): level and co-op state per friend
+            body = {'participants': []}
+            for fid in req.get('friends') or []:
+                fw = self.store.world(str(fid))
+                if fw:
+                    body['participants'].append({'uid': str(fid), 'level': int(fw['status'].get('level', 1)),
+                                                 'coopQuestStatus': 0, 'clientVersion': '1.8.1'})
+        elif endpoint == 'getfriendlasttime':
+            # {"friends": {uid: last seen, epoch ms}} (the co-op tab shows "offline" for 0 or very old times)
+            body = {'friends': {str(fid): self.last_seen.get(str(fid), 0) for fid in req.get('friends') or []},
+                    'participants': []}
         elif endpoint == 'getlocalizedtextsbundle':
             # ActionGetLocalizedTextsBundle::loadingFinished hands response["texts"] to GameTextManager::load.
             lang = p.get('languageCode') or req.get('languageCode') or 'en'
@@ -426,6 +439,13 @@ class Game:
                 return r
             if name == 'friendsEntityCollectReward':
                 return dict(ok, data=self.friend_collect(w, d))
+            if name == 'getFriendFish':  # the friend's sticker album: data::FriendFishList::load reads "fishes"
+                fw = self.store.world(str(d.get('friendUid'))) or {}
+                return dict(ok, data={'fishes': fw.get('fishes', [])})
+            if name == 'getFriendVitality':  # data::Vitality::load reads "vitality"
+                fw = self.store.world(str(d.get('friendUid'))) or {}
+                return dict(ok, data={'vitality': fw.get('status', {}).get('vitality') or
+                                      {'vitality': 0, 'level': 1, 'categories': []}})
             return self.reef.apply(w, action, now_ms())
         except Exception:
             traceback.print_exc()
@@ -529,7 +549,7 @@ class Game:
         weekday = int(time.strftime('%w'))
         self.story.open_homework(w, time.strftime('%Y-%m-%d'), weekday, targets)
 
-    def friend_world(self, uid):
+    def friend_world(self, uid, friend_uid=None):
         """The reef shown when visiting a friend. "Random friend" (CU::visitRandomPlayer) asks for the tutorial
         world; there are no other players, so every visit shows Nemo's starter reef. World::processUserWorld
         reads "friendStatus" (data::FriendStatus::load: hardMoney, virtualMoney, level, xp, energy,
@@ -547,10 +567,22 @@ class Game:
             for k in ('nextEntityId', 'nextQuestId', 'nextMessageId', 'messages', 'patterns'):
                 f.pop(k, None)
             self.dummy_friend = f
-        body = json.loads(json.dumps(self.dummy_friend))
-        body['friendStatus'] = {k: body['status'][k] for k in
+        fw = self.store.world(str(friend_uid)) if friend_uid else None
+        if fw:  # a real friend's reef, as it is now (getFriendWorld {friendUid})
+            with self.world_lock:
+                self.reef.refresh(fw, now_ms())
+            body = json.loads(json.dumps(fw))
+            friend = self.store.user(str(friend_uid)) or {}
+            body['user'] = {'name': friend.get('name', 'Friend'), 'uid': str(friend_uid)}
+            body['quests'] = []
+            for k in ('nextEntityId', 'nextQuestId', 'nextMessageId', 'messages', 'patterns'):
+                body.pop(k, None)
+        else:
+            body = json.loads(json.dumps(self.dummy_friend))
+        body['friendStatus'] = {k: body['status'].get(k, 0) for k in
                                 ('hardMoney', 'virtualMoney', 'level', 'xp', 'energy', 'xpForNextLevel')}
-        body['friendStatus'].update(level=7, xp=1300, xpForNextLevel=1300)
+        if not fw:
+            body['friendStatus'].update(level=7, xp=1300, xpForNextLevel=1300)
         body['resumeGame'] = user_info()['resumeGame']
         with self.world_lock:
             w = self.user_world(uid)
@@ -569,7 +601,8 @@ class Game:
         """friendsEntityCollectReward {id, friendUid}: a tap on a friend's ready item. The visitor gets the item's
         friendReward; the item's Harvestable::processResponseCollect reads its next "producingInterval"."""
         now = now_ms()
-        lst, e = self.reef.find(self.dummy_friend or {}, d.get('id'))
+        fw = self.store.world(str(d.get('friendUid'))) if d.get('friendUid') else None
+        lst, e = self.reef.find(fw or self.dummy_friend or {}, d.get('id'))
         _, p = self.reef.protos.get(e['prototypeId']) if e else (None, None)
         p = p or {}
         st = w['status']

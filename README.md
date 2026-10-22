@@ -4,7 +4,7 @@ A replacement server for Disney's *Nemo's Reef* (Android 1.8.1), whose official 
 Protocol details are in [PROTOCOL.md](PROTOCOL.md); game actions in [ACTIONS.md](ACTIONS.md).
 
 **Status:** early. Runs on a real device (Fire 7). Login, saving what you buy, place, feed, move and collect, the
-original starter reef, friend visits (to a stand-in reef) and the story work. The story has 210 of the original quests plus 36 time events
+original starter reef, friends (add by name, visit and help each other's reefs) and the story work. The story has 210 of the original quests plus 36 time events
 quests (story, side quests, Tank Gang, guest missions, tutorials) under their original ids and texts, offered in the
 order of a Let's Play of the original game and then by level. The shop locks items until their level (GET IT EARLY
 costs double and gives free algae) and the daily reward (tap the hidden plants) opens once a day. Treasure chests
@@ -85,6 +85,10 @@ Each device is its own player. The first time the game starts on a device it ask
 unique; a taken one gets a number added). Players who enter an age under the game's age limit get the Kids edition:
 easier fish combinations and hints for the guest missions, and three Kids-only quests. It takes effect from the
 second time the game is started (the game only tells the server the age group after loading the world).
+
+**Friends:** in the game's Friends screen, tap **Invite** and type the other player's profile name. You both then
+see each other in your friend lists and can visit each other's reefs, help out there (5 actions a day), and look at
+each other's sticker album and Vitality.
 
 ## Playing / testing
 
