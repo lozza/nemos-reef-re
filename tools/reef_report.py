@@ -17,7 +17,16 @@ def main():
         print('No database at %s - has the server been started from this folder?' % db)
         return
     with open(os.path.join(HERE, '..', 'server', 'story.json'), encoding='utf-8') as f:
-        patterns = {p['id']: p for p in json.load(f).get('patterns', [])}
+        story = json.load(f)
+    patterns = {p['id']: p for p in story.get('patterns', [])}
+    try:  # quest names from the game's text table (needs nemo.apk next to start-server.bat)
+        import texts
+        table = texts.build(os.path.join(HERE, '..', 'nemo.apk'), 'en')
+    except Exception:
+        table = {}
+
+    def names_of(q):
+        return '"%s"' % table.get(q.get('nameKey'), q.get('nameKey', '?'))
     con = sqlite3.connect(db)
     names = dict(con.execute('SELECT uid, name FROM users'))
     for uid, world in con.execute('SELECT uid, world FROM worlds'):
@@ -25,6 +34,13 @@ def main():
         print('=' * 70)
         print('Player %s (%s)  level %s  kids=%s' % (names.get(uid, '?'), uid, w.get('status', {}).get('level'),
                                                     w.get('kids')))
+        quests = {q['id']: q for q in story.get('quests', [])}
+        print('Quests open now:')
+        for e in w.get('quests', []):
+            q = quests.get(e.get('prototypeId'), {})
+            print('   %-28s %s  (level %s, after %s)' % (e.get('prototypeId'), names_of(q), q.get('level'), q.get('after')))
+        done = w.get('finishedTutorialQuests', [])
+        print('Quests finished (%d):' % len(done), ', '.join(done))
         print('Combinations reported by the game:', w.get('patterns', []))
         for pid in w.get('patterns', []):
             p = patterns.get(pid, {})
