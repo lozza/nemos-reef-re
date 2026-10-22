@@ -95,8 +95,9 @@ def prototype(pid, graphical_id, name, etype, specific_type, order, level=1, pri
         'producedReward': reward(xp=5, coins=20),
         'rewardAfterBuilt': reward(xp=10),
         'refundReward': reward(coins=price.get('virtualMoney', 0) // 2),
-        'friendReward': reward(xp=1, coins=5),
-        'ownerReward': reward(coins=5),
+        # helping on a friend's reef: about +15 XP / +15 sand dollars a tap in the Let's Play
+        'friendReward': reward(xp=15, coins=15),
+        'ownerReward': reward(xp=15, coins=15),
         'vitality': 0,
         'supportedShops': ['GOOGLE', 'AMAZON', 'ITUNES'],
         'availableTimeInterval': {'start': 0, 'finish': 0},  # finish 0 = no time limit

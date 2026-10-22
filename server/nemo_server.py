@@ -107,7 +107,7 @@ def new_world(user):
         'xpForNextLevel': 50, 'lowTool': 0, 'highTool': 0,
         # data::Vitality::load: {vitality, level (optional), categories[{categoryId, ...}]}
         'vitality': {'vitality': 100, 'level': 1, 'categories': []},
-        'friendCollectCount': 0, 'friendCollectMaxCount': 10,
+        'friendCollectCount': 0, 'friendCollectMaxCount': FRIEND_ACTIONS,
         'friendCollectInterval': {'start': 0, 'finish': 0},
         'lastSquirt': 0, 'squirtStarted': 0,
         'tapRewardsCount': 0, 'tapRewardsExtraTapAvail': False, 'tapRewardsGetAllAvail': False,
@@ -117,6 +117,7 @@ def new_world(user):
 
 
 FRIEND_UID = 'friend_nemo'
+FRIEND_ACTIONS = 5  # "Daily Actions: 5/5" on a friend's reef
 
 
 def user_info():
@@ -314,6 +315,8 @@ class Game:
                 return ok
             if name == 'buyPatternHint':
                 return ok
+            if name == 'friendsEntityCollectReward':
+                return dict(ok, data=self.friend_collect(w, d))
             return self.reef.apply(w, action, now_ms())
         except Exception:
             traceback.print_exc()
@@ -355,8 +358,14 @@ class Game:
         reads "friendStatus" (data::FriendStatus::load: hardMoney, virtualMoney, level, xp, energy,
         xpForNextLevel) and "user" {name, uid} for the visited friend; "status" is still the visitor's own."""
         if self.dummy_friend is None:
-            f = new_world({'uid': FRIEND_UID, 'name': 'Nemo'})
+            f = new_world({'uid': FRIEND_UID, 'name': 'Tad'})
             self.starter_reef(f)
+            # A lived-in reef like the one visited in the Let's Play: corals and plants ready to help with,
+            # Dory, a lionfish and a seahorse.
+            for pid, x, z in (('coral_sunset_cup', 88, 80), ('coral_fruit_loop', 80, 73), ('plant_table_yellow', 72, 81),
+                              ('plant_table_yellow', 84, 76), ('plant_barrel_sponge', 82, 83), ('deco_rock', 70, 83),
+                              ('fish_special_dory', 81, 79), ('fish_rare_lion', 83, 81), ('fish_guest_seahorse', 78, 84)):
+                self.reef.add_entity(f, pid, x, z)
             f['quests'] = []
             for k in ('nextEntityId', 'nextQuestId', 'nextMessageId', 'messages', 'patterns'):
                 f.pop(k, None)
@@ -369,10 +378,28 @@ class Game:
         with self.world_lock:
             w = self.user_world(uid)
             if w:
+                today = time.strftime('%Y-%m-%d')
+                if w.get('friendActionsDay') != today:
+                    w['friendActionsDay'] = today
+                    w['status']['friendCollectCount'] = 0
+                w['status']['friendCollectMaxCount'] = FRIEND_ACTIONS
                 body['status'] = w['status']
                 w['visitedFriend'] = True
                 self.store.save_world(uid, w)
         return body
+
+    def friend_collect(self, w, d):
+        """friendsEntityCollectReward {id, friendUid}: a tap on a friend's ready item. The visitor gets the item's
+        friendReward; the item's Harvestable::processResponseCollect reads its next "producingInterval"."""
+        now = now_ms()
+        lst, e = self.reef.find(self.dummy_friend or {}, d.get('id'))
+        _, p = self.reef.protos.get(e['prototypeId']) if e else (None, None)
+        p = p or {}
+        st = w['status']
+        if st.get('friendCollectCount', 0) < st.get('friendCollectMaxCount', FRIEND_ACTIONS):
+            st['friendCollectCount'] = st.get('friendCollectCount', 0) + 1
+            self.reef.earn(w, p.get('friendReward'))
+        return {'producingInterval': actions.interval(now, self.reef.ms(p, 'producingTime'))}
 
     def finish_visit(self, w):
         """Back home after a visit: finishes a "Visit a Friend's Reef" task the client did not report itself."""
