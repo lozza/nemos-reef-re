@@ -73,6 +73,9 @@ MAX_LEVEL = 55
 SQUIRT_GAME = 'questGame_Squirt'
 AMBIENT = ['fish_ambient_0', 'fish_ambient_1', 'fish_ambient_coralfish', 'fish_ambient_firefish']
 # Tint for colour variants the catalogue has no measured colour for (name colour word -> RGB).
+# The ambient fish in the wiki's combination pictures: base prototype and the name for its colour variants
+AMBIENT_KINDS = {'beaked': ('fish_ambient_coralfish', 'Beaked Fish'), 'firefish': ('fish_ambient_firefish', 'Firefish'),
+                 'ordinary': ('fish_ambient_0', 'Ordinary Fish'), 'ambient': ('fish_ambient_1', 'Reef Fish')}
 COLOUR_WORDS = {
     'yellow': (246, 222, 60), 'gold': (230, 180, 40), 'orange': (245, 140, 40), 'red': (215, 50, 50),
     'pink': (240, 120, 170), 'rose': (227, 78, 106), 'maroon': (130, 30, 50), 'purple': (140, 70, 170),
@@ -406,6 +409,7 @@ def main():
                           'cost': {'virtualMoney': 200} if i == 0 else {'hardMoney': 1}})
 
     # ---- patterns
+    colors = dict(old['colors'])
     out_patterns = []
     for i, pid in enumerate(sorted(pattern_ids | kids_patterns)):
         p = dict(patterns.get(pid) or proposed[pid])
@@ -422,8 +426,32 @@ def main():
         p['areaSize'] = 6
         out_patterns.append(p)
 
+    # ---- the wiki's ambient fish combinations (a living plant and 1-2 items near it): colour variants of the
+    # four ambient fish ("Fish beaked orange.png" -> fish_ambient_coralfish tinted orange)
+    id_by_key = {x['key']: x['id'] for x in ci['items'] if x.get('key') and x.get('id')}
+    have = {tuple(sorted([p['centralPrototype']] + p['nearPrototypes'])) for p in out_patterns}
+    ambient_items, ambient_wanted = {}, set()
+    for c in json.load(open(a.wiki, encoding='utf-8')).get('ambient_fish_combinations', []):
+        ids = [next((id_by_key[x] for x in (k if isinstance(k, list) else [k]) if x in id_by_key), '?%s' % k)
+               for k in c['item_text_keys']]
+        words = c['fish_image'].rsplit('.', 1)[0].split()  # Fish <kind> <colour>
+        if len(words) != 3 or words[1].lower() not in AMBIENT_KINDS or tuple(sorted(ids)) in have:
+            continue
+        if not all(i in base or (cat_items.get(i, {}).get('base_ipro') in base) for i in ids):
+            continue
+        kind, colour = words[1].lower(), words[2].lower()
+        fish_base, fish_name = AMBIENT_KINDS[kind]
+        fid = '%s_%s' % (fish_base, colour)
+        colors.setdefault('ambient_%s_%s' % (kind, colour), list(COLOUR_WORDS[colour]))
+        ambient_items[fid] = {'base': fish_base, 'color': 'ambient_%s_%s' % (kind, colour),
+                              'name': '%s %s' % (colour.capitalize(), fish_name)}
+        out_patterns.append({'id': 'pattern_ambient_%s_%s' % (kind, colour), 'centralPrototype': ids[0],
+                             'nearPrototypes': ids[1:], 'producedFishId': fid, 'areaSize': 6,
+                             'centralHintCost': {'virtualMoney': 100}, 'sorroundingHintCost': {'virtualMoney': 100}})
+        ambient_wanted.update(ids)
+
     # ---- items: everything the quests and patterns ask for that the game has only as a base graphic
-    wanted = set(fish_rewards)
+    wanted = set(fish_rewards) | ambient_wanted
     for qid in out_quests:
         wanted |= {p for p in needs(chosen[qid]) if not p.startswith('?')}
     for e in out_quests.values():
@@ -432,7 +460,7 @@ def main():
         pat = proposed[pid]
         wanted |= {pat['centralPrototype'], *pat['nearPrototypes']} | ({pat['producedFishId']} if pat.get('producedFishId') else set())
     items = dict(old['items'])
-    colors = dict(old['colors'])
+    items.update(ambient_items)
     for pid, it in items.items():  # names from the game's text table
         x = cat_items.get(pid)
         if x and x.get('key'):

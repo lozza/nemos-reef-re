@@ -13099,6 +13099,324 @@
    "sorroundingHintCost": {
     "virtualMoney": 100
    }
+  },
+  {
+   "id": "pattern_ambient_ambient_orange",
+   "centralPrototype": "plant_tube_sponge_orange",
+   "nearPrototypes": [
+    "orn_plant_bell_orange"
+   ],
+   "producedFishId": "fish_ambient_1_orange",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_firefish_orange",
+   "centralPrototype": "plant_barrel_sponge_rose",
+   "nearPrototypes": [
+    "orn_plant_bell_mauve"
+   ],
+   "producedFishId": "fish_ambient_firefish_orange",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_ambient_brown",
+   "centralPrototype": "plant_plateau_yellow",
+   "nearPrototypes": [
+    "coral_acropora",
+    "deco_bangia"
+   ],
+   "producedFishId": "fish_ambient_1_brown",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_beaked_brown",
+   "centralPrototype": "plant_giant_kelp_brown",
+   "nearPrototypes": [
+    "orn_plant_cluster_seaweed_brown",
+    "deco_rock_2"
+   ],
+   "producedFishId": "fish_ambient_coralfish_brown",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_firefish_black",
+   "centralPrototype": "plant_pipe_sponge_maroon",
+   "nearPrototypes": [
+    "orn_plant_sea_blossom_violet",
+    "orn_plant_cirripathes_lilac"
+   ],
+   "producedFishId": "fish_ambient_firefish_black",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_firefish_green",
+   "centralPrototype": "plant_giant_kelp_green",
+   "nearPrototypes": [
+    "orn_plant_marine_shrub_green",
+    "orn_plant_cactus_green"
+   ],
+   "producedFishId": "fish_ambient_firefish_green",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_ambient_grey",
+   "centralPrototype": "plant_barrel_sponge",
+   "nearPrototypes": [
+    "deco_boulder",
+    "orn_plant_branches_silver"
+   ],
+   "producedFishId": "fish_ambient_1_grey",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_firefish_grey",
+   "centralPrototype": "plant_barrel_sponge",
+   "nearPrototypes": [
+    "deco_mineral_hedge",
+    "orn_plant_sea_flower_white"
+   ],
+   "producedFishId": "fish_ambient_firefish_grey",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_ordinary_orange",
+   "centralPrototype": "plant_plateau_orange",
+   "nearPrototypes": [
+    "orn_plant_heap_seamoss_orange",
+    "orn_plant_cluster_seaweed_orange"
+   ],
+   "producedFishId": "fish_ambient_0_orange",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_firefish_yellow",
+   "centralPrototype": "plant_small_grass_yellow",
+   "nearPrototypes": [
+    "deco_shell",
+    "orn_plant_bell_yellow"
+   ],
+   "producedFishId": "fish_ambient_firefish_yellow",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_beaked_green",
+   "centralPrototype": "plant_giant_kelp_green",
+   "nearPrototypes": [
+    "orn_plant_bonsai_green",
+    "orn_plant_sea_flower_green"
+   ],
+   "producedFishId": "fish_ambient_coralfish_green",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_ambient_green",
+   "centralPrototype": "plant_giant_kelp_brown",
+   "nearPrototypes": [
+    "orn_plant_cactus_brown",
+    "orn_plant_mangrove_brown"
+   ],
+   "producedFishId": "fish_ambient_1_green",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_ordinary_red",
+   "centralPrototype": "plant_sponge_beds_pink",
+   "nearPrototypes": [
+    "orn_plant_sea_blossom_red",
+    "orn_plant_sea_flower_ruby"
+   ],
+   "producedFishId": "fish_ambient_0_red",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_firefish_red",
+   "centralPrototype": "plant_giant_kelp_red",
+   "nearPrototypes": [
+    "orn_plant_seaweed02_red",
+    "orn_plant_eucheuma_red"
+   ],
+   "producedFishId": "fish_ambient_firefish_red",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_firefish_blue",
+   "centralPrototype": "plant_pipe_sponge_maroon",
+   "nearPrototypes": [
+    "orn_plant_eucheuma_blue",
+    "orn_plant_coral_04"
+   ],
+   "producedFishId": "fish_ambient_firefish_blue",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_ordinary_yellow",
+   "centralPrototype": "plant_sponge_beds_yellow",
+   "nearPrototypes": [
+    "orn_plant_mangrove_yellow",
+    "orn_plant_cluster_seaweed_green"
+   ],
+   "producedFishId": "fish_ambient_0_yellow",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_firefish_white",
+   "centralPrototype": "plant_giant_kelp_red",
+   "nearPrototypes": [
+    "orn_plant_coral_03",
+    "orn_plant_sea_flower_blue"
+   ],
+   "producedFishId": "fish_ambient_firefish_white",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_beaked_red",
+   "centralPrototype": "plant_tube_sponge_blue",
+   "nearPrototypes": [
+    "orn_plant_mangrove_green",
+    "orn_plant_marine_shrub_purple"
+   ],
+   "producedFishId": "fish_ambient_coralfish_red",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_ordinary_blue",
+   "centralPrototype": "plant_giant_seabush_gold",
+   "nearPrototypes": [
+    "orn_plant_branches_silver",
+    "orn_plant_sea_flower_blue"
+   ],
+   "producedFishId": "fish_ambient_0_blue",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
+   "id": "pattern_ambient_ambient_red",
+   "centralPrototype": "plant_tube_sponge_blue",
+   "nearPrototypes": [
+    "orn_plant_postelsia",
+    "orn_plant_java_moss_saffron"
+   ],
+   "producedFishId": "fish_ambient_1_red",
+   "areaSize": 6,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
   }
  ],
  "texts": {},
@@ -13313,6 +13631,106 @@
    215,
    40
   ],
+  "ambient_ambient_orange": [
+   245,
+   140,
+   40
+  ],
+  "ambient_firefish_orange": [
+   245,
+   140,
+   40
+  ],
+  "ambient_ambient_brown": [
+   140,
+   95,
+   55
+  ],
+  "ambient_beaked_brown": [
+   140,
+   95,
+   55
+  ],
+  "ambient_firefish_black": [
+   50,
+   50,
+   55
+  ],
+  "ambient_firefish_green": [
+   80,
+   180,
+   60
+  ],
+  "ambient_ambient_grey": [
+   150,
+   150,
+   150
+  ],
+  "ambient_firefish_grey": [
+   150,
+   150,
+   150
+  ],
+  "ambient_ordinary_orange": [
+   245,
+   140,
+   40
+  ],
+  "ambient_firefish_yellow": [
+   246,
+   222,
+   60
+  ],
+  "ambient_beaked_green": [
+   80,
+   180,
+   60
+  ],
+  "ambient_ambient_green": [
+   80,
+   180,
+   60
+  ],
+  "ambient_ordinary_red": [
+   215,
+   50,
+   50
+  ],
+  "ambient_firefish_red": [
+   215,
+   50,
+   50
+  ],
+  "ambient_firefish_blue": [
+   60,
+   110,
+   220
+  ],
+  "ambient_ordinary_yellow": [
+   246,
+   222,
+   60
+  ],
+  "ambient_firefish_white": [
+   240,
+   240,
+   235
+  ],
+  "ambient_beaked_red": [
+   215,
+   50,
+   50
+  ],
+  "ambient_ordinary_blue": [
+   60,
+   110,
+   220
+  ],
+  "ambient_ambient_red": [
+   215,
+   50,
+   50
+  ],
   "brain_silver": [
    190,
    195,
@@ -13468,6 +13886,16 @@
    50,
    50
   ],
+  "bell_orange": [
+   245,
+   140,
+   40
+  ],
+  "bell_yellow": [
+   246,
+   222,
+   60
+  ],
   "big_seaweed_green": [
    80,
    180,
@@ -13522,6 +13950,11 @@
    80,
    180,
    60
+  ],
+  "cluster_seaweed_orange": [
+   245,
+   140,
+   40
   ],
   "eucheuma_blue": [
    60,
@@ -13613,6 +14046,11 @@
    90,
    200
   ],
+  "sea_flower_blue": [
+   60,
+   110,
+   220
+  ],
   "sea_flower_green": [
    80,
    180,
@@ -13658,6 +14096,11 @@
    110,
    220
   ],
+  "giant_kelp_green": [
+   80,
+   180,
+   60
+  ],
   "giant_kelp_red": [
    215,
    50,
@@ -13672,6 +14115,11 @@
    246,
    222,
    60
+  ],
+  "sponge_beds_pink": [
+   240,
+   120,
+   170
   ],
   "sponge_beds_red": [
    215,
@@ -14890,6 +15338,106 @@
    "notes": "price not seen",
    "level": 6
   },
+  "fish_ambient_1_orange": {
+   "base": "fish_ambient_1",
+   "color": "ambient_ambient_orange",
+   "name": "Orange Reef Fish"
+  },
+  "fish_ambient_firefish_orange": {
+   "base": "fish_ambient_firefish",
+   "color": "ambient_firefish_orange",
+   "name": "Orange Firefish"
+  },
+  "fish_ambient_1_brown": {
+   "base": "fish_ambient_1",
+   "color": "ambient_ambient_brown",
+   "name": "Brown Reef Fish"
+  },
+  "fish_ambient_coralfish_brown": {
+   "base": "fish_ambient_coralfish",
+   "color": "ambient_beaked_brown",
+   "name": "Brown Beaked Fish"
+  },
+  "fish_ambient_firefish_black": {
+   "base": "fish_ambient_firefish",
+   "color": "ambient_firefish_black",
+   "name": "Black Firefish"
+  },
+  "fish_ambient_firefish_green": {
+   "base": "fish_ambient_firefish",
+   "color": "ambient_firefish_green",
+   "name": "Green Firefish"
+  },
+  "fish_ambient_1_grey": {
+   "base": "fish_ambient_1",
+   "color": "ambient_ambient_grey",
+   "name": "Grey Reef Fish"
+  },
+  "fish_ambient_firefish_grey": {
+   "base": "fish_ambient_firefish",
+   "color": "ambient_firefish_grey",
+   "name": "Grey Firefish"
+  },
+  "fish_ambient_0_orange": {
+   "base": "fish_ambient_0",
+   "color": "ambient_ordinary_orange",
+   "name": "Orange Ordinary Fish"
+  },
+  "fish_ambient_firefish_yellow": {
+   "base": "fish_ambient_firefish",
+   "color": "ambient_firefish_yellow",
+   "name": "Yellow Firefish"
+  },
+  "fish_ambient_coralfish_green": {
+   "base": "fish_ambient_coralfish",
+   "color": "ambient_beaked_green",
+   "name": "Green Beaked Fish"
+  },
+  "fish_ambient_1_green": {
+   "base": "fish_ambient_1",
+   "color": "ambient_ambient_green",
+   "name": "Green Reef Fish"
+  },
+  "fish_ambient_0_red": {
+   "base": "fish_ambient_0",
+   "color": "ambient_ordinary_red",
+   "name": "Red Ordinary Fish"
+  },
+  "fish_ambient_firefish_red": {
+   "base": "fish_ambient_firefish",
+   "color": "ambient_firefish_red",
+   "name": "Red Firefish"
+  },
+  "fish_ambient_firefish_blue": {
+   "base": "fish_ambient_firefish",
+   "color": "ambient_firefish_blue",
+   "name": "Blue Firefish"
+  },
+  "fish_ambient_0_yellow": {
+   "base": "fish_ambient_0",
+   "color": "ambient_ordinary_yellow",
+   "name": "Yellow Ordinary Fish"
+  },
+  "fish_ambient_firefish_white": {
+   "base": "fish_ambient_firefish",
+   "color": "ambient_firefish_white",
+   "name": "White Firefish"
+  },
+  "fish_ambient_coralfish_red": {
+   "base": "fish_ambient_coralfish",
+   "color": "ambient_beaked_red",
+   "name": "Red Beaked Fish"
+  },
+  "fish_ambient_0_blue": {
+   "base": "fish_ambient_0",
+   "color": "ambient_ordinary_blue",
+   "name": "Blue Ordinary Fish"
+  },
+  "fish_ambient_1_red": {
+   "base": "fish_ambient_1",
+   "color": "ambient_ambient_red",
+   "name": "Red Reef Fish"
+  },
   "coral_bamboo": {
    "name": "STR_CORAL_BAMBOO_CORAL",
    "level": 12,
@@ -15531,6 +16079,30 @@
    "feed": 100,
    "step": 60
   },
+  "orn_plant_bell_orange": {
+   "base": "orn_plant_bell",
+   "color": "bell_orange",
+   "name": "STR_ORN_BELL_SEA_PEN_ORANGE",
+   "hearts": 450,
+   "level": 11,
+   "price": {
+    "hardMoney": 15
+   },
+   "feed": 50,
+   "step": 60
+  },
+  "orn_plant_bell_yellow": {
+   "base": "orn_plant_bell",
+   "color": "bell_yellow",
+   "name": "STR_ORN_BELL_SEA_PEN_YELLOW",
+   "hearts": 120,
+   "level": 11,
+   "price": {
+    "virtualMoney": 150
+   },
+   "feed": 80,
+   "step": 60
+  },
   "orn_plant_big_seaweed_green": {
    "base": "orn_plant_long_seaweed",
    "color": "big_seaweed_green",
@@ -15661,6 +16233,18 @@
     "virtualMoney": 100
    },
    "feed": 35,
+   "step": 60
+  },
+  "orn_plant_cluster_seaweed_orange": {
+   "base": "orn_plant_cluster_seaweed",
+   "color": "cluster_seaweed_orange",
+   "name": "STR_ORN_SEAWEED_CLUSTER_ORANGE",
+   "hearts": 100,
+   "level": 10,
+   "price": {
+    "virtualMoney": 120
+   },
+   "feed": 45,
    "step": 60
   },
   "orn_plant_eucheuma_blue": {
@@ -15922,6 +16506,18 @@
    "feed": 160,
    "step": 60
   },
+  "orn_plant_sea_flower_blue": {
+   "base": "orn_plant_sea_flower01",
+   "color": "sea_flower_blue",
+   "name": "STR_ORN_SEA_FLOWER_BLUE",
+   "hearts": 2500,
+   "level": 39,
+   "price": {
+    "virtualMoney": 12000
+   },
+   "feed": 3000,
+   "step": 60
+  },
   "orn_plant_sea_flower_green": {
    "base": "orn_plant_sea_flower01",
    "color": "sea_flower_green",
@@ -16089,6 +16685,26 @@
     "name": "STR_LIVING_BRANCHING_BLUE_UPR"
    }
   },
+  "plant_giant_kelp_green": {
+   "base": "plant_giant_kelp",
+   "color": "giant_kelp_green",
+   "name": "STR_LIVING_GIANT_GRASS_GREEN",
+   "level": 14,
+   "price": {
+    "hardMoney": 20
+   },
+   "feed": 200,
+   "step": 30,
+   "every": 28800,
+   "produce": {
+    "virtualMoney": 80,
+    "xp": 40
+   },
+   "upgrade": {
+    "id": "plant_giant_kelp_green_upr",
+    "name": "STR_LIVING_GIANT_GRASS_GREEN_UPR"
+   }
+  },
   "plant_giant_kelp_red": {
    "base": "plant_giant_kelp",
    "color": "giant_kelp_red",
@@ -16166,6 +16782,26 @@
    "upgrade": {
     "id": "plant_small_grass_yellow_upr",
     "name": "STR_LIVING_SMALL_GRASS_YELLOW_UPR"
+   }
+  },
+  "plant_sponge_beds_pink": {
+   "base": "plant_sponge_beds",
+   "color": "sponge_beds_pink",
+   "name": "STR_LIVING_SPONGE_BED_PINK",
+   "level": 31,
+   "price": {
+    "virtualMoney": 2500
+   },
+   "feed": 1100,
+   "step": 900,
+   "every": 43200,
+   "produce": {
+    "virtualMoney": 200,
+    "xp": 100
+   },
+   "upgrade": {
+    "id": "plant_sponge_beds_pink_upr",
+    "name": "STR_LIVING_SPONGE_BED_PINK_UPR"
    }
   },
   "plant_sponge_beds_red": {
