@@ -173,16 +173,9 @@ class Game:
         bundle_id = 2 + int(h.hexdigest()[:7], 16)
         # The Kids edition (age under the game's limit) gets its own worldDef; getCurrentWorldVersion tells each
         # player which one, and the client downloads it by version.
-        self.worlddefs = {False: self.worlddef}
-        if not args.worlddef and not args.no_story:
-            self.worlddefs[True] = worlddef.build(args.apk, quests.Story(kids=True))
+        self.args, self.bundle_id = args, bundle_id
         self.world_versions, self.worlddef_blobs = {}, {}
-        for kids, wd in self.worlddefs.items():
-            wd['localizedTextsBundleId'] = bundle_id
-            worlddef.finish(wd)  # new version stamp, so clients fetch the definition with the new id
-            self.world_versions[kids] = str(wd['version'])
-            self.worlddef_blobs[str(wd['version'])] = xor(json.dumps(wd, separators=(',', ':')).encode('utf-8'))
-        self.world_version = self.world_versions[False]
+        self.publish_worlddefs()
         with zipfile.ZipFile(args.apk) as z:
             self.bundles = json.loads(z.read('assets/bundle.json'))
             # The designed starting layout; nemo_2/_3 are later upgrade stages of the same anemone and
@@ -270,7 +263,28 @@ class Game:
             self.store.save_world(uid, w)
         return w
 
+    def publish_worlddefs(self, rebuild=False):
+        """The normal and the Kids worldDef, stamped and ready to send. Time events' windows are in the quest
+        prototypes, so when one ends the definitions are built again with the next ones (a new version, which
+        the clients download)."""
+        if rebuild:
+            self.worlddef = worlddef.build(self.args.apk, self.story)
+        self.worlddefs = {False: self.worlddef}
+        if not self.args.worlddef and not self.args.no_story:
+            self.worlddefs[True] = worlddef.build(self.args.apk, quests.Story(kids=True))
+        for kids, wd in self.worlddefs.items():
+            wd['localizedTextsBundleId'] = self.bundle_id
+            worlddef.finish(wd)  # new version stamp, so clients fetch the definition with the new id
+            self.world_versions[kids] = str(wd['version'])
+            self.worlddef_blobs[str(wd['version'])] = xor(json.dumps(wd, separators=(',', ':')).encode('utf-8'))
+        self.world_version = self.world_versions[False]
+
     def game(self, endpoint, p):
+        until = getattr(self.story, 'events_until', 0)
+        if until and now_ms() >= until:
+            with self.world_lock:
+                if now_ms() >= getattr(self.story, 'events_until', 0):
+                    self.publish_worlddefs(rebuild=True)
         """Returns (bytes, content_type)."""
         req = {}
         if p.get('json'):
@@ -303,6 +317,7 @@ class Game:
                     self.expand(w, push=False)
                     self.story.catch_up(w, push=False)  # in the startgame quests list
                     self.homework(w)
+                    self.story.run_events(w, now_ms(), push=False)
                     # quest messages are covered by the quests list; entity events still have to be pushed
                     w['messages'] = [m for m in w.get('messages', []) if m['type'] != quests.QUEST_OPEN]
                     self.push_events(w)
@@ -339,6 +354,7 @@ class Game:
                     self.reef.refresh(w, now_ms())
                     self.push_events(w)
                     self.story.catch_up(w)  # quests that open with a level-up
+                    self.story.run_events(w, now_ms())
                     self.expand(w)
                     self.reef.vitality(w)
                     # The client never changes currencies itself: the HUD only updates from a "status"

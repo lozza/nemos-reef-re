@@ -4898,6 +4898,57 @@
    }
   },
   {
+   "id": "google_quest_01",
+   "level": 6,
+   "after": [],
+   "order": 1378,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_GOOGLE_QUEST_NAME",
+   "descKey": "STR_GOOGLE_QUEST_DESCRIPTION",
+   "rewardKey": "STR_GOOGLE_QUEST_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_GOOGLE_QUEST_TASK_01",
+     "cid": "CID_GROWN",
+     "params": [
+      1,
+      "coral_acropora"
+     ]
+    },
+    {
+     "textKey": "STR_GOOGLE_QUEST_TASK_02",
+     "cid": "CID_PATTERN",
+     "params": [
+      1,
+      "pattern_acropora_small_grass"
+     ]
+    },
+    {
+     "textKey": "STR_GOOGLE_QUEST_TASK_03",
+     "cid": "CID_PATTERN",
+     "params": [
+      1,
+      "pattern_pajama_yellow"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   },
+   "rewardPrototypeIdList": [
+    "fish_rare_pajama_cardinal_yellow"
+   ],
+   "grantFish": [
+    "fish_rare_pajama_cardinal_yellow"
+   ]
+  },
+  {
    "id": "mission_01",
    "level": 6,
    "after": [
@@ -5628,6 +5679,1184 @@
    ],
    "grantFish": [
     "fish_guest_jellyfish_orange"
+   ]
+  },
+  {
+   "id": "time_event_01",
+   "level": 6,
+   "after": [],
+   "order": 1507,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_01_NAME",
+   "descKey": "STR_TIME_EVENT_01_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_01_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_01_TASK_01",
+     "cid": "CID_HARVESTED_COUNT_ANY",
+     "params": [
+      "CORAL",
+      10000
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_02",
+   "level": 6,
+   "after": [],
+   "order": 1511,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_02_NAME",
+   "descKey": "STR_TIME_EVENT_02_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_02_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_02_TASK_01",
+     "cid": "CID_COLLECT_COUNT_ANY",
+     "params": [
+      "LIVINGPLANT",
+      4000
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_03",
+   "level": 6,
+   "after": [],
+   "order": 1515,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_03_NAME",
+   "descKey": "STR_TIME_EVENT_03_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_03_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_03_TASK_01",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "RAREPLANT",
+      8
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_04",
+   "level": 6,
+   "after": [],
+   "order": 1519,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_04_NAME",
+   "descKey": "STR_TIME_EVENT_04_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_04_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_04_TASK_01",
+     "cid": "CID_COLLECT_COUNT_ANY",
+     "params": [
+      "LIVINGPLANT",
+      3000
+     ]
+    },
+    {
+     "textKey": "STR_TIME_EVENT_04_TASK_02",
+     "cid": "CID_HARVESTED_COUNT_ANY",
+     "params": [
+      "CORAL",
+      3000
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_05",
+   "level": 6,
+   "after": [],
+   "order": 1524,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_05_NAME",
+   "descKey": "STR_TIME_EVENT_05_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_05_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_05_TASK_01",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "RAREPLANT",
+      8
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_06",
+   "level": 6,
+   "after": [],
+   "order": 1528,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_QUEST",
+   "descKey": "STR_QUEST",
+   "rewardKey": "STR_TIME_EVENT_06_REWARD",
+   "startDialogId": "dialog_time_event_06",
+   "tasks": [
+    {
+     "textKey": "STR_GROW_C",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "RAREPLANT",
+      8
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_google_01",
+   "level": 6,
+   "after": [],
+   "order": 1529,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_GOOGLE_01_NAME",
+   "descKey": "STR_TIME_EVENT_GOOGLE_01_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_GOOGLE_01_REWARD",
+   "startDialogId": "dialog_time_event_google_01",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_GOOGLE_01_TASK_01",
+     "cid": "CID_CREATED",
+     "params": [
+      3,
+      "orn_plant_postelsia"
+     ]
+    },
+    {
+     "textKey": "STR_TIME_EVENT_GOOGLE_01_TASK_02",
+     "cid": "CID_CREATED",
+     "params": [
+      2,
+      "deco_sand_dunes_2"
+     ]
+    },
+    {
+     "textKey": "STR_TIME_EVENT_GOOGLE_01_TASK_03",
+     "cid": "CID_CREATED",
+     "params": [
+      1,
+      "deco_android"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   },
+   "rewardPrototypeIdList": [
+    "fish_rare_stingray_blue"
+   ],
+   "grantFish": [
+    "fish_rare_stingray_blue"
+   ]
+  },
+  {
+   "id": "time_event_chest_01",
+   "level": 6,
+   "after": [],
+   "order": 1540,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_CHEST_01_NAME",
+   "descKey": "STR_TIME_EVENT_CHEST_01_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_CHEST_01_REWARD",
+   "startDialogId": "dialog_time_event_chest_01",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_CHEST_01_TASK_01",
+     "cid": "CID_CHEST_OPENED",
+     "params": [
+      "10",
+      ""
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_01_af",
+   "level": 6,
+   "after": [],
+   "order": 1554,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_01_AF_NAME",
+   "descKey": "STR_TIME_EVENT_01_AF_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_01_AF_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_01_AF_TASK_01",
+     "cid": "CID_HARVESTED_COUNT_ANY",
+     "params": [
+      "CORAL",
+      1000
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_02_af",
+   "level": 6,
+   "after": [],
+   "order": 1558,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_02_AF_NAME",
+   "descKey": "STR_TIME_EVENT_02_AF_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_02_AF_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_02_AF_TASK_01",
+     "cid": "CID_COLLECT_COUNT_ANY",
+     "params": [
+      "LIVINGPLANT",
+      1000
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_04_af",
+   "level": 6,
+   "after": [],
+   "order": 1562,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_04_AF_NAME",
+   "descKey": "STR_TIME_EVENT_04_AF_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_04_AF_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_04_AF_TASK_01",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "CORAL",
+      12
+     ]
+    },
+    {
+     "textKey": "STR_TIME_EVENT_04_AF_TASK_02",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "LIVINGPLANT",
+      12
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_google_01_af",
+   "level": 6,
+   "after": [],
+   "order": 1567,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_GOOGLE_01_AF_NAME",
+   "descKey": "STR_TIME_EVENT_GOOGLE_01_AF_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_GOOGLE_01_AF_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_GOOGLE_01_AF_TASK_01",
+     "cid": "CID_CHEST_OPENED",
+     "params": [
+      10,
+      ""
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_allfish_01",
+   "level": 6,
+   "after": [],
+   "order": 1571,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_ALLFISH_01_NAME",
+   "descKey": "STR_TIME_EVENT_ALLFISH_01_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_ALLFISH_01_REWARD",
+   "startDialogId": "time_event_allfish_01_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_ALLFISH_01_TASK_01",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "RAREPLANT",
+      15
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   },
+   "rewardPrototypeIdList": [
+    "fish_rare_dusky_bat_pink"
+   ],
+   "grantFish": [
+    "fish_rare_dusky_bat_pink"
+   ]
+  },
+  {
+   "id": "time_event_halloween_01",
+   "level": 6,
+   "after": [],
+   "order": 1584,
+   "event": {
+    "season": "halloween"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_HALLOWEEN_01_NAME",
+   "descKey": "STR_TIME_EVENT_HALLOWEEN_01_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_HALLOWEEN_01_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_HALLOWEEN_01_TASK_01",
+     "cid": "CID_CREATED",
+     "params": [
+      3,
+      "deco_halloween_rock_orange"
+     ]
+    },
+    {
+     "textKey": "STR_TIME_EVENT_HALLOWEEN_01_TASK_02",
+     "cid": "CID_CREATED",
+     "params": [
+      1,
+      "deco_halloween_skull"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   },
+   "rewardPrototypeIdList": [
+    "fish_rare_dusky_bat_black"
+   ],
+   "grantFish": [
+    "fish_rare_dusky_bat_black"
+   ]
+  },
+  {
+   "id": "time_event_halloween_02",
+   "level": 6,
+   "after": [],
+   "order": 1589,
+   "event": {
+    "season": "halloween"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_HALLOWEEN_02_NAME",
+   "descKey": "STR_TIME_EVENT_HALLOWEEN_02_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_HALLOWEEN_02_REWARD",
+   "startDialogId": "time_event_halloween_02_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_HALLOWEEN_02_TASK_01",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "RAREPLANT",
+      10
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   },
+   "rewardPrototypeIdList": [
+    "fish_rare_vampire_red"
+   ],
+   "grantFish": [
+    "fish_rare_vampire_red"
+   ]
+  },
+  {
+   "id": "time_event_christmas_01",
+   "level": 6,
+   "after": [],
+   "order": 1600,
+   "event": {
+    "season": "christmas"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_CHRISTMAS_01_NAME",
+   "descKey": "STR_TIME_EVENT_CHRISTMAS_01_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_CHRISTMAS_01_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_CHRISTMAS_01_TASK_01",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "RAREPLANT",
+      8
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_christmas_03",
+   "level": 6,
+   "after": [],
+   "order": 1604,
+   "event": {
+    "season": "christmas"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_CHRISTMAS_03_GOOGLE_NAME",
+   "descKey": "STR_TIME_EVENT_CHRISTMAS_03_GOOGLE_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_CHRISTMAS_03_GOOGLE_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_CHRISTMAS_03_TASK_01",
+     "cid": "CID_CREATED",
+     "params": [
+      1,
+      "deco_android"
+     ]
+    },
+    {
+     "textKey": "STR_TIME_EVENT_CHRISTMAS_03_TASK_02",
+     "cid": "CID_GROWN",
+     "params": [
+      5,
+      "orn_plant_branches_white"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   },
+   "rewardPrototypeIdList": [
+    "fish_rare_vampire_green"
+   ],
+   "grantFish": [
+    "fish_rare_vampire_green"
+   ]
+  },
+  {
+   "id": "time_event_christmas_02a",
+   "level": 6,
+   "after": [],
+   "order": 1609,
+   "event": {
+    "season": "christmas"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_CHRISTMAS_02A_NAME",
+   "descKey": "STR_TIME_EVENT_CHRISTMAS_02A_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_CHRISTMAS_02A_REWARD",
+   "startDialogId": "time_event_christmas_02a_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_CHRISTMAS_02A_TASK_01",
+     "cid": "CID_GROWN",
+     "params": [
+      5,
+      "orn_plant_moss_white"
+     ]
+    },
+    {
+     "textKey": "STR_TIME_EVENT_CHRISTMAS_02A_TASK_02",
+     "cid": "CID_GROWN",
+     "params": [
+      5,
+      "orn_plant_moss_violet"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_christmas_02b",
+   "level": 6,
+   "after": [
+    "time_event_christmas_02a"
+   ],
+   "order": 1620,
+   "event": {
+    "season": "christmas",
+    "after": "time_event_christmas_02a"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_CHRISTMAS_02B_NAME",
+   "descKey": "STR_TIME_EVENT_CHRISTMAS_02B_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_CHRISTMAS_02B_REWARD",
+   "startDialogId": "time_event_christmas_02b_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_CHRISTMAS_02B_TASK_01",
+     "cid": "CID_CHEST_OPENED",
+     "params": [
+      12,
+      ""
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_christmas_02c",
+   "level": 6,
+   "after": [
+    "time_event_christmas_02b"
+   ],
+   "order": 1634,
+   "event": {
+    "season": "christmas",
+    "after": "time_event_christmas_02b"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_CHRISTMAS_02C_NAME",
+   "descKey": "STR_TIME_EVENT_CHRISTMAS_02C_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_CHRISTMAS_02C_REWARD",
+   "startDialogId": "time_event_christmas_02c_dialog",
+   "endDialogId": "time_event_christmas_02d_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_CHRISTMAS_02C_TASK_01",
+     "cid": "CID_GROWN",
+     "params": [
+      3,
+      "orn_plant_seaweed02_white"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   },
+   "rewardPrototypeIdList": [
+    "fish_rare_angel_fish_flame"
+   ],
+   "grantFish": [
+    "fish_rare_angel_fish_flame"
+   ]
+  },
+  {
+   "id": "time_event_google_02",
+   "level": 6,
+   "after": [],
+   "order": 1647,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_GOOGLE_02_NAME",
+   "descKey": "STR_TIME_EVENT_GOOGLE_02_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_GOOGLE_02_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_GOOGLE_02_TASK_01",
+     "cid": "CID_GROWN",
+     "params": [
+      5,
+      "orn_plant_mangrove_pink"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   },
+   "rewardPrototypeIdList": [
+    "fish_rare_trumpet_pink"
+   ],
+   "grantFish": [
+    "fish_rare_trumpet_pink"
+   ]
+  },
+  {
+   "id": "time_event_val_01a",
+   "level": 6,
+   "after": [],
+   "order": 1651,
+   "event": {
+    "season": "valentine"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_VAL_01A_NAME",
+   "descKey": "STR_TIME_EVENT_VAL_01A_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_VAL_01A_REWARD",
+   "startDialogId": "time_event_val_01a_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_VAL_01A_TASK_01",
+     "cid": "CID_GROWN",
+     "params": [
+      5,
+      "orn_plant_cirripathes_lilac"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_val_01b",
+   "level": 6,
+   "after": [
+    "time_event_val_01a"
+   ],
+   "order": 1655,
+   "event": {
+    "season": "valentine",
+    "after": "time_event_val_01a"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_VAL_01B_NAME",
+   "descKey": "STR_TIME_EVENT_VAL_01B_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_VAL_01B_REWARD",
+   "startDialogId": "time_event_val_01b_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_VAL_01B_TASK_01",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "RAREPLANT",
+      8
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_val_01c",
+   "level": 6,
+   "after": [
+    "time_event_val_01b"
+   ],
+   "order": 1659,
+   "event": {
+    "season": "valentine",
+    "after": "time_event_val_01b"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_VAL_01C_NAME",
+   "descKey": "STR_TIME_EVENT_VAL_01C_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_VAL_01C_REWARD",
+   "startDialogId": "time_event_val_01c_dialog",
+   "endDialogId": "time_event_val_01d_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_VAL_01C_TASK_01",
+     "cid": "CID_CREATED",
+     "params": [
+      1,
+      "plant_branching_seaweed_blue"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   },
+   "rewardPrototypeIdList": [
+    "fish_rare_candelamoa"
+   ],
+   "grantFish": [
+    "fish_rare_candelamoa"
+   ]
+  },
+  {
+   "id": "time_event_easter_01",
+   "level": 6,
+   "after": [],
+   "order": 1687,
+   "event": {
+    "season": "easter"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_EASTER_01_NAME",
+   "descKey": "STR_TIME_EVENT_EASTER_01_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_EASTER_01_REWARD",
+   "startDialogId": "time_event_easter_01_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_EASTER_01_TASK_01",
+     "cid": "CID_GROWN",
+     "params": [
+      1,
+      "rare_plant_mermaids_fan_red"
+     ]
+    },
+    {
+     "textKey": "STR_TIME_EVENT_EASTER_01_TASK_02",
+     "cid": "CID_GROWN",
+     "params": [
+      1,
+      "rare_plant_cabbage_darkblue"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_old_fish_rp",
+   "level": 6,
+   "after": [],
+   "order": 1699,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_OLD_FISH_RP_NAME",
+   "descKey": "STR_TIME_EVENT_OLD_FISH_RP_DESC",
+   "rewardKey": "STR_TIME_EVENT_OLD_FISH_RP_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_OLD_FISH_RP_TASK_01",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "RAREPLANT",
+      6
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_old_fish_tc",
+   "level": 6,
+   "after": [],
+   "order": 1703,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_OLD_FISH_TC_NAME",
+   "descKey": "STR_TIME_EVENT_OLD_FISH_TC_DESC",
+   "rewardKey": "STR_TIME_EVENT_OLD_FISH_TC_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_OPEN_C",
+     "cid": "CID_CHEST_OPENED",
+     "params": [
+      10,
+      ""
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_minigame_01",
+   "level": 6,
+   "after": [],
+   "order": 1706,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_MINIGAME_01_NAME",
+   "descKey": "STR_TIME_EVENT_MINIGAME_01_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_MINIGAME_01_REWARD",
+   "startDialogId": "time_event_minigame_01_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_MINIGAME_01_TASK_01",
+     "cid": "CID_MINIGAME_FINISHED_COUNT",
+     "params": [
+      "questGame_Squirt",
+      6
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_tier_555a",
+   "level": 6,
+   "after": [],
+   "order": 1715,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_TIER_555_NAME",
+   "descKey": "STR_TIME_EVENT_TIER_555_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_TIER_555A_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_TIER_555A_TASK_01",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "RAREPLANT",
+      5
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_tier_555b",
+   "level": 6,
+   "after": [
+    "time_event_tier_555a"
+   ],
+   "order": 1715,
+   "event": {
+    "season": "weekend",
+    "after": "time_event_tier_555a"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_TIER_555_NAME",
+   "descKey": "STR_TIME_EVENT_TIER_555_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_TIER_555B_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_TIER_555B_TASK_01",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "RAREPLANT",
+      10
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_tier_555c",
+   "level": 6,
+   "after": [
+    "time_event_tier_555b"
+   ],
+   "order": 1715,
+   "event": {
+    "season": "weekend",
+    "after": "time_event_tier_555b"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_TIER_555_NAME",
+   "descKey": "STR_TIME_EVENT_TIER_555_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_TIER_555C_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_TIER_555C_TASK_01",
+     "cid": "CID_GROW_ANY",
+     "params": [
+      "RAREPLANT",
+      15
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_tier_chest_09a",
+   "level": 6,
+   "after": [],
+   "order": 1723,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_TIER_CHEST_09_NAME",
+   "descKey": "STR_TIME_EVENT_TIER_CHEST_09_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_TIER_CHEST_09A_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_TIER_CHEST_09_TASK_01",
+     "cid": "CID_CHEST_OPENED",
+     "params": [
+      5,
+      ""
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_tier_chest_09b",
+   "level": 6,
+   "after": [
+    "time_event_tier_chest_09a"
+   ],
+   "order": 1723,
+   "event": {
+    "season": "weekend",
+    "after": "time_event_tier_chest_09a"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_TIER_CHEST_09_NAME",
+   "descKey": "STR_TIME_EVENT_TIER_CHEST_09_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_TIER_CHEST_09B_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_TIER_CHEST_09_TASK_02",
+     "cid": "CID_CHEST_OPENED",
+     "params": [
+      10,
+      ""
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   }
+  },
+  {
+   "id": "time_event_tier_chest_09c",
+   "level": 6,
+   "after": [
+    "time_event_tier_chest_09b"
+   ],
+   "order": 1723,
+   "event": {
+    "season": "weekend",
+    "after": "time_event_tier_chest_09b"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_TIER_CHEST_09_NAME",
+   "descKey": "STR_TIME_EVENT_TIER_CHEST_09_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_TIER_CHEST_09C_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_TIER_CHEST_09_TASK_03",
+     "cid": "CID_CHEST_OPENED",
+     "params": [
+      15,
+      ""
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   },
+   "rewardPrototypeIdList": [
+    "fish_rare_stingray_indigo"
+   ],
+   "grantFish": [
+    "fish_rare_stingray_indigo"
+   ]
+  },
+  {
+   "id": "time_event_google_03",
+   "level": 6,
+   "after": [],
+   "order": 1731,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "TIME_EVENT",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_GOOGLE_03_NAME",
+   "descKey": "STR_TIME_EVENT_GOOGLE_03_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_GOOGLE_03_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_GOOGLE_03_TASK_01",
+     "cid": "CID_CREATED",
+     "params": [
+      3,
+      "deco_starfish"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   },
+   "rewardPrototypeIdList": [
+    "fish_rare_hawk_red"
+   ],
+   "grantFish": [
+    "fish_rare_hawk_red"
    ]
   },
   {
@@ -8813,6 +10042,129 @@
    ]
   },
   {
+   "id": "dialog_time_event_06",
+   "lines": [
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_DIALOG_TIME_EVENT_06_01",
+     "listener": "fish_special_dory"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_DIALOG_TIME_EVENT_06_02",
+     "listener": "fish_special_dory"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_dory",
+     "key": "STR_DIALOG_TIME_EVENT_06_03",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_DIALOG_TIME_EVENT_06_04",
+     "listener": "fish_special_dory"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_dory",
+     "key": "STR_DIALOG_TIME_EVENT_06_05",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_DIALOG_TIME_EVENT_06_06",
+     "listener": "fish_special_dory"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_dory",
+     "key": "STR_DIALOG_TIME_EVENT_06_07",
+     "listener": "fish_special_nemo"
+    }
+   ]
+  },
+  {
+   "id": "dialog_time_event_chest_01",
+   "lines": [
+    {
+     "side": "right",
+     "actor": "fish_special_dory",
+     "key": "STR_DIALOG_TIME_EVENT_CHEST_01_1",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_DIALOG_TIME_EVENT_CHEST_01_2",
+     "listener": "fish_special_dory"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_dory",
+     "key": "STR_DIALOG_TIME_EVENT_CHEST_01_3",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_DIALOG_TIME_EVENT_CHEST_01_4",
+     "listener": "fish_special_dory"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_dory",
+     "key": "STR_DIALOG_TIME_EVENT_CHEST_01_5",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_DIALOG_TIME_EVENT_CHEST_01_6",
+     "listener": "fish_special_dory"
+    }
+   ]
+  },
+  {
+   "id": "dialog_time_event_google_01",
+   "lines": [
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_DIALOG_TIME_EVENT_GOOGLE_01_1",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_DIALOG_TIME_EVENT_GOOGLE_01_2",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_DIALOG_TIME_EVENT_GOOGLE_01_3",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_DIALOG_TIME_EVENT_GOOGLE_01_4",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_DIALOG_TIME_EVENT_GOOGLE_01_5",
+     "listener": "fish_special_marlin"
+    }
+   ]
+  },
+  {
    "id": "dialog_vitality_01",
    "lines": [
     {
@@ -9803,6 +11155,510 @@
      "listener": "fish_special_marlin"
     }
    ]
+  },
+  {
+   "id": "time_event_allfish_01_dialog",
+   "lines": [
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_ALLFISH_01_DIALOG_1",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_ALLFISH_01_DIALOG_2",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_ALLFISH_01_DIALOG_3",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_ALLFISH_01_DIALOG_4",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_ALLFISH_01_DIALOG_5",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_ALLFISH_01_DIALOG_6",
+     "listener": "fish_special_nemo"
+    }
+   ]
+  },
+  {
+   "id": "time_event_christmas_02a_dialog",
+   "lines": [
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02A_DIALOG_1",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02A_DIALOG_2",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02A_DIALOG_3",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02A_DIALOG_4",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02A_DIALOG_5",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02A_DIALOG_6",
+     "listener": "fish_special_marlin"
+    }
+   ]
+  },
+  {
+   "id": "time_event_christmas_02b_dialog",
+   "lines": [
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02B_DIALOG_1",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02B_DIALOG_2",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02B_DIALOG_3",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02B_DIALOG_4",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02B_DIALOG_5",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02B_DIALOG_6",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02B_DIALOG_7",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02B_DIALOG_8",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02B_DIALOG_9",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02B_DIALOG_10",
+     "listener": "fish_special_nemo"
+    }
+   ]
+  },
+  {
+   "id": "time_event_christmas_02c_dialog",
+   "lines": [
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02C_DIALOG_1",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02C_DIALOG_2",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02C_DIALOG_3",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02C_DIALOG_4",
+     "listener": "fish_special_marlin"
+    }
+   ]
+  },
+  {
+   "id": "time_event_christmas_02d_dialog",
+   "lines": [
+    {
+     "side": "right",
+     "actor": "fish_rare_angel_fish_flame",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02D_DIALOG_1",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02D_DIALOG_2",
+     "listener": "fish_rare_angel_fish_flame"
+    },
+    {
+     "side": "right",
+     "actor": "fish_rare_angel_fish_flame",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02D_DIALOG_3",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02D_DIALOG_4",
+     "listener": "fish_rare_angel_fish_flame"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_CHRISTMAS_02D_DIALOG_5",
+     "listener": "fish_special_marlin"
+    }
+   ]
+  },
+  {
+   "id": "time_event_easter_01_dialog",
+   "lines": [
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_EASTER_01_DIALOG_1",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_EASTER_01_DIALOG_2",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_EASTER_01_DIALOG_3",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_EASTER_01_DIALOG_4",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_EASTER_01_DIALOG_5",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_EASTER_01_DIALOG_6",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_EASTER_01_DIALOG_7",
+     "listener": "fish_special_marlin"
+    }
+   ]
+  },
+  {
+   "id": "time_event_halloween_02_dialog",
+   "lines": [
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_HALLOWEEN_02_DIALOG_01",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_HALLOWEEN_02_DIALOG_02",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_HALLOWEEN_02_DIALOG_03",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_HALLOWEEN_02_DIALOG_04",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_HALLOWEEN_02_DIALOG_05",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_HALLOWEEN_02_DIALOG_06",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_HALLOWEEN_02_DIALOG_07",
+     "listener": "fish_special_marlin"
+    }
+   ]
+  },
+  {
+   "id": "time_event_minigame_01_dialog",
+   "lines": [
+    {
+     "side": "right",
+     "actor": "fish_special_crush",
+     "key": "STR_TIME_EVENT_MINIGAME_01_DIALOG_1",
+     "listener": "fish_special_squirt"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_squirt",
+     "key": "STR_TIME_EVENT_MINIGAME_01_DIALOG_2",
+     "listener": "fish_special_crush"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_MINIGAME_01_DIALOG_3",
+     "listener": "fish_special_squirt"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_MINIGAME_01_DIALOG_4",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_squirt",
+     "key": "STR_TIME_EVENT_MINIGAME_01_DIALOG_5",
+     "listener": "fish_special_nemo"
+    }
+   ]
+  },
+  {
+   "id": "time_event_val_01a_dialog",
+   "lines": [
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_VAL_01A_DIALOG_1",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_VAL_01A_DIALOG_2",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_VAL_01A_DIALOG_3",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_VAL_01A_DIALOG_4",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_VAL_01A_DIALOG_5",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_VAL_01A_DIALOG_6",
+     "listener": "fish_special_nemo"
+    }
+   ]
+  },
+  {
+   "id": "time_event_val_01b_dialog",
+   "lines": [
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_VAL_01B_DIALOG_1",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_VAL_01B_DIALOG_2",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_VAL_01B_DIALOG_3",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_VAL_01B_DIALOG_4",
+     "listener": "fish_special_nemo"
+    }
+   ]
+  },
+  {
+   "id": "time_event_val_01c_dialog",
+   "lines": [
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_VAL_01C_DIALOG_1",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_VAL_01C_DIALOG_2",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_VAL_01C_DIALOG_3",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_VAL_01C_DIALOG_4",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_VAL_01C_DIALOG_5",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_VAL_01C_DIALOG_6",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_VAL_01C_DIALOG_7",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_VAL_01C_DIALOG_8",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_VAL_01C_DIALOG_9",
+     "listener": "fish_special_marlin"
+    }
+   ]
+  },
+  {
+   "id": "time_event_val_01d_dialog",
+   "lines": [
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_VAL_01D_DIALOG_1",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_VAL_01D_DIALOG_2",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_VAL_01D_DIALOG_3",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_TIME_EVENT_VAL_01D_DIALOG_4",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_TIME_EVENT_VAL_01D_DIALOG_5",
+     "listener": "fish_special_marlin"
+    }
+   ]
   }
  ],
  "hints": [
@@ -10457,6 +12313,21 @@
  ],
  "patterns": [
   {
+   "id": "pattern_acropora_small_grass",
+   "centralPrototype": "coral_acropora",
+   "nearPrototypes": [
+    "plant_small_grass_yellow"
+   ],
+   "producedFishId": "fish_ambient_0",
+   "areaSize": 3,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
    "id": "pattern_coralfish",
    "centralPrototype": "plant_table_yellow",
    "producedFishId": "fish_ambient_coralfish",
@@ -10492,7 +12363,7 @@
    "nearPrototypes": [
     "orn_plant_marine_shrub_purple"
    ],
-   "producedFishId": "fish_ambient_coralfish",
+   "producedFishId": "fish_ambient_firefish",
    "areaSize": 3,
    "centralHintCost": {
     "virtualMoney": 100
@@ -10507,7 +12378,7 @@
    "nearPrototypes": [
     "orn_plant_seaweed_green"
    ],
-   "producedFishId": "fish_ambient_firefish",
+   "producedFishId": "fish_ambient_0",
    "areaSize": 3,
    "centralHintCost": {
     "virtualMoney": 100
@@ -10522,7 +12393,7 @@
    "nearPrototypes": [
     "plant_plateau_yellow"
    ],
-   "producedFishId": "fish_ambient_0",
+   "producedFishId": "fish_ambient_1",
    "areaSize": 3,
    "centralHintCost": {
     "virtualMoney": 100
@@ -10790,6 +12661,24 @@
    }
   },
   {
+   "id": "pattern_pajama_yellow",
+   "centralPrototype": "coral_acropora",
+   "nearPrototypes": [
+    "plant_small_grass_yellow",
+    "deco_bangia",
+    "deco_pavona",
+    "deco_stone_tower"
+   ],
+   "producedFishId": "fish_rare_pajama_cardinal_yellow",
+   "areaSize": 3,
+   "centralHintCost": {
+    "virtualMoney": 100
+   },
+   "sorroundingHintCost": {
+    "virtualMoney": 100
+   }
+  },
+  {
    "id": "pattern_seadragon",
    "centralPrototype": "orn_plant_seaweed_green",
    "producedFishId": "fish_guest_seadragon",
@@ -10993,7 +12882,7 @@
    "nearPrototypes": [
     "orn_plant_branches_red"
    ],
-   "producedFishId": "fish_ambient_1",
+   "producedFishId": "fish_ambient_firefish",
    "areaSize": 3,
    "centralHintCost": {
     "virtualMoney": 100
@@ -11325,6 +13214,51 @@
    240,
    235
   ],
+  "dusky_bat_black": [
+   50,
+   50,
+   55
+  ],
+  "dusky_bat_pink": [
+   240,
+   120,
+   170
+  ],
+  "hawk_red": [
+   215,
+   50,
+   50
+  ],
+  "pajama_cardinal_yellow": [
+   246,
+   222,
+   60
+  ],
+  "stingray_blue": [
+   60,
+   110,
+   220
+  ],
+  "stingray_indigo": [
+   80,
+   70,
+   170
+  ],
+  "trumpet_pink": [
+   240,
+   120,
+   170
+  ],
+  "vampire_green": [
+   80,
+   180,
+   60
+  ],
+  "vampire_red": [
+   215,
+   50,
+   50
+  ],
   "big_seaweed_green": [
    80,
    180,
@@ -11344,6 +13278,11 @@
    190,
    195,
    205
+  ],
+  "branches_white": [
+   240,
+   240,
+   235
   ],
   "cactus_brown": [
    140,
@@ -11415,6 +13354,11 @@
    180,
    60
   ],
+  "mangrove_pink": [
+   240,
+   120,
+   170
+  ],
   "mangrove_yellow": [
    246,
    222,
@@ -11485,6 +13429,11 @@
    50,
    50
   ],
+  "seaweed02_white": [
+   240,
+   240,
+   235
+  ],
   "seaweed_pink": [
    240,
    120,
@@ -11494,6 +13443,11 @@
    245,
    140,
    40
+  ],
+  "branching_seaweed_blue": [
+   60,
+   110,
+   220
   ],
   "giant_kelp_red": [
    215,
@@ -11525,6 +13479,11 @@
    110,
    220
   ],
+  "rare_cabbage_darkblue": [
+   60,
+   110,
+   220
+  ],
   "rare_feather_star_orange": [
    245,
    140,
@@ -11539,6 +13498,11 @@
    150,
    150,
    150
+  ],
+  "rare_mermaids_fan_red": [
+   215,
+   50,
+   50
   ],
   "rare_mermaids_fan_yellow": [
    246,
@@ -11640,24 +13604,9 @@
    120,
    170
   ],
-  "trumpet_pink": [
-   240,
-   120,
-   170
-  ],
   "bicolor_angelfish_green": [
    80,
    180,
-   60
-  ],
-  "stingray_blue": [
-   60,
-   110,
-   220
-  ],
-  "pajama_cardinal_yellow": [
-   246,
-   222,
    60
   ],
   "clown_frogfish_black": [
@@ -11684,21 +13633,6 @@
    140,
    95,
    55
-  ],
-  "dusky_bat_pink": [
-   240,
-   120,
-   170
-  ],
-  "dusky_bat_black": [
-   50,
-   50,
-   55
-  ],
-  "hawk_red": [
-   215,
-   50,
-   50
   ],
   "lion_orange": [
    245,
@@ -12676,7 +14610,7 @@
     "xp": 4
    },
    "every": 300,
-   "level": 7,
+   "level": 6,
    "upgrade": {
     "id": "coral_acropora_upr",
     "name": "STR_CORAL_ACROPORA_PURPLE_UPR"
@@ -12745,7 +14679,7 @@
     "virtualMoney": 150
    },
    "notes": "price not seen",
-   "level": 7
+   "level": 6
   },
   "coral_bamboo": {
    "name": "STR_CORAL_BAMBOO_CORAL",
@@ -13066,6 +15000,20 @@
     "name": "STR_CORAL_VASE_UPR"
    }
   },
+  "deco_android": {
+   "name": "STR_SPECIAL_ANDROID",
+   "level": 4,
+   "price": {
+    "virtualMoney": 650
+   }
+  },
+  "deco_bangia": {
+   "name": "STR_SPECIAL_BANGIA_PURPLE",
+   "level": 6,
+   "price": {
+    "hardMoney": 10
+   }
+  },
   "deco_boulder": {
    "name": "STR_SPECIAL_BOULDER",
    "level": 10,
@@ -13078,6 +15026,20 @@
    "level": 51,
    "price": {
     "virtualMoney": 20000
+   }
+  },
+  "deco_halloween_rock_orange": {
+   "name": "STR_SPECIAL_ROCK_ORANGE",
+   "level": 3,
+   "price": {
+    "virtualMoney": 200
+   }
+  },
+  "deco_halloween_skull": {
+   "name": "STR_SPECIAL_HALLOWEEN_SKULL",
+   "level": 3,
+   "price": {
+    "virtualMoney": 1500
    }
   },
   "deco_mineral_hedge": {
@@ -13101,6 +15063,13 @@
     "virtualMoney": 1000
    }
   },
+  "deco_pavona": {
+   "name": "STR_SPECIAL_PAVONA",
+   "level": 6,
+   "price": {
+    "hardMoney": 10
+   }
+  },
   "deco_sand_dunes": {
    "name": "STR_SPECIAL_DUNE_SAND",
    "level": 13,
@@ -13120,6 +15089,20 @@
    "level": 12,
    "price": {
     "virtualMoney": 200
+   }
+  },
+  "deco_starfish": {
+   "name": "STR_SPECIAL_STARFISH",
+   "level": 4,
+   "price": {
+    "virtualMoney": 1000
+   }
+  },
+  "deco_stone_tower": {
+   "name": "STR_SPECIAL_STONE_TOWER",
+   "level": 6,
+   "price": {
+    "virtualMoney": 140
    }
   },
   "fish_ambient_coralfish": {
@@ -13211,6 +15194,93 @@
    "color": "seahorse_white",
    "name": "STR_NAME_SEAHORSE_WHITE"
   },
+  "fish_rare_angel_fish_flame": {
+   "name": "STR_NAME_ANGELFISH_FLAME"
+  },
+  "fish_rare_candelamoa": {
+   "name": "STR_NAME_PINK_PARROT"
+  },
+  "fish_rare_dusky_bat_black": {
+   "base": "fish_rare_dusky_bat",
+   "color": "dusky_bat_black",
+   "name": "STR_NAME_BATFISH_BLACK",
+   "fishFeed": 850,
+   "every": 259200,
+   "produce": {
+    "hardMoney": 1
+   },
+   "hearts": 800
+  },
+  "fish_rare_dusky_bat_pink": {
+   "base": "fish_rare_dusky_bat",
+   "color": "dusky_bat_pink",
+   "name": "STR_NAME_BATFISH_PINK",
+   "fishFeed": 8000,
+   "every": 259200,
+   "produce": {
+    "hardMoney": 2
+   },
+   "hearts": 3000
+  },
+  "fish_rare_hawk_red": {
+   "base": "fish_rare_hawk",
+   "color": "hawk_red",
+   "name": "STR_NAME_HAWKFISH_RED",
+   "fishFeed": 775,
+   "every": 259200,
+   "produce": {
+    "hardMoney": 1
+   },
+   "hearts": 2000
+  },
+  "fish_rare_pajama_cardinal_yellow": {
+   "base": "fish_rare_pajama_cardinal",
+   "color": "pajama_cardinal_yellow",
+   "name": "STR_NAME_PAJAMA_YELLOW",
+   "fishFeed": 10000,
+   "every": 172800,
+   "produce": {
+    "hardMoney": 1
+   },
+   "hearts": 600
+  },
+  "fish_rare_stingray_blue": {
+   "base": "fish_rare_stingray",
+   "color": "stingray_blue",
+   "name": "STR_NAME_STINGRAY_BLUE",
+   "fishFeed": 550,
+   "every": 259200,
+   "produce": {
+    "hardMoney": 1
+   },
+   "hearts": 500
+  },
+  "fish_rare_stingray_indigo": {
+   "base": "fish_rare_stingray",
+   "color": "stingray_indigo",
+   "name": "STR_NAME_STINGRAY_DARKBLUE"
+  },
+  "fish_rare_trumpet_pink": {
+   "base": "fish_rare_trumpet",
+   "color": "trumpet_pink",
+   "name": "STR_NAME_PINK_TRUMPETFISH",
+   "fishFeed": 500,
+   "every": 259200,
+   "produce": {
+    "hardMoney": 1
+   },
+   "hearts": 400
+  },
+  "fish_rare_vampire_green": {
+   "base": "fish_rare_vampire",
+   "color": "vampire_green",
+   "name": "STR_NAME_CRAB_GREEN"
+  },
+  "fish_rare_vampire_red": {
+   "base": "fish_rare_vampire",
+   "color": "vampire_red",
+   "name": "STR_NAME_CRAB_VAMPIRE"
+  },
   "fish_special_bloat": {
    "name": "STR_NAME_BLOAT"
   },
@@ -13298,6 +15368,18 @@
     "virtualMoney": 250
    },
    "feed": 140,
+   "step": 60
+  },
+  "orn_plant_branches_white": {
+   "base": "orn_plant_branches",
+   "color": "branches_white",
+   "name": "STR_ORN_BRANCHES_WHITE",
+   "hearts": 200,
+   "level": 1,
+   "price": {
+    "virtualMoney": 30
+   },
+   "feed": 50,
    "step": 60
   },
   "orn_plant_cactus_brown": {
@@ -13479,6 +15561,18 @@
    "feed": 1600,
    "step": 60
   },
+  "orn_plant_mangrove_pink": {
+   "base": "orn_plant_mangrove_propagule",
+   "color": "mangrove_pink",
+   "name": "STR_ORN_MANGROVE_PINK",
+   "hearts": 90,
+   "level": 1,
+   "price": {
+    "virtualMoney": 30
+   },
+   "feed": 75,
+   "step": 60
+  },
   "orn_plant_mangrove_yellow": {
    "base": "orn_plant_mangrove_propagule",
    "color": "mangrove_yellow",
@@ -13538,6 +15632,17 @@
    "feed": 5500,
    "step": 60
   },
+  "orn_plant_moss_white": {
+   "base": "orn_plant_coral_04",
+   "name": "STR_ORN_MOSS_WHITE",
+   "hearts": 500,
+   "level": 1,
+   "price": {
+    "virtualMoney": 30
+   },
+   "feed": 100,
+   "step": 60
+  },
   "orn_plant_pillow_blue": {
    "base": "orn_plant_coral_01",
    "color": "pillow_blue",
@@ -13560,6 +15665,16 @@
     "virtualMoney": 13500
    },
    "feed": 3500,
+   "step": 60
+  },
+  "orn_plant_postelsia": {
+   "name": "STR_ORN_POSTELSIA",
+   "hearts": 7500,
+   "level": 6,
+   "price": {
+    "hardMoney": 25
+   },
+   "feed": 750,
    "step": 60
   },
   "orn_plant_sea_blossom_pink": {
@@ -13669,6 +15784,18 @@
    "feed": 1000,
    "step": 60
   },
+  "orn_plant_seaweed02_white": {
+   "base": "orn_plant_seaweed02",
+   "color": "seaweed02_white",
+   "name": "STR_ORN_SEAWEED_WHITE",
+   "hearts": 800,
+   "level": 1,
+   "price": {
+    "virtualMoney": 30
+   },
+   "feed": 80,
+   "step": 60
+  },
   "orn_plant_seaweed_big_seagreen": {
    "base": "orn_plant_big_seaweed",
    "name": "STR_ORN_SEAWEED_BIG_RED",
@@ -13731,6 +15858,26 @@
    "upgrade": {
     "id": "plant_barrel_sponge_upr",
     "name": "STR_LIVING_BARREL_SPONGES_UPR"
+   }
+  },
+  "plant_branching_seaweed_blue": {
+   "base": "plant_branching_seaweed",
+   "color": "branching_seaweed_blue",
+   "name": "STR_LIVING_BRANCHING_BLUE",
+   "level": 1,
+   "price": {
+    "virtualMoney": 800
+   },
+   "feed": 250,
+   "step": 1500,
+   "every": 1800,
+   "produce": {
+    "virtualMoney": 100,
+    "xp": 50
+   },
+   "upgrade": {
+    "id": "plant_branching_seaweed_blue_upr",
+    "name": "STR_LIVING_BRANCHING_BLUE_UPR"
    }
   },
   "plant_giant_kelp_red": {
@@ -13796,7 +15943,7 @@
    "base": "plant_smaller_kelp",
    "color": "small_grass_yellow",
    "name": "STR_LIVING_SMALL_GRASS_YELLOW",
-   "level": 11,
+   "level": 6,
    "price": {
     "virtualMoney": 800
    },
@@ -13877,6 +16024,12 @@
     "name": "STR_LIVING_TUBE_SPONGE_BLUE_UPR"
    }
   },
+  "rare_plant_cabbage_darkblue": {
+   "base": "rare_plant_cabbage",
+   "color": "rare_cabbage_darkblue",
+   "name": "STR_RARE_PLANT_CABBAGE_DARKBLUE",
+   "hearts": 250
+  },
   "rare_plant_feather_star_orange": {
    "base": "rare_plant_feather_star",
    "color": "rare_feather_star_orange",
@@ -13894,6 +16047,12 @@
    "color": "rare_halimeda_grey",
    "name": "STR_RARE_PLANT_HALIMEDA_GREY",
    "hearts": 3500
+  },
+  "rare_plant_mermaids_fan_red": {
+   "base": "rare_plant_mermaids_fan",
+   "color": "rare_mermaids_fan_red",
+   "name": "STR_RARE_PLANT_MERMAID_RED",
+   "hearts": 450
   },
   "rare_plant_mermaids_fan_yellow": {
    "base": "rare_plant_mermaids_fan",
@@ -14278,17 +16437,6 @@
    },
    "hearts": 8500
   },
-  "fish_rare_trumpet_pink": {
-   "base": "fish_rare_trumpet",
-   "color": "trumpet_pink",
-   "name": "STR_NAME_PINK_TRUMPETFISH",
-   "fishFeed": 500,
-   "every": 259200,
-   "produce": {
-    "hardMoney": 1
-   },
-   "hearts": 400
-  },
   "fish_rare_bicolor_angelfish_green": {
    "base": "fish_rare_bicolor",
    "color": "bicolor_angelfish_green",
@@ -14299,28 +16447,6 @@
     "hardMoney": 1
    },
    "hearts": 1800
-  },
-  "fish_rare_stingray_blue": {
-   "base": "fish_rare_stingray",
-   "color": "stingray_blue",
-   "name": "STR_NAME_STINGRAY_BLUE",
-   "fishFeed": 550,
-   "every": 259200,
-   "produce": {
-    "hardMoney": 1
-   },
-   "hearts": 500
-  },
-  "fish_rare_pajama_cardinal_yellow": {
-   "base": "fish_rare_pajama_cardinal",
-   "color": "pajama_cardinal_yellow",
-   "name": "STR_NAME_PAJAMA_YELLOW",
-   "fishFeed": 10000,
-   "every": 172800,
-   "produce": {
-    "hardMoney": 1
-   },
-   "hearts": 600
   },
   "fish_rare_clown_frogfish_black": {
    "base": "fish_rare_clown_frogfish",
@@ -14376,39 +16502,6 @@
     "hardMoney": 1
    },
    "hearts": 600
-  },
-  "fish_rare_dusky_bat_pink": {
-   "base": "fish_rare_dusky_bat",
-   "color": "dusky_bat_pink",
-   "name": "STR_NAME_BATFISH_PINK",
-   "fishFeed": 8000,
-   "every": 259200,
-   "produce": {
-    "hardMoney": 2
-   },
-   "hearts": 3000
-  },
-  "fish_rare_dusky_bat_black": {
-   "base": "fish_rare_dusky_bat",
-   "color": "dusky_bat_black",
-   "name": "STR_NAME_BATFISH_BLACK",
-   "fishFeed": 850,
-   "every": 259200,
-   "produce": {
-    "hardMoney": 1
-   },
-   "hearts": 800
-  },
-  "fish_rare_hawk_red": {
-   "base": "fish_rare_hawk",
-   "color": "hawk_red",
-   "name": "STR_NAME_HAWKFISH_RED",
-   "fishFeed": 775,
-   "every": 259200,
-   "produce": {
-    "hardMoney": 1
-   },
-   "hearts": 2000
   },
   "fish_rare_lion_orange": {
    "base": "fish_rare_lion",

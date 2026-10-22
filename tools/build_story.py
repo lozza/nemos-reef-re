@@ -50,11 +50,13 @@ RENAMED = {
 }
 FAMILIES = ('story_quest_', 'side_quest_', 'tankgang_', 'narrative_quest_', 'vitality_quest_',
             'pearls_tutorial_', 'squirt_quest_', 'mission_', 'chest_tutorial_02', 'minigame_squirt',
-            'kids_story_quest_', 'patch_tutorial_', 'homework_')
+            'kids_story_quest_', 'patch_tutorial_', 'homework_', 'time_event_', 'google_quest_')
 # Kids edition quests (players who entered an age under the game's limit), placed by what they ask for.
 KIDS_AFTER = {'kids_story_quest_01': 'story_quest_13', 'kids_story_quest_02': 'kids_story_quest_01',
               'kids_story_quest_03': 'kids_story_quest_02', 'kids_story_quest_04': 'pearls_tutorial_01'}
 UNSUPPORTED = {'CID_COOP_QUEST_CHECK'}
+# Seasonal events come on their real dates each year; the others take turns on weekends.
+SEASONS = {'christmas': 'christmas', 'halloween': 'halloween', '_val_': 'valentine', 'easter': 'easter'}
 # Mr. Ray's daily homework (homework_0 = Sunday ... homework_6): three tasks from the game's generic task texts.
 # The server picks each player's targets every day (quest task progress "prototypeId" and "count").
 HOMEWORK_TASKS = [{'textKey': 'STR_GROW_A', 'cid': 'CID_GROWN', 'params': [2, 'coral_fan']},
@@ -211,7 +213,8 @@ def main():
     # ---- choose quests
     chosen, skipped = {}, []
     for q in cq['quests']:
-        if not q['id'].startswith(FAMILIES) or q['type'] not in ('STORY', 'MISSION', 'SQUIRT_MINIGAME', 'HOMEWORK'):
+        if not q['id'].startswith(FAMILIES) or q['type'] not in ('STORY', 'MISSION', 'SQUIRT_MINIGAME', 'HOMEWORK',
+                                                                  'TIME_EVENT') or q['id'] == 'time_event_bruce':
             continue
         if q['type'] == 'HOMEWORK':
             q = dict(q, tasks=[{'textId': t['textKey'], 'cid': t['cid'],
@@ -254,6 +257,15 @@ def main():
             e['after'] = ['squirt_quest_%02d' % (n - 1)]
         elif qid == 'minigame_squirt_tutorial':  # the first game, with "Let's Play!"
             e['after'] = ['squirt_quest_02']
+        elif chosen[qid]['type'] == 'TIME_EVENT':  # scheduled by the server (quests.Story.event_windows)
+            e['level'] = 6
+            m = re.match(r'(.*\d)([abc])$', qid)
+            season = next((v for k, v in SEASONS.items() if k in qid), 'weekend')
+            e['event'] = {'season': season}
+            if m and m.group(2) != 'a':
+                prev = m.group(1) + chr(ord(m.group(2)) - 1)
+                e['event']['after'] = prev
+                e['after'] = [prev]
         elif qid.startswith('homework_') and chosen[qid]['type'] == 'HOMEWORK':
             e['homework'] = True  # opened by the server each day, not by the story
             e['after'] = [EARLY_END]  # with the tutorial, which asks to tap the homework button
@@ -350,6 +362,8 @@ def main():
         ko = q.get('kids_overrides') or {}
         if set(ko) == {'reward'}:  # only wording; other Kids edition changes swap the tutorial's items
             e['kids'] = {'rewardKey': ko['reward']['textId']}
+        if q['type'] == 'TIME_EVENT' and not rw:
+            e['reward'] = quest_reward(12)
         fish = [f for f in (q.get('rewardPrototypeIdList_proposed') or []) if f.startswith('fish_') and available(f)]
         if oldq.get('grantFish'):
             fish = oldq['grantFish']
