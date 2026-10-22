@@ -286,7 +286,14 @@ class Reef:
         e['growingCycle'] = min(e.get('growingCycle', 0) + 1, int(p.get('growingCycles', 1)))
         e['growingInterval'] = interval(now, self.ms(p, 'growingTime'))
         e['state'] = GROWING
-        return {'growingCycle': e['growingCycle'], 'growingInterval': e['growingInterval']}
+        out = {'growingCycle': e['growingCycle'], 'growingInterval': e['growingInterval']}
+        _, ep = self.protos.get(e.get('prototypeId'))
+        if e['growingCycle'] >= int(p.get('growingCycles', 1)) and (ep or {}).get('type') in HARVESTABLE:
+            # The last feeding: Growable::processResponseGrow takes the first production's "producingInterval"
+            # from this reply (without it the plant never counts down to its first harvest). _advance starts
+            # production at the same moment.
+            out['producingInterval'] = interval(e['growingInterval']['finish'], self.ms(ep, 'producingTime'))
+        return out
 
     def a_entityFeed(self, w, d, now):
         _, e = self.find(w, d.get('id'))
