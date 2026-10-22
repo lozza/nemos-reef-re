@@ -494,8 +494,9 @@ class Game:
                 continue  # (one-item combinations: the starter reef has some; the game reports those itself)
             for c in (e for e in placed if e['prototypeId'] == pt['centralPrototype']):
                 cx, cz = c['position']['x'], c['position']['z']
-                if all(any(e['prototypeId'] == n and e is not c and cx - 3 <= e['position']['x'] <= cx + 4
-                           and cz - 3 <= e['position']['z'] <= cz + 4 for e in placed) for n in pt['nearPrototypes']):
+                r = int(pt.get('areaSize', 6)) // 2
+                if all(any(e['prototypeId'] == n and e is not c and cx - r <= e['position']['x'] <= cx + r + 1
+                           and cz - r <= e['position']['z'] <= cz + r + 1 for e in placed) for n in pt['nearPrototypes']):
                     w.setdefault('patterns', []).append(pt['id'])
                     break
         for pid in w.get('patterns', []):

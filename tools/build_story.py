@@ -71,6 +71,7 @@ HOMEWORK_TASKS = [{'textKey': 'STR_GROW_A', 'cid': 'CID_GROWN', 'params': [2, 'c
 EARLY_END = 'story_quest_16'
 MAX_LEVEL = 55
 SQUIRT_GAME = 'questGame_Squirt'
+AREA_SIZE = 9  # fish combinations: tiles across the area checked around the central item
 BRUCE_GAME, BRUCE_FISH = 'questGame_Bruce', 8
 AMBIENT = ['fish_ambient_0', 'fish_ambient_1', 'fish_ambient_coralfish', 'fish_ambient_firefish']
 # Tint for colour variants the catalogue has no measured colour for (name colour word -> RGB).
@@ -429,9 +430,10 @@ def main():
             p['kidsOnly'] = True
         p.setdefault('centralHintCost', {'virtualMoney': 100})
         p.setdefault('sorroundingHintCost', {'virtualMoney': 100})
-        # PatternArea centres the area on the central plant with (areaSize - plant size) / 2, rounded down:
-        # 3 around a 2x2 plant covered one side only. The wiki: "within a 6x6 tile area".
-        p['areaSize'] = 6
+        # PatternArea centres the area on the central plant with (areaSize - plant size) / 2, rounded down, so
+        # one side is shorter. The wiki says "within a 6x6 tile area", but with 6 a large item placed on the short
+        # side (a Yellow Plateau Plant left of a Heap of Stones) fell outside; 9 takes every side.
+        p['areaSize'] = AREA_SIZE
         out_patterns.append(p)
 
     # ---- the wiki's ambient fish combinations (a living plant and 1-2 items near it): colour variants of the
@@ -454,7 +456,7 @@ def main():
         ambient_items[fid] = {'base': fish_base, 'color': 'ambient_%s_%s' % (kind, colour),
                               'name': '%s %s' % (colour.capitalize(), fish_name)}
         out_patterns.append({'id': 'pattern_ambient_%s_%s' % (kind, colour), 'centralPrototype': ids[0],
-                             'nearPrototypes': ids[1:], 'producedFishId': fid, 'areaSize': 6,
+                             'nearPrototypes': ids[1:], 'producedFishId': fid, 'areaSize': AREA_SIZE,
                              'centralHintCost': {'virtualMoney': 100}, 'sorroundingHintCost': {'virtualMoney': 100}})
         ambient_wanted.update(ids)
 
