@@ -134,6 +134,14 @@ class Story:
             if 'build' in it:
                 p['constructionTime'] = worlddef.duration(it['build'])
             shop[pid] = worlddef.shop_item(p)
+            if it.get('upgrade'):  # the plant a full Patch of these becomes: same look, four times the yield
+                u = copy.deepcopy(p)
+                u.update(id=it['upgrade']['id'], name=it['upgrade']['name'], nameId=it['upgrade']['name'])
+                u['graphicalId'] = p.get('graphicalId') or pid
+                u['producedReward'] = {k: v * 4 for k, v in p['producedReward'].items()}
+                wd[by_id[pid][0]].append(u)
+                by_id[u['id']] = (by_id[pid][0], u)
+                p['upgradePrototypeId'] = u['id']
         # The shop sells what the original shop showed: story.json items that have a price. Everything else
         # (sand path pieces, seasonal and placeholder graphics, bases sold only as colour variants) stays
         # out; rare plants only grow from seeds. Without story items, every prototype is sold.
@@ -166,6 +174,15 @@ class Story:
             r = lv.get('rewards', {}).get(str(l['level']), {})
             l['reward'] = worlddef.reward(xp=0, coins=r.get('virtualMoney', 0), pearls=r.get('hardMoney', 0),
                                           algae=r.get('energy', 0))
+            # Vitality caps (Level::LevelDefinition "vitality"): the total and one per category, 1 plants,
+            # 2 rare plants, 3 rare fish, 4 guests (DialogUserVitality); past the wiki's table they grow 10 %.
+            caps = lv.get('vitality') or []
+            if caps:
+                c = caps[min(l['level'], len(caps)) - 1]
+                if l['level'] > len(caps):
+                    c = [int(v * 1.1 ** (l['level'] - len(caps))) for v in c]
+                l['vitality'] = {'vitality': c[4], 'categories': [  # the wiki's total, not the categories' sum
+                    {'categoryId': i, 'vitality': v} for i, v in enumerate(c[:4], 1)]}
 
     def name_keys(self, wd):
         """ServerPrototype::getName looks "name" up in the texts bundle, so names become STR_ keys.

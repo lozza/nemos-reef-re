@@ -47,6 +47,7 @@ class Prototypes:
         for s in wd.get('ingameShopItems', []):
             self.shop.setdefault(s['prototypeId'], []).append(s)
         self.levels = sorted(wd.get('levelList', []), key=lambda l: l['level'])
+        self.vitality_patches = wd.get('vitalityPatchList') or []
 
     def get(self, pid):
         return self.by_id.get(pid, (None, None))
@@ -202,6 +203,11 @@ class Reef:
         e = {'id': self.new_id(w), 'prototypeId': pid,
              'position': {'x': int(d.get('x', 0)), 'z': int(d.get('z', 0)), 'transform': int(d.get('transform', 0)) & 1}}
         price = self.protos.shop_cost(pid, self.level(w)) or p.get('cost')
+        if p.get('type') == 'ET_PATCH':  # the Nth patch costs what vitalityPatchList says for it
+            n = len(w.get('patches', []))
+            row = next((r for r in self.protos.vitality_patches if r.get('order') == n + 1), None)
+            if row:
+                price = row['cost']
         if d.get('early'):  # GET IT EARLY: the price times the multiplier, plus free algae
             price = {k: v * worlddef.GET_IT_EARLY_MULTIPLIER for k, v in (price or {}).items()}
             self.earn(w, {'energy': worlddef.GET_IT_EARLY_ALGAE})
@@ -316,6 +322,8 @@ class Reef:
             return {'producingInterval': interval(now, 0)}
         _, p = self.protos.get(e['prototypeId'])
         p = p or {}
+        if p.get('type') == 'ET_PATCH':  # a full patch yields what its upgraded plant produces
+            p = dict(self.patch_plant(e), type='ET_PATCH')
         self.earn(w, p.get('producedReward'))
         if p.get('type') in HARVESTABLE or p.get('type') == 'ET_PATCH':
             start = int(d.get('performed') or now)
@@ -376,11 +384,17 @@ class Reef:
             patch['plantPrototypeId'] = plant['prototypeId']
             w[plst].remove(plant)
         out = {'full': patch['plantCount'] >= cap, 'plantCount': patch['plantCount']}
-        if out['full']:
+        if out['full']:  # the plants become the upgraded plant, which produces on its own timer
             patch['state'] = PRODUCING
-            patch['producingInterval'] = interval(now, self.ms(pp or {}, 'producingTime'))
+            patch['producingInterval'] = interval(now, self.ms(self.patch_plant(patch), 'producingTime'))
             out['producingInterval'] = patch['producingInterval']
         return out
+
+    def patch_plant(self, patch):
+        """The prototype a full patch produces as: its plant's upgradePrototypeId (or the plant itself)."""
+        _, plant = self.protos.get(patch.get('plantPrototypeId'))
+        _, upgraded = self.protos.get((plant or {}).get('upgradePrototypeId'))
+        return upgraded or plant or {}
 
     def a_placeEntitiesToInventory(self, w, d, now):
         for eid in d.get('ids') or []:
@@ -413,6 +427,31 @@ class Reef:
         return {'fishes': ids, 'reward': {'hardMoney': 0}}
 
     # ------------------------------------------------------------ daily reward (tap the hidden plants)
+    # ------------------------------------------------------------ vitality
+    def vitality(self, w):
+        """data::Vitality: the hearts of the grown ornamental plants (category 1), rare plants (2), rare fish (3)
+        and guest fish (4), each capped by the level's category cap; the total (category 0) is their sum."""
+        raw = {1: 0, 2: 0, 3: 0, 4: 0}
+        for lst, cat in (('ornamentalPlants', 1), ('rarePlants', 2)):
+            for e in w.get(lst, []):
+                if e.get('state') not in (GROWING, WAITING_FEED, CONSTRUCTING) and not e.get('inventory'):
+                    raw[cat] += int((self.protos.get(e['prototypeId'])[1] or {}).get('vitality', 0) or 0)
+        for e in w.get('fishes', []):
+            pid = e.get('prototypeId', '')
+            hearts = int((self.protos.get(pid)[1] or {}).get('vitality', 0) or 0)
+            if pid.startswith('fish_rare_'):
+                raw[3] += hearts
+            elif pid.startswith('fish_guest_'):
+                raw[4] += hearts or 100
+        level = next((l for l in self.protos.levels if l['level'] == self.level(w)), {})
+        caps = {c['categoryId']: c['vitality'] for c in (level.get('vitality') or {}).get('categories', [])}
+        got = {c: min(v, caps.get(c, v)) for c, v in raw.items()}
+        total = min(sum(got.values()), (level.get('vitality') or {}).get('vitality') or sum(got.values()))
+        w['status']['vitality'] = {'vitality': total, 'level': self.level(w), 'categories':
+                                   [{'categoryId': 0, 'vitality': total}] +
+                                   [{'categoryId': c, 'vitality': v} for c, v in sorted(got.items())]}
+        return total
+
     @staticmethod
     def daily_taps_left(w):
         st = w.get('status', {})

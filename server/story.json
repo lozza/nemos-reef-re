@@ -918,6 +918,71 @@
    }
   },
   {
+   "id": "patch_tutorial_01",
+   "level": 10,
+   "after": [
+    "story_quest_16"
+   ],
+   "order": 70,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_PATCH_01_TUTORIAL_TITLE",
+   "descKey": "STR_PATCH_01_TUTORIAL_DESCRIPTION",
+   "rewardKey": "STR_PATCH_01_TUTORIAL_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_PATCH_TUTORIAL_01_TASK_1",
+     "cid": "CID_GROWN",
+     "params": [
+      4,
+      "coral_fan"
+     ]
+    },
+    {
+     "textKey": "STR_PATCH_TUTORIAL_01_TASK_2",
+     "cid": "CID_CREATED",
+     "params": [
+      1,
+      "spec_house_patch"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 170,
+    "virtualMoney": 240,
+    "energy": 100
+   }
+  },
+  {
+   "id": "patch_tutorial_02",
+   "level": 10,
+   "after": [
+    "patch_tutorial_01"
+   ],
+   "order": 71,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_PATCH_02_TUTORIAL_TITLE",
+   "descKey": "STR_PATCH_02_TUTORIAL_DESCRIPTION",
+   "rewardKey": "STR_PATCH_02_TUTORIAL_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_PATCH_TUTORIAL_02_TASK_1",
+     "cid": "CID_MOVED_ON_PATCH",
+     "params": [
+      4,
+      "coral_fan",
+      "spec_house_patch"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 170,
+    "virtualMoney": 240,
+    "energy": 100
+   }
+  },
+  {
    "id": "side_quest_01",
    "level": 5,
    "after": [
@@ -6130,6 +6195,35 @@
    }
   },
   {
+   "id": "story_quest_54",
+   "level": 41,
+   "after": [
+    "story_quest_53"
+   ],
+   "order": 2746,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_STORY_QUEST_54_NAME",
+   "descKey": "STR_STORY_QUEST_54_DESCRIPTION",
+   "rewardKey": "STR_STORY_QUEST_54_REWARD",
+   "startDialogId": "story_quest_54_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_STORY_QUEST_54_TASK_01",
+     "cid": "CID_GROWN",
+     "params": [
+      1,
+      "coral_sunset_cup_upr"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 640,
+    "virtualMoney": 860,
+    "energy": 410
+   }
+  },
+  {
    "id": "minigame_squirt",
    "level": 7,
    "after": [
@@ -6202,7 +6296,7 @@
    "id": "story_quest_54x",
    "level": 51,
    "after": [
-    "story_quest_53"
+    "story_quest_54"
    ],
    "order": 2948,
    "type": "STORY",
@@ -6312,6 +6406,42 @@
      "params": [
       "questGame_Squirt",
       3
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 780,
+    "virtualMoney": 1060,
+    "energy": 510
+   }
+  },
+  {
+   "id": "side_quest_81",
+   "level": 51,
+   "after": [
+    "story_quest_16"
+   ],
+   "order": 2978,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_SIDE_QUEST_81_NAME",
+   "descKey": "STR_SIDE_QUEST_81_DESCRIPTION",
+   "rewardKey": "STR_SIDE_QUEST_81_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_SIDE_QUEST_81_TASK_01",
+     "cid": "CID_GROWN",
+     "params": [
+      4,
+      "plant_sponge_beds_red"
+     ]
+    },
+    {
+     "textKey": "STR_SIDE_QUEST_81_TASK_02",
+     "cid": "CID_GROWN",
+     "params": [
+      1,
+      "plant_sponge_beds_red_upr"
      ]
     }
    ],
@@ -9067,6 +9197,35 @@
    ]
   },
   {
+   "id": "story_quest_54_dialog",
+   "lines": [
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_STORY_QUEST_54_DIALOG_1",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_STORY_QUEST_54_DIALOG_2",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_STORY_QUEST_54_DIALOG_3",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_STORY_QUEST_54_DIALOG_4",
+     "listener": "fish_special_marlin"
+    }
+   ]
+  },
+  {
    "id": "story_quest_54x_dialog",
    "lines": [
     {
@@ -10976,6 +11135,11 @@
    222,
    60
   ],
+  "sponge_beds_red": [
+   215,
+   50,
+   50
+  ],
   "table_red": [
    215,
    50,
@@ -11407,7 +11571,11 @@
     "xp": 2
    },
    "every": 30,
-   "level": 1
+   "level": 1,
+   "upgrade": {
+    "id": "plant_table_yellow_upr",
+    "name": "STR_LIVING_TABLE_PLANT_YELLOW_UPR"
+   }
   },
   "plant_barrel_sponge_rose": {
    "base": "plant_barrel_sponge",
@@ -11423,7 +11591,11 @@
     "xp": 4
    },
    "every": 120,
-   "level": 2
+   "level": 2,
+   "upgrade": {
+    "id": "plant_barrel_sponge_rose_upr",
+    "name": "STR_LIVING_BARREL_SPONGES_ROSE_UPR"
+   }
   },
   "plant_giant_seabush_green": {
    "base": "plant_giant_seabush",
@@ -11439,7 +11611,11 @@
     "xp": 5
    },
    "every": 240,
-   "level": 3
+   "level": 3,
+   "upgrade": {
+    "id": "plant_giant_seabush_green_upr",
+    "name": "STR_LIVING_GIANT_SEABUSH_GREEN_UPR"
+   }
   },
   "plant_tube_sponge_red": {
    "base": "plant_living_02",
@@ -11455,7 +11631,11 @@
     "xp": 8
    },
    "every": 240,
-   "level": 4
+   "level": 4,
+   "upgrade": {
+    "id": "plant_tube_sponge_red_upr",
+    "name": "STR_LIVING_TUBE_SPONGE_RED_UPR"
+   }
   },
   "plant_tube_sponge_orange": {
    "base": "plant_living_02",
@@ -11471,7 +11651,11 @@
     "xp": 10
    },
    "every": 3600,
-   "level": 4
+   "level": 4,
+   "upgrade": {
+    "id": "plant_tube_sponge_orange_upr",
+    "name": "STR_LIVING_TUBE_SPONGE_PINK_UPR"
+   }
   },
   "plant_sponge_beds_yellow": {
    "base": "plant_sponge_beds",
@@ -11487,7 +11671,11 @@
     "xp": 25
    },
    "every": 21600,
-   "level": 5
+   "level": 5,
+   "upgrade": {
+    "id": "plant_sponge_beds_yellow_upr",
+    "name": "STR_LIVING_SPONGE_BED_YELLOW_UPR"
+   }
   },
   "coral_fan": {
    "color": "fan_pink",
@@ -11502,7 +11690,11 @@
     "xp": 1
    },
    "every": 30,
-   "level": 1
+   "level": 1,
+   "upgrade": {
+    "id": "coral_fan_upr",
+    "name": "STR_CORAL_FAN_UPR"
+   }
   },
   "coral_fruit_loop": {
    "color": "fruit_lime",
@@ -11517,7 +11709,11 @@
     "xp": 1
    },
    "every": 60,
-   "level": 2
+   "level": 2,
+   "upgrade": {
+    "id": "coral_fruit_loop_upr",
+    "name": "STR_CORAL_FRUIT_UPR"
+   }
   },
   "coral_brain": {
    "color": "brain_raspberry",
@@ -11532,7 +11728,11 @@
     "xp": 10
    },
    "every": 86400,
-   "level": 5
+   "level": 5,
+   "upgrade": {
+    "id": "coral_brain_upr",
+    "name": "STR_CORAL_BRAIN_CORAL_UPR"
+   }
   },
   "coral_brain_violet": {
    "base": "coral_brain",
@@ -11548,7 +11748,11 @@
     "xp": 2
    },
    "every": 180,
-   "level": 3
+   "level": 3,
+   "upgrade": {
+    "id": "coral_brain_violet_upr",
+    "name": "STR_CORAL_BRAIN_CORAL_VIOLET_UPR"
+   }
   },
   "coral_sunset_cup": {
    "color": "sunset_yellow",
@@ -11563,7 +11767,11 @@
     "xp": 2
    },
    "every": 300,
-   "level": 3
+   "level": 3,
+   "upgrade": {
+    "id": "coral_sunset_cup_upr",
+    "name": "STR_CORAL_SUNSET_CUP_UPR"
+   }
   },
   "orn_plant_branches_red": {
    "base": "orn_plant_branches",
@@ -11912,7 +12120,11 @@
     "xp": 30
    },
    "every": 43200,
-   "level": 5
+   "level": 5,
+   "upgrade": {
+    "id": "plant_plateau_yellow_upr",
+    "name": "STR_LIVING_PLATEAU_PLANT_UPR"
+   }
   },
   "plant_giant_kelp_brown": {
    "base": "plant_giant_kelp",
@@ -11929,7 +12141,11 @@
    },
    "every": 1800,
    "notes": "colour tuned by eye",
-   "level": 7
+   "level": 7,
+   "upgrade": {
+    "id": "plant_giant_kelp_brown_upr",
+    "name": "STR_LIVING_GIANT_GRASS_BROWN_UPR"
+   }
   },
   "plant_pipe_sponge_blue": {
    "base": "plant_living_01",
@@ -11946,7 +12162,11 @@
    },
    "every": 1800,
    "notes": "price not seen (GET IT EARLY card)",
-   "level": 8
+   "level": 8,
+   "upgrade": {
+    "id": "plant_pipe_sponge_blue_upr",
+    "name": "STR_LIVING_PIPE_SPONGE_BLUE_UPR"
+   }
   },
   "plant_pipe_sponge_maroon": {
    "base": "plant_living_01",
@@ -11963,7 +12183,11 @@
    },
    "every": 7200,
    "notes": "price not seen (GET IT EARLY card)",
-   "level": 9
+   "level": 9,
+   "upgrade": {
+    "id": "plant_pipe_sponge_maroon_upr",
+    "name": "STR_LIVING_PIPE_SPONGE_MAROON_UPR"
+   }
   },
   "coral_bell_blue": {
    "base": "coral_bell",
@@ -11979,7 +12203,11 @@
     "xp": 4
    },
    "every": 3600,
-   "level": 4
+   "level": 4,
+   "upgrade": {
+    "id": "coral_bell_blue_upr",
+    "name": "STR_CORAL_BLUE_MUSHROOM_UPR"
+   }
   },
   "coral_cats_paw_blue": {
    "base": "coral_cats_paw",
@@ -11995,7 +12223,11 @@
     "xp": 3
    },
    "every": 600,
-   "level": 4
+   "level": 4,
+   "upgrade": {
+    "id": "coral_cats_paw_blue_upr",
+    "name": "STR_CORAL_CATS_PAW_BLUE_UPR"
+   }
   },
   "coral_pillar_orange": {
    "base": "coral_pillar",
@@ -12011,7 +12243,11 @@
     "xp": 4
    },
    "every": 1800,
-   "level": 6
+   "level": 6,
+   "upgrade": {
+    "id": "coral_pillar_orange_upr",
+    "name": "STR_CORAL_PILLAR_CORAL_ORANGE_UPR"
+   }
   },
   "coral_circles_green": {
    "base": "coral_circles",
@@ -12027,7 +12263,11 @@
     "xp": 6
    },
    "every": 18000,
-   "level": 6
+   "level": 6,
+   "upgrade": {
+    "id": "coral_circles_green_upr",
+    "name": "STR_CORAL_GREEN_MUSHROOM_UPR"
+   }
   },
   "coral_carnation": {
    "color": "carnation_purple",
@@ -12042,7 +12282,11 @@
     "xp": 10
    },
    "every": 43200,
-   "level": 7
+   "level": 7,
+   "upgrade": {
+    "id": "coral_carnation_upr",
+    "name": "STR_CORAL_CARNATION_CORAL_UPR"
+   }
   },
   "coral_acropora": {
    "color": "acropora_purple",
@@ -12057,7 +12301,11 @@
     "xp": 4
    },
    "every": 300,
-   "level": 7
+   "level": 7,
+   "upgrade": {
+    "id": "coral_acropora_upr",
+    "name": "STR_CORAL_ACROPORA_PURPLE_UPR"
+   }
   },
   "orn_plant_moss_violet": {
    "base": "orn_plant_coral_04",
@@ -12136,6 +12384,10 @@
    "produce": {
     "energy": 50,
     "xp": 25
+   },
+   "upgrade": {
+    "id": "coral_bamboo_upr",
+    "name": "STR_CORAL_BAMBOO_CORAL_UPR"
    }
   },
   "coral_brain_silver": {
@@ -12152,6 +12404,10 @@
    "produce": {
     "energy": 200,
     "xp": 100
+   },
+   "upgrade": {
+    "id": "coral_brain_silver_upr",
+    "name": "STR_CORAL_BRAIN_CORAL_SILVER_UPR"
    }
   },
   "coral_bubble_green": {
@@ -12168,6 +12424,10 @@
    "produce": {
     "energy": 25,
     "xp": 12
+   },
+   "upgrade": {
+    "id": "coral_bubble_green_upr",
+    "name": "STR_CORAL_BUBBLE_CORAL_GREEN_UPR"
    }
   },
   "coral_bubble_silver": {
@@ -12184,6 +12444,10 @@
    "produce": {
     "energy": 6,
     "xp": 3
+   },
+   "upgrade": {
+    "id": "coral_bubble_silver_upr",
+    "name": "STR_CORAL_BUBBLE_CORAL_SILVER_UPR"
    }
   },
   "coral_christmas_tree": {
@@ -12198,6 +12462,10 @@
    "produce": {
     "energy": 22,
     "xp": 11
+   },
+   "upgrade": {
+    "id": "coral_christmas_tree_upr",
+    "name": "STR_CORAL_CHRISTMAS_TREE_CORAL_UPR"
    }
   },
   "coral_christmas_tree_red": {
@@ -12214,6 +12482,10 @@
    "produce": {
     "energy": 250,
     "xp": 125
+   },
+   "upgrade": {
+    "id": "coral_christmas_tree_red_upr",
+    "name": "STR_CORAL_CHRISTMAS_RED_UPR"
    }
   },
   "coral_cup": {
@@ -12228,6 +12500,10 @@
    "produce": {
     "energy": 15,
     "xp": 7
+   },
+   "upgrade": {
+    "id": "coral_cup_upr",
+    "name": "STR_CORAL_CUP_CORAL_UPR"
    }
   },
   "coral_finger": {
@@ -12242,6 +12518,10 @@
    "produce": {
     "energy": 12,
     "xp": 6
+   },
+   "upgrade": {
+    "id": "coral_finger_upr",
+    "name": "STR_CORAL_FINGER_CORAL_UPR"
    }
   },
   "coral_fire": {
@@ -12256,6 +12536,10 @@
    "produce": {
     "energy": 5,
     "xp": 2
+   },
+   "upgrade": {
+    "id": "coral_fire_upr",
+    "name": "STR_CORAL_FIRE_CORAL_UPR"
    }
   },
   "coral_pillar": {
@@ -12270,6 +12554,10 @@
    "produce": {
     "energy": 5,
     "xp": 2
+   },
+   "upgrade": {
+    "id": "coral_pillar_upr",
+    "name": "STR_CORAL_PILLAR_CORAL_UPR"
    }
   },
   "coral_pillar_violet": {
@@ -12286,6 +12574,10 @@
    "produce": {
     "energy": 20,
     "xp": 10
+   },
+   "upgrade": {
+    "id": "coral_pillar_violet_upr",
+    "name": "STR_CORAL_PILLAR_VIOLET_UPR"
    }
   },
   "coral_pipe_organ": {
@@ -12300,6 +12592,10 @@
    "produce": {
     "energy": 20,
     "xp": 10
+   },
+   "upgrade": {
+    "id": "coral_pipe_organ_upr",
+    "name": "STR_CORAL_ORGANPIPE_CORAL_UPR"
    }
   },
   "coral_psychadelic_tree": {
@@ -12314,6 +12610,10 @@
    "produce": {
     "energy": 15,
     "xp": 7
+   },
+   "upgrade": {
+    "id": "coral_psychadelic_tree_upr",
+    "name": "STR_CORAL_PSYCHEDELIC_CORAL_UPR"
    }
   },
   "coral_ricordea_orange": {
@@ -12330,7 +12630,15 @@
    "produce": {
     "energy": 80,
     "xp": 40
+   },
+   "upgrade": {
+    "id": "coral_ricordea_orange_upr",
+    "name": "STR_CORAL_RICORDIA_ORANGE_UPR"
    }
+  },
+  "coral_sunset_cup_upr": {
+   "base": "coral_sunset_cup",
+   "name": "STR_CORAL_SUNSET_CUP_UPR"
   },
   "coral_tentacle": {
    "name": "STR_CORAL_TENTACLE_CORAL",
@@ -12344,6 +12652,10 @@
    "produce": {
     "energy": 40,
     "xp": 20
+   },
+   "upgrade": {
+    "id": "coral_tentacle_upr",
+    "name": "STR_CORAL_TENTACLE_CORAL_UPR"
    }
   },
   "coral_tubipora": {
@@ -12373,6 +12685,10 @@
    "produce": {
     "energy": 10,
     "xp": 5
+   },
+   "upgrade": {
+    "id": "coral_vase_upr",
+    "name": "STR_CORAL_VASE_UPR"
    }
   },
   "deco_boulder": {
@@ -13036,6 +13352,10 @@
    "produce": {
     "virtualMoney": 250,
     "xp": 125
+   },
+   "upgrade": {
+    "id": "plant_barrel_sponge_upr",
+    "name": "STR_LIVING_BARREL_SPONGES_UPR"
    }
   },
   "plant_giant_kelp_red": {
@@ -13052,6 +13372,10 @@
    "produce": {
     "virtualMoney": 15,
     "xp": 7
+   },
+   "upgrade": {
+    "id": "plant_giant_kelp_red_upr",
+    "name": "STR_LIVING_GIANT_GRASS_RED_UPR"
    }
   },
   "plant_giant_seabush_gold": {
@@ -13067,6 +13391,10 @@
    "produce": {
     "virtualMoney": 75,
     "xp": 37
+   },
+   "upgrade": {
+    "id": "plant_giant_seabush_gold_upr",
+    "name": "STR_LIVING_GIANT_SEABUSH_GOLD_UPR"
    }
   },
   "plant_plateau_orange": {
@@ -13083,6 +13411,10 @@
    "produce": {
     "virtualMoney": 10,
     "xp": 5
+   },
+   "upgrade": {
+    "id": "plant_plateau_orange_upr",
+    "name": "STR_LIVING_PLATEAU_PLANT_ORANGE_UPR"
    }
   },
   "plant_small_grass_yellow": {
@@ -13099,7 +13431,36 @@
    "produce": {
     "virtualMoney": 50,
     "xp": 25
+   },
+   "upgrade": {
+    "id": "plant_small_grass_yellow_upr",
+    "name": "STR_LIVING_SMALL_GRASS_YELLOW_UPR"
    }
+  },
+  "plant_sponge_beds_red": {
+   "base": "plant_sponge_beds",
+   "color": "sponge_beds_red",
+   "name": "STR_LIVING_SPONGE_BED_RED",
+   "level": 51,
+   "price": {
+    "virtualMoney": 8000
+   },
+   "feed": 900,
+   "step": 900,
+   "every": 5400,
+   "produce": {
+    "virtualMoney": 30,
+    "xp": 15
+   },
+   "upgrade": {
+    "id": "plant_sponge_beds_red_upr",
+    "name": "STR_LIVING_SPONGE_BED_RED_UPR"
+   }
+  },
+  "plant_sponge_beds_red_upr": {
+   "base": "plant_sponge_beds",
+   "color": "sponge_beds_red",
+   "name": "STR_LIVING_SPONGE_BED_RED_UPR"
   },
   "plant_table_red": {
    "base": "plant_table",
@@ -13115,6 +13476,10 @@
    "produce": {
     "virtualMoney": 300,
     "xp": 150
+   },
+   "upgrade": {
+    "id": "plant_table_red_upr",
+    "name": "STR_LIVING_TABLE_PLANT_RED_UPR"
    }
   },
   "plant_tube_sponge_blue": {
@@ -13131,52 +13496,65 @@
    "produce": {
     "virtualMoney": 50,
     "xp": 25
+   },
+   "upgrade": {
+    "id": "plant_tube_sponge_blue_upr",
+    "name": "STR_LIVING_TUBE_SPONGE_BLUE_UPR"
    }
   },
   "rare_plant_feather_star_orange": {
    "base": "rare_plant_feather_star",
    "color": "rare_feather_star_orange",
-   "name": "STR_RARE_PLANT_FEATHER_STAR_ORANGE"
+   "name": "STR_RARE_PLANT_FEATHER_STAR_ORANGE",
+   "hearts": 5000
   },
   "rare_plant_feather_star_yellow": {
    "base": "rare_plant_feather_star",
    "color": "rare_feather_star_yellow",
-   "name": "STR_RARE_PLANT_FEATHER_STAR_YELLOW"
+   "name": "STR_RARE_PLANT_FEATHER_STAR_YELLOW",
+   "hearts": 8500
   },
   "rare_plant_halimeda_grey": {
    "base": "rare_plant_halimeda_plant",
    "color": "rare_halimeda_grey",
-   "name": "STR_RARE_PLANT_HALIMEDA_GREY"
+   "name": "STR_RARE_PLANT_HALIMEDA_GREY",
+   "hearts": 3500
   },
   "rare_plant_mermaids_fan_yellow": {
    "base": "rare_plant_mermaids_fan",
    "color": "rare_mermaids_fan_yellow",
-   "name": "STR_RARE_PLANT_MERMAID_YELLOW"
+   "name": "STR_RARE_PLANT_MERMAID_YELLOW",
+   "hearts": 20000
   },
   "rare_plant_sea_grapes_blue": {
    "base": "rare_plant_sea_grapes",
    "color": "rare_sea_grapes_blue",
-   "name": "STR_RARE_PLANT_SEAGRAPES_BLUE"
+   "name": "STR_RARE_PLANT_SEAGRAPES_BLUE",
+   "hearts": 10000
   },
   "rare_plant_thalassodendron_blue": {
    "base": "rare_plant_thalassodendron",
    "color": "rare_thalassodendron_blue",
-   "name": "STR_RARE_PLANT_THALASSODENDRON_BLUE"
+   "name": "STR_RARE_PLANT_THALASSODENDRON_BLUE",
+   "hearts": 2000
   },
   "rare_plant_thalassodendron_green": {
    "base": "rare_plant_thalassodendron",
    "color": "rare_thalassodendron_green",
-   "name": "STR_RARE_PLANT_THALASSODENDRON_GREEN"
+   "name": "STR_RARE_PLANT_THALASSODENDRON_GREEN",
+   "hearts": 250
   },
   "rare_plant_thalassodendron_orange": {
    "base": "rare_plant_thalassodendron",
    "color": "rare_thalassodendron_orange",
-   "name": "STR_RARE_PLANT_THALASSODENDRON_ORANGE"
+   "name": "STR_RARE_PLANT_THALASSODENDRON_ORANGE",
+   "hearts": 25000
   },
   "rare_plant_thalassodendron_violet": {
    "base": "rare_plant_thalassodendron",
    "color": "rare_thalassodendron_violet",
-   "name": "STR_RARE_PLANT_THALASSODENDRON_VIOLET"
+   "name": "STR_RARE_PLANT_THALASSODENDRON_VIOLET",
+   "hearts": 22000
   },
   "seed_coin_expensive": {
    "name": "STR_RANDOM_SEED_ENIGMATIC",
@@ -13345,6 +13723,13 @@
    },
    "build": 21600,
    "level": 23
+  },
+  "spec_house_patch": {
+   "name": "STR_PATCH",
+   "price": {
+    "virtualMoney": 80
+   },
+   "level": 10
   },
   "spec_house_peach": {
    "name": "STR_HOUSE_PEACH",
@@ -14046,75 +14431,90 @@
   "rare_plant_himanthalia_blue": {
    "base": "rare_plant_himanthalia_elongata",
    "name": "STR_RARE_PLANT_HIMANTHALIA_BLUE",
-   "color": "rare_himanthalia_blue"
+   "color": "rare_himanthalia_blue",
+   "hearts": 1150
   },
   "rare_plant_kelp_on_rock_orange": {
    "base": "rare_plant_kelp_on_rock",
    "name": "STR_RARE_PLANT_KELP_ON_ROCK_ORANGE",
-   "color": "rare_kelp_on_rock_orange"
+   "color": "rare_kelp_on_rock_orange",
+   "hearts": 200
   },
   "rare_plant_sea_grapes_green": {
    "base": "rare_plant_sea_grapes",
    "name": "STR_RARE_PLANT_SEAGRAPES_GREEN",
-   "color": "rare_sea_grapes_green"
+   "color": "rare_sea_grapes_green",
+   "hearts": 460
   },
   "rare_plant_halimeda_orange": {
    "base": "rare_plant_halimeda_plant",
-   "name": "STR_RARE_PLANT_HALIMEDA_ORANGE"
+   "name": "STR_RARE_PLANT_HALIMEDA_ORANGE",
+   "hearts": 480
   },
   "rare_plant_himanthalia_olive": {
    "base": "rare_plant_himanthalia_elongata",
-   "name": "STR_RARE_PLANT_HIMANTHALIA_OLIVE"
+   "name": "STR_RARE_PLANT_HIMANTHALIA_OLIVE",
+   "hearts": 600
   },
   "rare_plant_halimeda_green": {
    "base": "rare_plant_halimeda_plant",
    "name": "STR_RARE_PLANT_HALIMEDA_GREEN",
-   "color": "rare_halimeda_green"
+   "color": "rare_halimeda_green",
+   "hearts": 3500
   },
   "rare_plant_himanthalia_brown": {
    "base": "rare_plant_himanthalia_elongata",
    "name": "STR_RARE_PLANT_HIMANTHALIA_BROWN",
-   "color": "rare_himanthalia_brown"
+   "color": "rare_himanthalia_brown",
+   "hearts": 350
   },
   "rare_plant_sea_grapes_maroon": {
    "base": "rare_plant_sea_grapes",
    "name": "STR_RARE_PLANT_SEAGRAPES_MAROON",
-   "color": "rare_sea_grapes_maroon"
+   "color": "rare_sea_grapes_maroon",
+   "hearts": 1000
   },
   "rare_plant_kelp_on_rock_red": {
    "base": "rare_plant_kelp_on_rock",
    "name": "STR_RARE_PLANT_KELP_ON_ROCK_RED",
-   "color": "rare_kelp_on_rock_red"
+   "color": "rare_kelp_on_rock_red",
+   "hearts": 1500
   },
   "rare_plant_kelp_on_rock_purple": {
    "base": "rare_plant_kelp_on_rock",
    "name": "STR_RARE_PLANT_KELP_ON_ROCK_PURPLE",
-   "color": "rare_kelp_on_rock_purple"
+   "color": "rare_kelp_on_rock_purple",
+   "hearts": 15000
   },
   "rare_plant_sea_grapes_pink": {
    "base": "rare_plant_sea_grapes",
    "name": "STR_RARE_PLANT_SEAGRAPES_PINK",
-   "color": "rare_sea_grapes_pink"
+   "color": "rare_sea_grapes_pink",
+   "hearts": 40000
   },
   "rare_plant_halimeda_violet": {
    "base": "rare_plant_halimeda_plant",
    "name": "STR_RARE_PLANT_HALIMEDA_VIOLET",
-   "color": "rare_halimeda_violet"
+   "color": "rare_halimeda_violet",
+   "hearts": 850
   },
   "rare_plant_cabbage_yellow": {
    "base": "rare_plant_cabbage",
    "name": "STR_RARE_PLANT_CABBAGE_YELLOW",
-   "color": "rare_cabbage_yellow"
+   "color": "rare_cabbage_yellow",
+   "hearts": 2500
   },
   "rare_plant_mermaids_fan_violet": {
    "base": "rare_plant_mermaids_fan",
    "name": "STR_RARE_PLANT_MERMAID_VIOLET",
-   "color": "rare_mermaids_fan_violet"
+   "color": "rare_mermaids_fan_violet",
+   "hearts": 12000
   },
   "rare_plant_cabbage_violet": {
    "base": "rare_plant_cabbage",
    "name": "STR_RARE_PLANT_CABBAGE_VIOLET",
-   "color": "rare_cabbage_violet"
+   "color": "rare_cabbage_violet",
+   "hearts": 250
   }
  },
  "levels": {
@@ -14132,7 +14532,394 @@
    "4": {
     "hardMoney": 2
    }
-  }
+  },
+  "vitality": [
+   [
+    50,
+    0,
+    0,
+    0,
+    50
+   ],
+   [
+    60,
+    0,
+    0,
+    0,
+    60
+   ],
+   [
+    100,
+    0,
+    0,
+    0,
+    100
+   ],
+   [
+    150,
+    0,
+    0,
+    0,
+    150
+   ],
+   [
+    200,
+    100,
+    100,
+    100,
+    400
+   ],
+   [
+    250,
+    350,
+    300,
+    500,
+    1400
+   ],
+   [
+    300,
+    500,
+    500,
+    500,
+    1800
+   ],
+   [
+    400,
+    600,
+    800,
+    500,
+    2300
+   ],
+   [
+    550,
+    800,
+    1000,
+    500,
+    2850
+   ],
+   [
+    750,
+    1000,
+    1400,
+    1500,
+    4650
+   ],
+   [
+    1000,
+    2000,
+    1800,
+    1500,
+    6300
+   ],
+   [
+    1500,
+    2500,
+    2000,
+    1500,
+    7500
+   ],
+   [
+    2100,
+    2800,
+    2500,
+    1500,
+    8900
+   ],
+   [
+    2600,
+    3500,
+    3000,
+    1500,
+    10600
+   ],
+   [
+    3000,
+    4500,
+    3200,
+    1500,
+    12200
+   ],
+   [
+    3500,
+    6000,
+    3500,
+    2500,
+    15500
+   ],
+   [
+    4000,
+    7000,
+    4000,
+    2500,
+    17500
+   ],
+   [
+    4500,
+    8000,
+    4200,
+    2500,
+    19200
+   ],
+   [
+    5000,
+    10000,
+    4600,
+    2500,
+    22100
+   ],
+   [
+    6000,
+    12000,
+    5000,
+    2500,
+    25500
+   ],
+   [
+    7000,
+    13000,
+    7000,
+    4500,
+    31500
+   ],
+   [
+    7000,
+    15500,
+    8000,
+    4500,
+    35000
+   ],
+   [
+    8000,
+    17000,
+    9000,
+    4500,
+    38500
+   ],
+   [
+    8500,
+    18000,
+    10000,
+    4500,
+    41000
+   ],
+   [
+    10000,
+    20000,
+    14000,
+    4500,
+    48500
+   ],
+   [
+    11000,
+    21000,
+    15000,
+    7000,
+    54000
+   ],
+   [
+    12000,
+    25000,
+    15700,
+    7000,
+    59700
+   ],
+   [
+    13000,
+    27000,
+    16800,
+    7000,
+    63800
+   ],
+   [
+    14000,
+    28500,
+    18000,
+    7000,
+    67500
+   ],
+   [
+    14000,
+    31000,
+    21000,
+    7000,
+    73000
+   ],
+   [
+    15000,
+    35000,
+    22000,
+    9500,
+    81500
+   ],
+   [
+    18000,
+    50000,
+    25000,
+    9500,
+    102500
+   ],
+   [
+    20000,
+    55000,
+    27500,
+    9500,
+    112000
+   ],
+   [
+    25000,
+    60000,
+    30000,
+    9500,
+    124500
+   ],
+   [
+    30000,
+    67000,
+    33500,
+    9500,
+    140000
+   ],
+   [
+    42000,
+    75000,
+    36000,
+    13000,
+    166000
+   ],
+   [
+    48000,
+    90000,
+    38000,
+    13000,
+    189000
+   ],
+   [
+    55000,
+    110000,
+    42000,
+    13000,
+    220000
+   ],
+   [
+    75000,
+    130000,
+    47000,
+    13000,
+    265000
+   ],
+   [
+    90500,
+    150000,
+    50000,
+    15000,
+    303500
+   ],
+   [
+    106000,
+    170000,
+    55000,
+    15000,
+    346000
+   ],
+   [
+    121500,
+    190000,
+    60000,
+    15000,
+    386500
+   ],
+   [
+    137000,
+    210000,
+    65000,
+    20000,
+    432000
+   ],
+   [
+    152500,
+    230000,
+    70000,
+    20000,
+    472500
+   ],
+   [
+    168000,
+    250000,
+    75000,
+    20000,
+    513000
+   ],
+   [
+    183500,
+    270000,
+    80000,
+    25000,
+    558500
+   ],
+   [
+    199000,
+    290000,
+    85000,
+    25000,
+    599000
+   ],
+   [
+    214500,
+    310000,
+    90000,
+    30000,
+    644500
+   ],
+   [
+    230000,
+    330000,
+    100000,
+    30000,
+    690000
+   ],
+   [
+    245500,
+    350000,
+    115000,
+    35000,
+    745500
+   ],
+   [
+    255000,
+    375000,
+    125000,
+    35000,
+    790000
+   ],
+   [
+    268000,
+    390000,
+    130000,
+    35000,
+    823000
+   ],
+   [
+    272000,
+    415000,
+    135000,
+    40000,
+    862000
+   ],
+   [
+    280000,
+    430000,
+    140000,
+    40000,
+    890000
+   ],
+   [
+    295000,
+    450000,
+    145000,
+    40000,
+    930000
+   ]
+  ]
  },
  "rareFish": {
   "pairs": {

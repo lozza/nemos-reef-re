@@ -299,6 +299,7 @@ class Game:
                         w['kids'] = req['age'] == 1
                     self.finish_visit(w)
                     self.reef.new_day(w)
+                    self.reef.vitality(w)
                     self.expand(w, push=False)
                     self.story.catch_up(w, push=False)  # in the startgame quests list
                     # quest messages are covered by the quests list; entity events still have to be pushed
@@ -338,6 +339,7 @@ class Game:
                     self.push_events(w)
                     self.story.catch_up(w)  # quests that open with a level-up
                     self.expand(w)
+                    self.reef.vitality(w)
                     # The client never changes currencies itself: the HUD only updates from a "status"
                     # object next to the reactions (ComManager::loadingFinished → updateUserStatus).
                     body['status'] = w['status']

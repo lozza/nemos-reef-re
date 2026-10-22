@@ -38,6 +38,7 @@ SHOP_CATEGORY = {
     'ET_RARE_PLANT': 'RAREPLANT',
     'ET_SEED': 'RAREPLANT',  # Mystery Seeds are sold in the Rare tab
     'ET_SPEC_HOUSE': 'SPECIAL',
+    'ET_PATCH': 'SPECIAL',  # the empty Patch
 }
 
 PRODUCES = ('ET_CORAL', 'ET_LIVING_PLANT', 'ET_PATCH', 'ET_CHARACTER')
@@ -264,7 +265,7 @@ def build(apk_path, story=None):
             # drawable group to show and crashes the client (Entity::calculateDrawablesHeight)
             p['constructionTime'] = duration(0)
         if etype == 'ET_PATCH':
-            p['maxPlants'] = 3  # EntityPatch::getPlantMax: plants needed before the patch produces
+            p['maxPlants'] = 4  # EntityPatch::getPlantMax: four plants of a kind make the upgraded plant
         wd[lst].append(p)
         if etype != 'ET_SCENE_DECORATION':
             wd['ingameShopItems'].append(shop_item(p))
