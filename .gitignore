@@ -12,3 +12,4 @@ nemo-private.apk
 patcher/*.jar
 !server/story.json
 !server/texts_*.json
+reef-report.txt
