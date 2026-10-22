@@ -45,6 +45,9 @@ TREASURE_FISH = {'fish_treasure_lyretail': (4, 5), 'fish_treasure_panther': (6, 
 # Chests opened during its month after which the treasure fish surely comes (before that, 1 in 5 chests)
 TREASURE_CHESTS = 6
 
+# Time events that run now whatever the date (nemo_server.py --event, for testing)
+FORCED_EVENTS = {}  # quest id -> start (ms)
+
 # Decorations sold only during their holiday event
 SEASONAL_ITEMS = {'deco_halloween_rock_orange': 'halloween', 'deco_halloween_skull': 'halloween'}
 
@@ -116,6 +119,9 @@ class Story:
                     end = calendar.timegm((y, m2, d2, 23, 59, 59)) * 1000
                     if end > now:
                         break
+            elif q['id'] in FORCED_EVENTS:  # --event: running now (testing)
+                start = FORCED_EVENTS[q['id']]
+                end = start + 3 * 24 * 3600 * 1000
             else:
                 n, i = len(weekend), weekend.index(q['id'])
                 k = (now - self.EPOCH) // self.WEEK
@@ -345,6 +351,12 @@ class Story:
         if missing:
             raise ValueError('story.json refers to unknown prototypes: %s' % ', '.join(sorted(missing)))
 
+    def is_squirt(self, qid):
+        """A game of Hide and Seek with Squirt (not Bruce's visit, which is also a minigame quest)."""
+        q = self.quests.get(qid, {})
+        return q.get('type') == 'SQUIRT_MINIGAME' and any(
+            t['cid'] == 'CID_MINIGAME' and t['params'][:1] == ['questGame_Squirt'] for t in q.get('tasks', []))
+
     def quest_prototype(self, q):
         if self.kids and q.get('kids'):
             k = q['kids']
@@ -377,7 +389,11 @@ class Story:
             day = int(q['id'].rsplit('_', 1)[1]) + 1
             p['startConditionList'] = [{'conditionDefinitionId': 'CID_REGULAR_TIME_INTERVAL', 'parameterValueList': [
                 {'index': 1, 'value': 0}, {'index': 2, 'value': day}, {'index': 3, 'value': 24 * 60}]}]
-        if p['type'] == 'SQUIRT_MINIGAME':
+        if p['type'] == 'SQUIRT_MINIGAME' and q.get('event'):  # Bruce's weekend visit
+            start, end = getattr(self, 'windows', {}).get(q['id'], (0, 0))
+            p['startConditionList'] = [{'conditionDefinitionId': 'CID_TIME_INTERVAL', 'parameterValueList': [
+                {'index': 1, 'value': start}, {'index': 2, 'value': end}]}]
+        elif p['type'] == 'SQUIRT_MINIGAME':
             # QuestManager::getPrototypeStartEndTimes reads the list without a null check; open-ended interval
             p['startConditionList'] = [{'conditionDefinitionId': 'CID_TIME_INTERVAL', 'parameterValueList': [
                 {'index': 1, 'value': 1388534400000}, {'index': 2, 'value': 4102444800000}]}]

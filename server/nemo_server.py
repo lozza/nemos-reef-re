@@ -378,7 +378,7 @@ class Game:
                 return dict(ok, data=self.story.task_state(w, d, lambda q, r: self.quest_done(w, q, r)))
             if name == 'questStart':
                 e = self.story.find(w, d.get('id'))
-                if e and self.story.quests.get(e['prototypeId'], {}).get('type') == 'SQUIRT_MINIGAME':
+                if e and self.story.is_squirt(e['prototypeId']):
                     w['status']['squirtStarted'] = now_ms()  # a game of Hide and Seek begins
                 self.story.start(w, d)
                 return ok
@@ -574,7 +574,7 @@ class Game:
     def quest_done(self, w, q, reward):
         """A quest's last task finished: reward, fish that move in, newly opened areas."""
         self.reef.earn(w, reward)
-        if q.get('type') == 'SQUIRT_MINIGAME':  # won: Squirt rests before the next game
+        if self.story.is_squirt(q['id']):  # won: Squirt rests before the next game
             w['status']['lastSquirt'] = now_ms()
         fish_list = list(q.get('grantFish', []))
         if q.get('challengeFish'):  # a weekend challenge: the next of the 2014 challenge fish not in the reef yet
@@ -678,7 +678,11 @@ def main():
     ap.add_argument('--reset-all', action='store_true',
                     help='delete every account and reef; every device starts as a new player')
     ap.add_argument('--no-story', action='store_true', help='turn off the story quests (story.json)')
+    ap.add_argument('--event', action='append', default=[], metavar='QUEST_ID',
+                    help='run this time event now, e.g. time_event_bruce (testing; may be repeated)')
     args = ap.parse_args()
+    for qid in args.event:
+        quests.FORCED_EVENTS[qid] = now_ms() - 60000
     Handler.game = Game(args)
     print('Nemo\'s Reef server on http://%s:%d  (world version %s, log: %s)'
           % (args.host, args.port, Handler.game.world_version, Handler.game.log_path))

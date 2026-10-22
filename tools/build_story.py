@@ -71,6 +71,7 @@ HOMEWORK_TASKS = [{'textKey': 'STR_GROW_A', 'cid': 'CID_GROWN', 'params': [2, 'c
 EARLY_END = 'story_quest_16'
 MAX_LEVEL = 55
 SQUIRT_GAME = 'questGame_Squirt'
+BRUCE_GAME, BRUCE_FISH = 'questGame_Bruce', 8
 AMBIENT = ['fish_ambient_0', 'fish_ambient_1', 'fish_ambient_coralfish', 'fish_ambient_firefish']
 # Tint for colour variants the catalogue has no measured colour for (name colour word -> RGB).
 # The ambient fish in the wiki's combination pictures: base prototype and the name for its colour variants
@@ -222,7 +223,7 @@ def main():
     chosen, skipped = {}, []
     for q in cq['quests']:
         if not q['id'].startswith(FAMILIES) or q['type'] not in ('STORY', 'MISSION', 'SQUIRT_MINIGAME', 'HOMEWORK',
-                                                                  'TIME_EVENT') or q['id'] == 'time_event_bruce':
+                                                                  'TIME_EVENT'):
             continue
         if q['type'] == 'HOMEWORK':
             q = dict(q, tasks=[{'textId': t['textKey'], 'cid': t['cid'],
@@ -383,6 +384,13 @@ def main():
             if oldq.get(k):
                 e[k] = oldq[k]
 
+    # Bruce's visit (a weekend event): quest::QuestMinigame (type SQUIRT_MINIGAME) starts QuestGameBruce by itself
+    # once the quest runs; the player taps the BRUCE_FISH fish hiding from him before the weekend is over.
+    if 'time_event_bruce' in out_quests:
+        e = out_quests['time_event_bruce']
+        e.update(type='SQUIRT_MINIGAME', autoStart=True)
+        e['tasks'] = [dict(e['tasks'][0], cid='CID_MINIGAME', params=[BRUCE_GAME, BRUCE_FISH])]
+
     # ---- dialogs (text keys only)
     conv = {c['id']: c for c in cd['conversations']}
     dialogs = []
@@ -491,6 +499,10 @@ def main():
         if it or pid not in base:
             items[pid] = it
 
+    # QuestGameBruce tops the hiding fish up with "fish_ordinary_orange" (ServerPrototype must exist)
+    colors.setdefault('ambient_ordinary_orange', list(COLOUR_WORDS['orange']))
+    items.setdefault('fish_ordinary_orange', {'base': 'fish_ambient_0', 'color': 'ambient_ordinary_orange',
+                                              'name': 'Orange Ordinary Fish'})
     for pid, (price, hours) in HOUSES.items():
         if pid in wanted:
             items.setdefault(pid, {}).update(price={'virtualMoney': price}, build=hours * 3600)

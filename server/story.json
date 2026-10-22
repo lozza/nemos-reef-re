@@ -1009,6 +1009,38 @@
    }
   },
   {
+   "id": "time_event_bruce",
+   "level": 6,
+   "after": [],
+   "order": 562,
+   "event": {
+    "season": "weekend"
+   },
+   "type": "SQUIRT_MINIGAME",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_TIME_EVENT_BRUCE_NAME",
+   "descKey": "STR_TIME_EVENT_BRUCE_DESCRIPTION",
+   "rewardKey": "STR_TIME_EVENT_BRUCE_REWARD",
+   "startDialogId": "dialog_quest_bruce",
+   "endDialogId": "dialog_quest_bruce_finish",
+   "tasks": [
+    {
+     "textKey": "STR_TIME_EVENT_BRUCE_TASK_01",
+     "cid": "CID_MINIGAME",
+     "params": [
+      "questGame_Bruce",
+      8
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 200,
+    "virtualMoney": 280,
+    "energy": 120
+   },
+   "autoStart": true
+  },
+  {
    "id": "homework_1",
    "level": 9,
    "after": [
@@ -8645,6 +8677,82 @@
      "actor": "fish_special_nemo",
      "key": "STR_DIALOG_NARRATIVE_07_05",
      "listener": "fish_special_marlin"
+    }
+   ]
+  },
+  {
+   "id": "dialog_quest_bruce",
+   "lines": [
+    {
+     "side": "right",
+     "actor": "fish_special_bruce",
+     "key": "STR_DIALOG_QUEST_BRUCE_01",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_DIALOG_QUEST_BRUCE_02",
+     "listener": "fish_special_bruce"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_bruce",
+     "key": "STR_DIALOG_QUEST_BRUCE_03",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_DIALOG_QUEST_BRUCE_04",
+     "listener": "fish_special_bruce"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_bruce",
+     "key": "STR_DIALOG_QUEST_BRUCE_05",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_DIALOG_QUEST_BRUCE_06",
+     "listener": "fish_special_bruce"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_DIALOG_QUEST_BRUCE_07",
+     "listener": "fish_special_marlin"
+    }
+   ]
+  },
+  {
+   "id": "dialog_quest_bruce_finish",
+   "lines": [
+    {
+     "side": "left",
+     "actor": "fish_special_bruce",
+     "key": "STR_DIALOG_QUEST_BRUCE_FINISH_01",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_DIALOG_QUEST_BRUCE_FINISH_02",
+     "listener": "fish_special_bruce"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_bruce",
+     "key": "STR_DIALOG_QUEST_BRUCE_FINISH_03",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_dory",
+     "key": "STR_DIALOG_QUEST_BRUCE_FINISH_04",
+     "listener": "fish_special_bruce"
     }
    ]
   },
@@ -17122,6 +17230,11 @@
    },
    "build": 21600,
    "level": 20
+  },
+  "fish_ordinary_orange": {
+   "base": "fish_ambient_0",
+   "color": "ambient_ordinary_orange",
+   "name": "Orange Ordinary Fish"
   },
   "fish_rare_lion_violet": {
    "base": "fish_rare_lion",
