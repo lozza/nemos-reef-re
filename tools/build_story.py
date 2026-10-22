@@ -436,6 +436,17 @@ def main():
         p['areaSize'] = AREA_SIZE
         out_patterns.append(p)
 
+    # The living plant is a combination's central item (wiki: "Primary living plant + 1-2 items"). It matters:
+    # PatternSystem looks for combinations only around a central item that is placed or moved, and on loading
+    # only around living plants, so a Yellow Plateau Plant moved next to a central Heap of Stones never counted.
+    living = {p['id'] for p in wd.get('livingPlantPrototypeList', [])}
+    for p in out_patterns:
+        if p['centralPrototype'] not in living:
+            plant = next((n for n in p['nearPrototypes'] if n in living or cat_items.get(n, {}).get('kind') == 'living_plant'), None)
+            if plant:
+                p['nearPrototypes'] = [p['centralPrototype']] + [n for n in p['nearPrototypes'] if n != plant]
+                p['centralPrototype'] = plant
+
     # ---- the wiki's ambient fish combinations (a living plant and 1-2 items near it): colour variants of the
     # four ambient fish ("Fish beaked orange.png" -> fish_ambient_coralfish tinted orange)
     id_by_key = {x['key']: x['id'] for x in ci['items'] if x.get('key') and x.get('id')}

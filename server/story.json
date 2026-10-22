@@ -12631,9 +12631,9 @@
  "patterns": [
   {
    "id": "pattern_acropora_small_grass",
-   "centralPrototype": "coral_acropora",
+   "centralPrototype": "plant_small_grass_yellow",
    "nearPrototypes": [
-    "plant_small_grass_yellow"
+    "coral_acropora"
    ],
    "producedFishId": "fish_ambient_0",
    "areaSize": 9,
@@ -12706,9 +12706,9 @@
   },
   {
    "id": "pattern_heap_stones_plateau_yellow",
-   "centralPrototype": "deco_heap_stones",
+   "centralPrototype": "plant_plateau_yellow",
    "nearPrototypes": [
-    "plant_plateau_yellow"
+    "deco_heap_stones"
    ],
    "producedFishId": "fish_ambient_1",
    "areaSize": 9,
@@ -12979,9 +12979,9 @@
   },
   {
    "id": "pattern_pajama_yellow",
-   "centralPrototype": "coral_acropora",
+   "centralPrototype": "plant_small_grass_yellow",
    "nearPrototypes": [
-    "plant_small_grass_yellow",
+    "coral_acropora",
     "deco_bangia",
     "deco_pavona",
     "deco_stone_tower"
