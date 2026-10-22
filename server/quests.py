@@ -490,8 +490,12 @@ class Story:
         w['quests'] = [e for e in w['quests'] if not self.quests.get(e['prototypeId'], {}).get('homework')]
         qid = 'homework_%d' % weekday
         q = self.quests.get(qid)
-        if not q or not all(p in w['finishedTutorialQuests'] for p in q.get('after', [])) \
-                or int(w['status'].get('level', 1)) < q.get('level', 1):
+        # Homework comes with its tutorial ("tap the homework button" needs the button, which a HOMEWORK quest
+        # shows), whichever way the tutorial opened (catch_up may open it before its "after" quests are done)
+        tutorial = any(e['prototypeId'] == 'homework_tutorial_01' for e in w['quests']) \
+            or 'homework_tutorial_01' in w['finishedTutorialQuests']
+        if not q or not (tutorial or (all(p in w['finishedTutorialQuests'] for p in q.get('after', []))
+                                      and int(w['status'].get('level', 1)) >= q.get('level', 1))):
             return
         sid = w['nextQuestId']
         w['nextQuestId'] += 1
