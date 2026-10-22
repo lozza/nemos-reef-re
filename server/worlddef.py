@@ -119,6 +119,34 @@ def shop_item(p):
     return item
 
 
+# Treasure chests (data::TreasureRule): the client spawns them itself. Each kind has a weight ("chance") and
+# rules by level; a rule's open cost is rolled between minCost and maxCost (Treasure::computeCostFromRule) and
+# times are seconds. The fan wiki: pick lock free and ~10 % successful, common spines raise the open
+# percentage step by step, rare spines (highTool) always open, 0-12 of them.
+CHEST_KINDS = {  # id: (weight, rare spines to open (min, max))
+    'chest_coins_low_cheap': (20, (1, 2)), 'chest_coins_high_cheap': (12, (2, 4)), 'chest_coins_high_exp': (5, (6, 10)),
+    'chest_algae_low_cheap': (20, (1, 2)), 'chest_algae_high_cheap': (12, (2, 4)), 'chest_algae_high_exp': (5, (6, 10)),
+    'chest_pearls_low_cheap': (12, (2, 3)), 'chest_pearls_high_cheap': (6, (3, 6)), 'chest_pearls_high_exp': (3, (8, 12)),
+}
+
+
+def chest_rule(spines, minimum_level=1):
+    return {
+        'chance': 100, 'minLevel': minimum_level, 'maxLevel': 999,
+        'minCost': cost(high_tool=spines[0]), 'maxCost': cost(high_tool=spines[1]),
+        'minAppearanceTime': 600, 'maxAppearanceTime': 1800,  # the next chest comes 10-30 minutes later
+        'screenTime': 3600,  # and stays an hour
+        'picklockAvailableProgress': 0, 'lowToolSuccessChance': 60, 'lowToolAverageStepsCount': 3,
+    }
+
+
+def chests():
+    out = [{'id': cid, 'chance': weight, 'costs': [chest_rule(spines)]} for cid, (weight, spines) in CHEST_KINDS.items()]
+    # the tutorial chest (Treasure::addTutorialChest) opens with no spines at all
+    out.append({'id': 'chest_tutorial', 'chance': 0, 'costs': [chest_rule((0, 0))]})
+    return out
+
+
 def levels(count=60):
     out, xp = [], 0
     for lv in range(1, count + 1):
@@ -176,7 +204,7 @@ def build(apk_path, story=None):
         'ingameShopItems': [],
         'levelList': levels(),
         # Not reconstructed yet; empty lists keep the parsers happy.
-        'sectorPrototypeList': [], 'dailyRewardPrototypeList': [], 'chestsList': [],
+        'sectorPrototypeList': [], 'dailyRewardPrototypeList': [], 'chestsList': chests(),
         'squirtMinigameList': [], 'newPrototypeList': [], 'discounts': [],
         'vitalityPatchList': [], 'conditionDefinitionList': [], 'questPrototypeList': [],
         'dialogPrototypeList': [], 'colorVariantList': [], 'patternList': [],

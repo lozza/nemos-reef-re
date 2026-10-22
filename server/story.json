@@ -818,6 +818,34 @@
    }
   },
   {
+   "id": "chest_tutorial_02",
+   "level": 6,
+   "after": [
+    "story_quest_16"
+   ],
+   "order": 50,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_CHEST_TUTORIAL_NAME",
+   "descKey": "STR_CHEST_TUTORIAL_DESCRIPTION",
+   "rewardKey": "STR_CHEST_TUTORIAL_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_CHEST_TUTORIAL_TASK_01",
+     "cid": "CID_CHEST_OPENED",
+     "params": [
+      1,
+      ""
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 110,
+    "virtualMoney": 160,
+    "energy": 60
+   }
+  },
+  {
    "id": "side_quest_01",
    "level": 5,
    "after": [
@@ -5622,10 +5650,39 @@
    }
   },
   {
-   "id": "story_quest_50",
+   "id": "story_quest_49b",
    "level": 41,
    "after": [
     "story_quest_49a"
+   ],
+   "order": 2696,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_STORY_QUEST_49B_NAME",
+   "descKey": "STR_STORY_QUEST_49B_DESCRIPTION",
+   "rewardKey": "STR_STORY_QUEST_49B_REWARD",
+   "startDialogId": "story_quest_49b_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_STORY_QUEST_49B_TASK_01",
+     "cid": "CID_CHEST_OPENED_AMOUNT",
+     "params": [
+      10,
+      ""
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 640,
+    "virtualMoney": 860,
+    "energy": 410
+   }
+  },
+  {
+   "id": "story_quest_50",
+   "level": 41,
+   "after": [
+    "story_quest_49b"
    ],
    "order": 2713,
    "type": "STORY",
@@ -8310,6 +8367,29 @@
      "actor": "fish_special_marlin",
      "key": "STR_STORY_QUEST_49A_DIALOG_3",
      "listener": "fish_special_nemo"
+    }
+   ]
+  },
+  {
+   "id": "story_quest_49b_dialog",
+   "lines": [
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_STORY_QUEST_49B_DIALOG_1",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_STORY_QUEST_49B_DIALOG_2",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_STORY_QUEST_49B_DIALOG_3",
+     "listener": "fish_special_marlin"
     }
    ]
   },

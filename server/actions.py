@@ -447,6 +447,45 @@ class Reef:
         full = {k: int(reward.get(k, 0)) for k in ('xp', 'virtualMoney', 'energy', 'hardMoney', 'lowTool', 'highTool')}
         return {'reward': full}
 
+    # ------------------------------------------------------------ treasure chests
+    def chest_reward(self, w, chest):
+        """What a chest holds: its kind's currency (more in the expensive ones), sometimes spines."""
+        level = self.level(w)
+        r = {}
+        if chest == 'chest_tutorial':
+            r = {'virtualMoney': 100, 'lowTool': 3, 'highTool': 2}
+        else:
+            kind = chest.split('_')[1] if chest.count('_') >= 2 else 'coins'
+            tier = 3 if chest.endswith('high_exp') else 2 if chest.endswith('high_cheap') else 1
+            if kind == 'pearls':
+                r['hardMoney'] = random.randint(1, 2) * tier
+            elif kind == 'algae':
+                r['energy'] = random.randint(20, 40) * tier * (5 + level) // 5
+            else:
+                r['virtualMoney'] = random.randint(40, 80) * tier * (5 + level) // 5
+            if random.random() < 0.5:
+                r['lowTool'] = random.randint(1, 3)
+            if random.random() < 0.2:
+                r['highTool'] = 1
+        self.earn(w, r)
+        return {k: int(r.get(k, 0)) for k in ('xp', 'virtualMoney', 'energy', 'hardMoney', 'lowTool', 'highTool')}
+
+    def a_chestPicklock(self, w, d, now):
+        """The free pick lock: about one try in ten opens the chest (DialogFlowTreasure reads data.reward)."""
+        if d.get('prototypeId') == 'chest_tutorial' or random.random() < 0.1:
+            return {'reward': self.chest_reward(w, d.get('prototypeId', ''))}
+        return {}
+
+    def a_chestSpentTool(self, w, d, now):
+        """Common spines spent without opening the chest (the client rolled the attempt)."""
+        self.pay(w, d.get('cost'))
+        return {}
+
+    def a_chestCollectReward(self, w, d, now):
+        """The chest opened with spines: pay them, hand out what is inside."""
+        self.pay(w, d.get('cost'))
+        return {'reward': self.chest_reward(w, d.get('prototypeId', ''))}
+
     def a_collectSquirtTapReward(self, w, d, now):
         self.earn(w, d.get('reward'))
         return None

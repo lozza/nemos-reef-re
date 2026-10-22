@@ -11,7 +11,7 @@ language the game ships, so no game text is copied into story.json.
 What the generator decides (the catalogue only has the texts):
 * which quests are offered: story, side, Tank Gang, narrative scenes, the vitality and rare-fish
   tutorials, Crush & Squirt and the guest missions. Quests that need features the server does not
-  have yet (treasure chests, minigames, co-op, homework, patches) are left out.
+  have yet (minigames, co-op, homework, patches) are left out.
 * when: the Let's Play order (parts 1-2) for the early game; after that a level per quest (the
   catalogue's level band, anchored on the Tank Gang arrival levels) and chains (story quests in
   number order, A/B/C parts, guest missions one at a time).
@@ -49,8 +49,8 @@ RENAMED = {
     'unexpected_party': 'squirt_quest_01', 'planting_101': 'squirt_quest_02',
 }
 FAMILIES = ('story_quest_', 'side_quest_', 'tankgang_', 'narrative_quest_', 'vitality_quest_',
-            'pearls_tutorial_', 'squirt_quest_', 'mission_')
-UNSUPPORTED = {'CID_CHEST_OPENED', 'CID_CHEST_OPENED_AMOUNT', 'CID_MINIGAME', 'CID_MINIGAME_FINISHED_COUNT',
+            'pearls_tutorial_', 'squirt_quest_', 'mission_', 'chest_tutorial_02')
+UNSUPPORTED = {'CID_MINIGAME', 'CID_MINIGAME_FINISHED_COUNT',
                'CID_COOP_QUEST_CHECK', 'CID_HOMEWORK_QUEST_CHECK', 'CID_MOVED_ON_PATCH', '<per template>'}
 # The early game ends with A Wormy Mess (level 5); later quests wait for it.
 EARLY_END = 'story_quest_16'
@@ -244,6 +244,8 @@ def main():
             e['after'] = [EARLY_END]
         if e['level'] is None:
             e['level'] = 6
+        if qid == 'chest_tutorial_02':  # no chest appears until this one is done (canGenerateTreasureChest)
+            e['order'] = 50
     # levels never go down along a chain (a quest waiting for a later-level one)
     for _ in range(3):
         for e in out_quests.values():
