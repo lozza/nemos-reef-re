@@ -117,6 +117,10 @@ def new_world(user):
     return w
 
 
+SECTOR_ADDED = 9  # message type
+# reef areas (level.iscn tile groups) in order outward from "base", and the level each opens at
+EXPANSIONS = [(4, 'tiles'), (8, 'tiles_2'), (12, 'tiles_3'), (16, 'tiles_4'), (21, 'tiles_5'), (27, 'tiles_6'),
+              (33, 'tiles_7'), (40, 'tiles_8')]
 FRIEND_UID = 'friend_nemo'
 FRIEND_ACTIONS = 5  # "Daily Actions: 5/5" on a friend's reef
 
@@ -254,6 +258,7 @@ class Game:
                     self.reef.refresh(w, now_ms())
                     self.finish_visit(w)
                     self.reef.new_day(w)
+                    self.expand(w, push=False)
                     self.story.catch_up(w, push=False)  # in the startgame quests list
                     # quest messages are covered by the quests list; entity events still have to be pushed
                     w['messages'] = [m for m in w.get('messages', []) if m['type'] != quests.QUEST_OPEN]
@@ -291,6 +296,7 @@ class Game:
                     self.reef.refresh(w, now_ms())
                     self.push_events(w)
                     self.story.catch_up(w)  # quests that open with a level-up
+                    self.expand(w)
                     # The client never changes currencies itself: the HUD only updates from a "status"
                     # object next to the reactions (ComManager::loadingFinished → updateUserStatus).
                     body['status'] = w['status']
@@ -437,8 +443,25 @@ class Game:
                 if e:  # message type 1: EntityManager::processFishAddedMessage swims the fish in now
                     w.setdefault('messages', []).append({'id': self.story.message_id(w), 'type': 1, 'data': dict(e)})
         for sector in q.get('unlockSectors', []):
-            if sector not in w['sectors']:
-                w['sectors'].append(sector)
+            self.unlock_sector(w, sector)
+
+    def unlock_sector(self, w, sector, push=True):
+        """Opens a reef area. Message type 9 {"sector": name} makes IsoMap::processSectorAdded unlock it with the
+        "Your reef has expanded!" scene (ScriptMapUnlocked); at startgame the "sectors" list is enough."""
+        if sector in w['sectors']:
+            return
+        w['sectors'].append(sector)
+        if push:
+            w.setdefault('messages', []).append({'id': self.story.message_id(w), 'type': SECTOR_ADDED,
+                                                 'data': {'sector': sector}})
+
+    def expand(self, w, push=True):
+        """Reef expansions. The original opened them as friends joined; with no other players they come with
+        levels instead, the first at level 4 as in the Let's Play."""
+        level = int(w['status'].get('level', 1))
+        for need, sector in EXPANSIONS:
+            if level >= need:
+                self.unlock_sector(w, sector, push)
 
 
 class Handler(BaseHTTPRequestHandler):
