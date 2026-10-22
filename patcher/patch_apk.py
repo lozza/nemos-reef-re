@@ -58,6 +58,10 @@ EMULATOR_PATCH = (0xa036ee, bytes.fromhex('44f164ec'), bytes.fromhex('20200860')
 # is negative and opening Menu > Settings crashes. Replace `subs r3, #0xb` with `movs r3, #0` (empty text,
 # as the original "http://nemo.pragueweb..." gave).
 SETTINGS_PATCH = (0x5308b8, bytes.fromhex('0b3b'), bytes.fromhex('0023'))
+# EntityFish::EntityFish sets the LOD-fade flag (Entity+0xf0) on the small ambient fish (Beaked, Firefish,
+# Ordinary, Ambient), so Entity::updateLodAlpha fades them out unless the camera is zoomed right in. Replace
+# `strb r3, [r4, r2]` with a nop: they stay visible at every zoom.
+AMBIENT_FADE_PATCH = (0x2a5384, bytes.fromhex('a354'), bytes.fromhex('c046'))
 
 
 # SdrRoot.init(SdrActivity, int, int) stores data under /sdcard/Android/data/<pkg>/files, which apps this
@@ -142,10 +146,10 @@ def patch_lib(lib, account_url, game_url, debug_log, emulator):
                 sys.exit('unexpected bytes at %#x; is this the 1.8.1 APK?' % src)
             lib[src:src + 4] = thumb2_b_w(src, dst)
         trace_hooks(lib)
-    at, old, new = SETTINGS_PATCH
-    if lib[at:at + 2] != old:
-        sys.exit('unexpected bytes at %#x; is this the 1.8.1 APK?' % at)
-    lib[at:at + 2] = new
+    for at, old, new in (SETTINGS_PATCH, AMBIENT_FADE_PATCH):
+        if lib[at:at + 2] != old:
+            sys.exit('unexpected bytes at %#x; is this the 1.8.1 APK?' % at)
+        lib[at:at + 2] = new
     if emulator:
         at, old, new = EMULATOR_PATCH
         if lib[at:at + 4] != old:
