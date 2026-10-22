@@ -116,6 +116,9 @@ def new_world(user):
     return w
 
 
+FRIEND_UID = 'friend_nemo'
+
+
 def user_info():
     # data::UserStatus::loadUserInfo(obj): if obj has "resumeGame", reads these fields inside it
     return {'resumeGame': {'moneySpent': False, 'tapjoyMoneySpent': False,
@@ -139,6 +142,7 @@ class Game:
         else:
             self.worlddef = worlddef.build(args.apk, self.story)
         self.reef = actions.Reef(actions.Prototypes(self.worlddef))
+        self.dummy_friend = None
         self.world_version = str(self.worlddef['version'])
         self.worlddef_blob = xor(json.dumps(self.worlddef, separators=(',', ':')).encode('utf-8'))
         with zipfile.ZipFile(args.apk) as z:
@@ -233,12 +237,15 @@ class Game:
             return self.worlddef_blob, 'application/octet-stream'
         if endpoint == 'getcurrentworldversion':
             body = {'worldVersion': self.world_version}
-        elif endpoint in ('startgame', 'gettutorialworld'):
+        elif endpoint in ('gettutorialworld', 'getfriendworld'):
+            body = self.friend_world(uid)
+        elif endpoint == 'startgame':
             w = self.user_world(uid)
             if w:
                 with self.world_lock:
                     self.reef.events = []
                     self.reef.refresh(w, now_ms())
+                    self.finish_visit(w)
                     # quest messages are covered by the quests list; entity events still have to be pushed
                     w['messages'] = [m for m in w.get('messages', []) if m['type'] != quests.QUEST_OPEN]
                     self.push_events(w)
@@ -252,8 +259,6 @@ class Game:
             for k in ('moneySpent', 'tapjoyMoneySpent', 'currentDailyRewardCountOffer',
                       'lastDailyRewardCountClaimed', 'dailyTapRewardReady'):
                 body.pop(k, None)  # flat copies sent by older versions
-        elif endpoint == 'getfriendworld':
-            body = dict(self.user_world(req.get('friendId') or req.get('requestedUid') or uid) or {})
         elif endpoint == 'reset':
             self.store.delete_world(uid)
             body = {}
@@ -343,6 +348,42 @@ class Game:
                         if (msg[0], e['id']) not in queued:
                             queued.add((msg[0], e['id']))
                             w.setdefault('messages', []).append({'id': self.story.message_id(w), 'type': msg[0], 'data': msg[1]})
+
+    def friend_world(self, uid):
+        """The reef shown when visiting a friend. "Random friend" (CU::visitRandomPlayer) asks for the tutorial
+        world; there are no other players, so every visit shows Nemo's starter reef. World::processUserWorld
+        reads "friendStatus" (data::FriendStatus::load: hardMoney, virtualMoney, level, xp, energy,
+        xpForNextLevel) and "user" {name, uid} for the visited friend; "status" is still the visitor's own."""
+        if self.dummy_friend is None:
+            f = new_world({'uid': FRIEND_UID, 'name': 'Nemo'})
+            self.starter_reef(f)
+            f['quests'] = []
+            for k in ('nextEntityId', 'nextQuestId', 'nextMessageId', 'messages', 'patterns'):
+                f.pop(k, None)
+            self.dummy_friend = f
+        body = json.loads(json.dumps(self.dummy_friend))
+        body['friendStatus'] = {k: body['status'][k] for k in
+                                ('hardMoney', 'virtualMoney', 'level', 'xp', 'energy', 'xpForNextLevel')}
+        body['friendStatus'].update(level=7, xp=1300, xpForNextLevel=1300)
+        body['resumeGame'] = user_info()['resumeGame']
+        with self.world_lock:
+            w = self.user_world(uid)
+            if w:
+                body['status'] = w['status']
+                w['visitedFriend'] = True
+                self.store.save_world(uid, w)
+        return body
+
+    def finish_visit(self, w):
+        """Back home after a visit: finishes a "Visit a Friend's Reef" task the client did not report itself."""
+        if not w.pop('visitedFriend', False):
+            return
+        for q in list(w.get('quests', [])):
+            proto = self.story.quests.get(q['prototypeId'], {})
+            for i, task in enumerate(proto.get('tasks', []), 1):
+                if task['cid'] == 'CID_FRIEND_VISIT':
+                    self.story.task_state(w, {'id': q['id'], 'tid': i, 'finished': True},
+                                          lambda qq, r: self.quest_done(w, qq, r))
 
     def starter_reef(self, w):
         now = now_ms()
