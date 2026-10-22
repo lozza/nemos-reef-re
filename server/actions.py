@@ -39,11 +39,21 @@ class Prototypes:
         for key, lst in world_list.items():
             for p in wd.get(key, []):
                 self.by_id[p['id']] = (lst, p)
-        self.shop_cost = {s['prototypeId']: s['cost'] for s in wd.get('ingameShopItems', [])}
+        # an item can have several shop entries, one per level range (ServerPrototype::getActiveShopData)
+        self.shop = {}
+        for s in wd.get('ingameShopItems', []):
+            self.shop.setdefault(s['prototypeId'], []).append(s)
         self.levels = sorted(wd.get('levelList', []), key=lambda l: l['level'])
 
     def get(self, pid):
         return self.by_id.get(pid, (None, None))
+
+    def shop_cost(self, pid, level):
+        """The price the shop shows at this level: the early (pearl) price before the item unlocks."""
+        for s in self.shop.get(pid, []):
+            if s.get('visibleAtLevel', 1) <= level <= s.get('visibleMaxLevel', 999):
+                return s['cost']
+        return None
 
 
 class Reef:
@@ -77,6 +87,10 @@ class Reef:
         st = w['status']
         for k in CURRENCIES:
             st[k] = max(0, st.get(k, 0) + sign * int((cost or {}).get(k, 0)))
+
+    @staticmethod
+    def level(w):
+        return int(w.get('status', {}).get('level', 1))
 
     def earn(self, w, reward):
         self.pay(w, reward, +1)
@@ -184,7 +198,7 @@ class Reef:
             return None, None, None
         e = {'id': self.new_id(w), 'prototypeId': pid,
              'position': {'x': int(d.get('x', 0)), 'z': int(d.get('z', 0)), 'transform': int(d.get('transform', 0)) & 1}}
-        self.pay(w, self.protos.shop_cost.get(pid) or p.get('cost'))
+        self.pay(w, self.protos.shop_cost(pid, self.level(w)) or p.get('cost'))
         w.setdefault(lst, []).append(e)
         return lst, p, e
 
@@ -218,7 +232,7 @@ class Reef:
     def a_seedEntitySeed(self, w, d, now):
         # A mystery seed grows into a random plant from its "seedResults" (story.json items "results").
         _, seed = self.protos.get(d.get('prototypeId'))
-        self.pay(w, self.protos.shop_cost.get(d.get('prototypeId')) or (seed or {}).get('cost'))
+        self.pay(w, self.protos.shop_cost(d.get('prototypeId'), self.level(w)) or (seed or {}).get('cost'))
         choices = [pid for pid in (seed or {}).get('seedResults', []) if self.protos.get(pid)[0]]
         plant = random.choice(choices) if choices else next(
             (pid for pid, (lst, p) in self.protos.by_id.items() if lst == 'livingPlants'), None)
