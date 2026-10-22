@@ -357,6 +357,10 @@ def main():
             e['descKey'] = q['descriptionStringId']
         rw = oldq.get('reward') or q.get('reward_story_json')
         e['reward'] = rw if rw else quest_reward(e['level'])
+        if q['type'] == 'HOMEWORK':
+            # The homework window's reward row has room for two items (three spilled out of it): sand dollars and
+            # algae, the XP's worth added to them
+            e['reward'] = {'virtualMoney': 260, 'energy': 110}
         if qid.startswith('narrative_quest_'):  # a conversation only: no popup, no reward
             e['reward'] = {}
         hints = q.get('hints') or []
