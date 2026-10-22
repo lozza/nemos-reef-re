@@ -552,6 +552,13 @@ def main():
             it['hearts'] = f['vitality']
             items[fid] = it
             rare_fish[fid] = f.get('guiOrder', 0)
+        # The Orange Vampire Crab (a 2014 weekend-challenge fish) is missing from the October list: as the Red one,
+        # in orange
+        if 'fish_rare_vampire_red' in items and 'fish_rare_vampire_orange' not in items:
+            colors.setdefault('vampire_orange', list(COLOUR_WORDS['orange']))
+            items['fish_rare_vampire_orange'] = dict(items['fish_rare_vampire_red'], color='vampire_orange',
+                                                     name='STR_NAME_CRAB_ORANGE')
+            rare_fish['fish_rare_vampire_orange'] = rare_fish.get('fish_rare_vampire_red', 0)
         for r in json.load(open(a.wiki, encoding='utf-8')).get('rare_fish_wiki', []):
             fx, px = fish_by_key.get(r['text_key']), plant_by_key.get(r.get('rare_plant_text_key'))
             if fx and px and fx['id'] in rare_fish and (px['id'] in base or px.get('base_ipro') in base):

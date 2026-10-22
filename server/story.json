@@ -14456,6 +14456,11 @@
    180,
    60
   ],
+  "vampire_orange": [
+   245,
+   140,
+   40
+  ],
   "rare_himanthalia_blue": [
    60,
    110,
@@ -17741,6 +17746,11 @@
    },
    "hearts": 550
   },
+  "fish_rare_vampire_orange": {
+   "base": "fish_rare_vampire",
+   "color": "vampire_orange",
+   "name": "STR_NAME_CRAB_ORANGE"
+  },
   "rare_plant_himanthalia_blue": {
    "base": "rare_plant_himanthalia_elongata",
    "name": "STR_RARE_PLANT_HIMANTHALIA_BLUE",
@@ -18265,6 +18275,7 @@
    "rare_plant_cabbage_violet": "fish_rare_hawk_violet"
   },
   "all": [
+   "fish_rare_vampire_orange",
    "fish_rare_parrot_green",
    "fish_rare_emperor_angle_fish_pink",
    "fish_rare_lion_yellow",
@@ -18332,6 +18343,7 @@
  },
  "challengeFish": {
   "RP": [
+   "fish_rare_vampire_orange",
    "fish_rare_lion_red",
    "fish_rare_stingray_green",
    "fish_rare_bicolor_angelfish_silver"

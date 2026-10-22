@@ -478,9 +478,13 @@ class Reef:
         if st['tapRewardsCount'] < worlddef.DAILY_TAPS:
             st['tapRewardsCount'] += 1
             level = self.level(w)
-            kind = random.choices(['virtualMoney', 'energy', 'xp', 'hardMoney'], [45, 30, 20, 5])[0]
+            # Pearls can no longer be bought (Google Play), so the last tap of the day always holds some
+            if st['tapRewardsCount'] == worlddef.DAILY_TAPS:
+                kind = 'hardMoney'
+            else:
+                kind = random.choices(['virtualMoney', 'energy', 'xp', 'hardMoney'], [40, 30, 15, 15])[0]
             amount = {'virtualMoney': 30 + 15 * level, 'energy': 10 + 5 * level, 'xp': 10 + 5 * level,
-                      'hardMoney': 1}[kind]
+                      'hardMoney': 2 + level // 10}[kind]
             reward = {kind: amount}
             self.earn(w, reward)
         full = {k: int(reward.get(k, 0)) for k in ('xp', 'virtualMoney', 'energy', 'hardMoney', 'lowTool', 'highTool')}
