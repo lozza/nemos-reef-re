@@ -412,7 +412,9 @@ def main():
             p['kidsOnly'] = True
         p.setdefault('centralHintCost', {'virtualMoney': 100})
         p.setdefault('sorroundingHintCost', {'virtualMoney': 100})
-        p.setdefault('areaSize', 3)
+        # PatternArea centres the area on the central plant with (areaSize - plant size) / 2, rounded down:
+        # 3 around a 2x2 plant covered one side only. The wiki: "within a 6x6 tile area".
+        p['areaSize'] = 6
         out_patterns.append(p)
 
     # ---- items: everything the quests and patterns ask for that the game has only as a base graphic

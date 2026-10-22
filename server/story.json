@@ -12319,7 +12319,7 @@
     "plant_small_grass_yellow"
    ],
    "producedFishId": "fish_ambient_0",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12331,7 +12331,7 @@
    "id": "pattern_coralfish",
    "centralPrototype": "plant_table_yellow",
    "producedFishId": "fish_ambient_coralfish",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12346,7 +12346,7 @@
    "id": "pattern_firefish",
    "centralPrototype": "plant_table_yellow",
    "producedFishId": "fish_ambient_firefish",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12364,7 +12364,7 @@
     "orn_plant_marine_shrub_purple"
    ],
    "producedFishId": "fish_ambient_firefish",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12379,7 +12379,7 @@
     "orn_plant_seaweed_green"
    ],
    "producedFishId": "fish_ambient_0",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12394,7 +12394,7 @@
     "plant_plateau_yellow"
    ],
    "producedFishId": "fish_ambient_1",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12409,7 +12409,7 @@
     "deco_boulder"
    ],
    "producedFishId": "fish_guest_jellyfish_lightblue",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12422,7 +12422,7 @@
    "centralPrototype": "orn_plant_coral_02",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_jellyfish_lightblue",
-   "areaSize": 3,
+   "areaSize": 6,
    "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
@@ -12438,7 +12438,7 @@
     "orn_plant_branches_silver"
    ],
    "producedFishId": "fish_guest_jellyfish_orange",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12451,7 +12451,7 @@
    "centralPrototype": "orn_plant_java_moss_saffron",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_jellyfish_orange",
-   "areaSize": 3,
+   "areaSize": 6,
    "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
@@ -12467,7 +12467,7 @@
     "orn_plant_sea_blossom_pink"
    ],
    "producedFishId": "fish_guest_jellyfish_pink",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12480,7 +12480,7 @@
    "centralPrototype": "orn_plant_sea_blossom_pink",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_jellyfish_pink",
-   "areaSize": 3,
+   "areaSize": 6,
    "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
@@ -12494,7 +12494,7 @@
    "centralPrototype": "orn_plant_coral_01",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_jellyfish_yellow",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12507,7 +12507,7 @@
    "centralPrototype": "orn_plant_coral_01",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_jellyfish_yellow",
-   "areaSize": 3,
+   "areaSize": 6,
    "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
@@ -12521,7 +12521,7 @@
    "centralPrototype": "orn_plant_sea_flower_green",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_octopus_green",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12534,7 +12534,7 @@
    "centralPrototype": "orn_plant_sea_flower_green",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_octopus_green",
-   "areaSize": 3,
+   "areaSize": 6,
    "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
@@ -12550,7 +12550,7 @@
     "deco_rock_2"
    ],
    "producedFishId": "fish_guest_octopus_lightblue",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12563,7 +12563,7 @@
    "centralPrototype": "orn_plant_cirripathes_blue",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_octopus_lightblue",
-   "areaSize": 3,
+   "areaSize": 6,
    "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
@@ -12579,7 +12579,7 @@
     "deco_heap_stones"
    ],
    "producedFishId": "fish_guest_octopus_orange",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12592,7 +12592,7 @@
    "centralPrototype": "orn_plant_seaweed_big_yellowgreen",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_octopus_orange",
-   "areaSize": 3,
+   "areaSize": 6,
    "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
@@ -12608,7 +12608,7 @@
     "orn_plant_cirripathes_red"
    ],
    "producedFishId": "fish_guest_octopus_red",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12621,7 +12621,7 @@
    "centralPrototype": "orn_plant_cirripathes_lilac",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_octopus_red",
-   "areaSize": 3,
+   "areaSize": 6,
    "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
@@ -12638,7 +12638,7 @@
     "deco_rock_2"
    ],
    "producedFishId": "fish_guest_octopus_yellow",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12651,7 +12651,7 @@
    "centralPrototype": "orn_plant_marine_shrub_yellow",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_octopus_yellow",
-   "areaSize": 3,
+   "areaSize": 6,
    "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
@@ -12670,7 +12670,7 @@
     "deco_stone_tower"
    ],
    "producedFishId": "fish_rare_pajama_cardinal_yellow",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12682,7 +12682,7 @@
    "id": "pattern_seadragon",
    "centralPrototype": "orn_plant_seaweed_green",
    "producedFishId": "fish_guest_seadragon",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 200
    },
@@ -12698,7 +12698,7 @@
    "centralPrototype": "orn_plant_seaweed_orange",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_seadragon",
-   "areaSize": 3,
+   "areaSize": 6,
    "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
@@ -12714,7 +12714,7 @@
     "orn_plant_cluster_seaweed_brown"
    ],
    "producedFishId": "fish_guest_seadragon_pink",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12727,7 +12727,7 @@
    "centralPrototype": "orn_plant_cluster_seaweed_brown",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_seadragon_pink",
-   "areaSize": 3,
+   "areaSize": 6,
    "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
@@ -12741,7 +12741,7 @@
    "centralPrototype": "orn_plant_sea_flower_white",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_seadragon_white",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12754,7 +12754,7 @@
    "centralPrototype": "orn_plant_sea_flower_white",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_seadragon_white",
-   "areaSize": 3,
+   "areaSize": 6,
    "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
@@ -12768,7 +12768,7 @@
    "centralPrototype": "orn_plant_sea_flower_ruby",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_seadragon_yellow",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12781,7 +12781,7 @@
    "centralPrototype": "orn_plant_sea_flower_ruby",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_seadragon_yellow",
-   "areaSize": 3,
+   "areaSize": 6,
    "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
@@ -12797,7 +12797,7 @@
     "orn_plant_eucheuma_blue"
    ],
    "producedFishId": "fish_guest_seahorse_blue",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12810,7 +12810,7 @@
    "centralPrototype": "orn_plant_cluster_seaweed_green",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_seahorse_green",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12823,7 +12823,7 @@
    "centralPrototype": "orn_plant_cluster_seaweed_green",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_seahorse_green",
-   "areaSize": 3,
+   "areaSize": 6,
    "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
@@ -12839,7 +12839,7 @@
     "orn_plant_bonsai_green"
    ],
    "producedFishId": "fish_guest_seahorse_red",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12852,7 +12852,7 @@
    "centralPrototype": "orn_plant_bonsai_bright_green",
    "nearPrototypes": [],
    "producedFishId": "fish_guest_seahorse_red",
-   "areaSize": 3,
+   "areaSize": 6,
    "kidsOnly": true,
    "centralHintCost": {
     "virtualMoney": 100
@@ -12868,7 +12868,7 @@
     "deco_rock"
    ],
    "producedFishId": "fish_guest_seahorse_white",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
@@ -12883,7 +12883,7 @@
     "orn_plant_branches_red"
    ],
    "producedFishId": "fish_ambient_firefish",
-   "areaSize": 3,
+   "areaSize": 6,
    "centralHintCost": {
     "virtualMoney": 100
    },
