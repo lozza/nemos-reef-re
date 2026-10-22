@@ -4949,6 +4949,34 @@
    ]
   },
   {
+   "id": "pearls_tutorial_02",
+   "level": 6,
+   "after": [
+    "pearls_tutorial_01"
+   ],
+   "order": 1392,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_COLLECT_RARE_FISH_TUTORIAL_NAME",
+   "descKey": "STR_COLLECT_RARE_FISH_TUTORIAL_DESCRIPTION",
+   "rewardKey": "STR_COLLECT_RARE_FISH_TUTORIAL_REWARD",
+   "tasks": [
+    {
+     "textKey": "STR_COLLECT_RARE_FISH_TUTORIAL_TASK_01",
+     "cid": "CID_FISH_REWARD_COLLECTED",
+     "params": [
+      1,
+      ""
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 110,
+    "virtualMoney": 160,
+    "energy": 60
+   }
+  },
+  {
    "id": "mission_01",
    "level": 6,
    "after": [
@@ -6974,6 +7002,43 @@
    }
   },
   {
+   "id": "kids_story_quest_04",
+   "level": 6,
+   "after": [
+    "pearls_tutorial_01"
+   ],
+   "order": 2542,
+   "kidsOnly": true,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_KIDS_STORY_QUEST_04_NAME",
+   "descKey": "STR_KIDS_STORY_QUEST_04_DESCRIPTION",
+   "rewardKey": "STR_KIDS_STORY_QUEST_04_REWARD",
+   "startDialogId": "kids_dialog_story_quest_04",
+   "tasks": [
+    {
+     "textKey": "STR_KIDS_STORY_QUEST_04_TASK_01",
+     "cid": "CID_FISH_FEEDED",
+     "params": [
+      3
+     ]
+    },
+    {
+     "textKey": "STR_KIDS_STORY_QUEST_04_TASK_02",
+     "cid": "CID_FISH_REWARD_COLLECTED",
+     "params": [
+      3,
+      ""
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 110,
+    "virtualMoney": 160,
+    "energy": 60
+   }
+  },
+  {
    "id": "side_quest_68",
    "level": 38,
    "after": [
@@ -7642,10 +7707,39 @@
    }
   },
   {
-   "id": "story_quest_50",
+   "id": "story_quest_49c",
    "level": 41,
    "after": [
     "story_quest_49b"
+   ],
+   "order": 2703,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_STORY_QUEST_49C_NAME",
+   "descKey": "STR_STORY_QUEST_49C_DESCRIPTION",
+   "rewardKey": "STR_STORY_QUEST_49C_REWARD",
+   "startDialogId": "story_quest_49c_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_STORY_QUEST_49C_TASK_01",
+     "cid": "CID_FISH_REWARD_COLLECTED_AMOUNT",
+     "params": [
+      20,
+      ""
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 640,
+    "virtualMoney": 860,
+    "energy": 410
+   }
+  },
+  {
+   "id": "story_quest_50",
+   "level": 41,
+   "after": [
+    "story_quest_49c"
    ],
    "order": 2713,
    "type": "STORY",
@@ -7784,6 +7878,32 @@
     "xp": 640,
     "virtualMoney": 860,
     "energy": 410
+   }
+  },
+  {
+   "id": "xpbar_tutorial_01",
+   "level": 6,
+   "after": [
+    "story_quest_16"
+   ],
+   "order": 2809,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_XPBAR_TUTORIAL_NAME",
+   "descKey": "STR_XPBAR_TUTORIAL_DESCRIPTION",
+   "rewardKey": "STR_XPBAR_TUTORIAL_REWARD",
+   "startDialogId": "xpbar_tutorial_01_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_XPBAR_TUTORIAL_TASK_01",
+     "cid": "CID_XPBAR_CHECK",
+     "params": []
+    }
+   ],
+   "reward": {
+    "xp": 110,
+    "virtualMoney": 160,
+    "energy": 60
    }
   },
   {
@@ -10281,6 +10401,23 @@
    ]
   },
   {
+   "id": "kids_dialog_story_quest_04",
+   "lines": [
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_KIDS_DIALOG_STORY_QUEST_04_01",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_KIDS_DIALOG_STORY_QUEST_04_02",
+     "listener": "fish_special_marlin"
+    }
+   ]
+  },
+  {
    "id": "squirt_quest_01_dialog",
    "lines": [
     {
@@ -10798,6 +10935,47 @@
      "actor": "fish_special_nemo",
      "key": "STR_STORY_QUEST_49B_DIALOG_3",
      "listener": "fish_special_marlin"
+    }
+   ]
+  },
+  {
+   "id": "story_quest_49c_dialog",
+   "lines": [
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_STORY_QUEST_49C_DIALOG_1",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_STORY_QUEST_49C_DIALOG_2",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_STORY_QUEST_49C_DIALOG_3",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_STORY_QUEST_49C_DIALOG_4",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_STORY_QUEST_49C_DIALOG_5",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_STORY_QUEST_49C_DIALOG_6",
+     "listener": "fish_special_nemo"
     }
    ]
   },
@@ -11656,6 +11834,29 @@
      "side": "left",
      "actor": "fish_special_nemo",
      "key": "STR_TIME_EVENT_VAL_01D_DIALOG_5",
+     "listener": "fish_special_marlin"
+    }
+   ]
+  },
+  {
+   "id": "xpbar_tutorial_01_dialog",
+   "lines": [
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_XPBAR_TUTORIAL_01_DIALOG_1",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_XPBAR_TUTORIAL_01_DIALOG_2",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_XPBAR_TUTORIAL_01_DIALOG_3",
      "listener": "fish_special_marlin"
     }
    ]

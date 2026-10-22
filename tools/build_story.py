@@ -50,7 +50,8 @@ RENAMED = {
 }
 FAMILIES = ('story_quest_', 'side_quest_', 'tankgang_', 'narrative_quest_', 'vitality_quest_',
             'pearls_tutorial_', 'squirt_quest_', 'mission_', 'chest_tutorial_02', 'minigame_squirt',
-            'kids_story_quest_', 'patch_tutorial_', 'homework_', 'time_event_', 'google_quest_')
+            'kids_story_quest_', 'patch_tutorial_', 'homework_', 'time_event_', 'google_quest_',
+            'xpbar_tutorial_')
 # Kids edition quests (players who entered an age under the game's limit), placed by what they ask for.
 KIDS_AFTER = {'kids_story_quest_01': 'story_quest_13', 'kids_story_quest_02': 'kids_story_quest_01',
               'kids_story_quest_03': 'kids_story_quest_02', 'kids_story_quest_04': 'pearls_tutorial_01'}
@@ -198,7 +199,7 @@ def main():
         out = set()
         for t in q['tasks']:
             p = t.get('params') or {}
-            if t['cid'] in quests.PROTOTYPE_TASKS and '2' in p:
+            if t['cid'] in quests.PROTOTYPE_TASKS and p.get('2'):  # "" = any fish
                 out.add(str(p['2']))
             if t['cid'] == 'CID_PATTERN' and '2' in p:
                 pat = patterns.get(p['2']) or proposed.get(p['2'])

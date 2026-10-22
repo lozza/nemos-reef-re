@@ -293,7 +293,7 @@ class Story:
         for q in self.data['quests']:
             for t in q.get('tasks', []):
                 params = t.get('params', [])
-                if t['cid'] in PROTOTYPE_TASKS and len(params) > 1 and params[1] not in ids:
+                if t['cid'] in PROTOTYPE_TASKS and len(params) > 1 and params[1] and params[1] not in ids:
                     missing.add(str(params[1]))
             for f in [q['giver']] + q.get('grantFish', []) + q.get('rewardPrototypeIdList', []):
                 if f not in ids:
