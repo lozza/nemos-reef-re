@@ -225,6 +225,14 @@ def build(apk_path, story=None):
             'dailyRewardDisplayDelay': 240,
             'dailyRewardDisplayDelayWithdraw': 1,
             'squirtIntervalTime': SQUIRT_INTERVAL,  # seconds between two games of Hide and Seek
+            # GameScreen::popUpBuyRareSeed ("It has been a while since we have attracted our last Rare
+            # Fish..."): at most once a level, from lowVitality_minLevel, once the level is more than
+            # xpPercentage % done, while the reef's Vitality % is under _overall or its Rare Plants % under
+            # _rarePlants. Missing, they are 0 and it shows from level 1.
+            'lowVitality_minLevel': 12,
+            'lowVitality_xpPercentage': 50,
+            'lowVitality_overall': 40,
+            'lowVitality_rarePlants': 20,
         },
         # World::loadWorldDefinition reads test/variant (strings), control (int), active (bool)
         'abTestSettings': {'test': '', 'variant': '', 'control': 0, 'active': False},
