@@ -39,6 +39,12 @@ def cost(c):
     return {k: int(c.get(k, 0)) for k in ('energy', 'virtualMoney', 'hardMoney', 'lowTool', 'highTool')}
 
 
+# Treasure ("Epic") fish and the months of their 2014 chest challenges (wiki: April-May, June, July, August)
+TREASURE_FISH = {'fish_treasure_lyretail': (4, 5), 'fish_treasure_panther': (6, 6),
+                 'fish_treasure_trigger': (7, 7), 'fish_treasure_popeye': (8, 8)}
+# Chests opened during its month after which the treasure fish surely comes (before that, 1 in 5 chests)
+TREASURE_CHESTS = 6
+
 # Decorations sold only during their holiday event
 SEASONAL_ITEMS = {'deco_halloween_rock_orange': 'halloween', 'deco_halloween_skull': 'halloween'}
 
@@ -76,6 +82,17 @@ class Story:
     EPOCH = calendar.timegm((2014, 1, 3, 0, 0, 0)) * 1000  # a Friday: weekend events run Friday to Monday
     SEASONS = {'christmas': ((12, 8), (12, 31)), 'halloween': ((10, 18), (11, 3)),
                'valentine': ((2, 7), (2, 17)), 'easter': ((3, 28), (4, 14))}
+
+    @staticmethod
+    def month_window(m1, m2, now):
+        """The current or next window from the 1st of month m1 to the end of month m2 (ms)."""
+        year = datetime.datetime.utcfromtimestamp(now / 1000).year
+        for y in (year, year + 1):
+            start = calendar.timegm((y, m1, 1, 0, 0, 0)) * 1000
+            end = calendar.timegm((y + (m2 == 12), m2 % 12 + 1, 1, 0, 0, 0)) * 1000 - 1000
+            if end > now:
+                return start, end
+        return start, end
 
     def in_season(self, season, now=None):
         (m1, d1), (m2, d2) = self.SEASONS[season]
@@ -144,7 +161,17 @@ class Story:
     def extend_worlddef(self, wd):
         self.windows = self.event_windows(int(time.time() * 1000))
         now = int(time.time() * 1000)  # rebuilt when an event window opens or closes (seasonal shop items)
-        self.events_until = min((end if start <= now else start for start, end in self.windows.values()), default=0)
+        self.treasure = {fid: self.month_window(m1, m2, now) for fid, (m1, m2) in TREASURE_FISH.items()}
+        self.events_until = min((end if start <= now else start
+                                 for start, end in list(self.windows.values()) + list(self.treasure.values())), default=0)
+        # Treasure fish (wiki "Epic fish"): EntityFish/ServerPrototype::getTreasureFishInterval reads the window
+        # from "conditions" (CID_TIME_INTERVAL, 1 = start ms, 2 = end ms); during it the game reminds the player to
+        # open chests for the fish (DialogFlowTreasure::checkPopUpOpenChestToGetFish).
+        for p in wd.get('fishPrototypeList', []):
+            if p.get('id') in self.treasure:
+                start, end = self.treasure[p['id']]
+                p['conditions'] = [{'conditionDefinitionId': 'CID_TIME_INTERVAL', 'parameterValueList': [
+                    {'index': 1, 'value': start}, {'index': 2, 'value': end}]}]
         self.add_items(wd)
         self.levels(wd)
         self.name_keys(wd)

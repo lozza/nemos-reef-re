@@ -395,6 +395,10 @@ class Game:
                 return ok
             if name == 'buyPatternHint':
                 return ok
+            if name == 'chestCollectReward':
+                r = self.reef.apply(w, action, now_ms())
+                self.treasure_fish(w)
+                return r
             if name == 'friendsEntityCollectReward':
                 return dict(ok, data=self.friend_collect(w, d))
             return self.reef.apply(w, action, now_ms())
@@ -444,6 +448,23 @@ class Game:
             pos = (central or {}).get('position', {})
             self.reef.add_entity(w, pt['producedFishId'], pos.get('x', 80), pos.get('z', 80))
         w.pop('patternFish', None)
+
+    def treasure_fish(self, w):
+        """A chest opened during a treasure fish's month may hold that fish (surely by the TREASURE_CHESTS-th).
+        Message type 1 with an EST_FISH_TREASURE fish plays ScriptTreasureFishAdded (the "new treasure fish" scene)."""
+        now = now_ms()
+        owned = {f.get('prototypeId') for f in w.get('fishes', [])}
+        for fid, (start, end) in getattr(self.story, 'treasure', {}).items():
+            if not start <= now <= end or fid in owned:
+                continue
+            key = '%s@%d' % (fid, start)
+            count = w.setdefault('treasureChests', {}).get(key, 0) + 1
+            w['treasureChests'][key] = count
+            if count >= quests.TREASURE_CHESTS or random.random() < 0.2:
+                e = self.reef.add_entity(w, fid, 80, 80)
+                if e:
+                    w.setdefault('messages', []).append({'id': self.story.message_id(w), 'type': 1, 'data': dict(e)})
+            return
 
     def unstick_quests(self, w):
         """A running grow/build task whose item is already grown/built (finished while the game was closed,
