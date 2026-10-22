@@ -483,7 +483,21 @@ class Game:
         (PatternSystem::attracktFish) and is not reliably rebuilt when the reef loads, so every combination's
         fish is kept as a real entity here, one of each kind (it shows from the next start; the one swimming
         now stays until then)."""
-        defs = {pt['id']: pt for pt in self.story.data.get('patterns', [])}
+        defs = {pt['id']: pt for pt in self.story.data.get('patterns', [])
+                if w.get('kids') or not pt.get('kidsOnly')}
+        # Combinations standing in the reef count too, even if the game never reported them (savePattern):
+        # the near items within the 6x6 area around the central item (PatternArea, centred on it)
+        placed = [e for lst in ('livingPlants', 'ornamentalPlants', 'corals', 'decorations', 'rarePlants')
+                  for e in w.get(lst, []) if not e.get('inventory') and e.get('position')]
+        for pt in defs.values():
+            if pt['id'] in w.get('patterns', []) or not pt['nearPrototypes']:
+                continue  # (one-item combinations: the starter reef has some; the game reports those itself)
+            for c in (e for e in placed if e['prototypeId'] == pt['centralPrototype']):
+                cx, cz = c['position']['x'], c['position']['z']
+                if all(any(e['prototypeId'] == n and e is not c and cx - 3 <= e['position']['x'] <= cx + 4
+                           and cz - 3 <= e['position']['z'] <= cz + 4 for e in placed) for n in pt['nearPrototypes']):
+                    w.setdefault('patterns', []).append(pt['id'])
+                    break
         for pid in w.get('patterns', []):
             pt = defs.get(pid)
             if not pt or any(f.get('prototypeId') == pt['producedFishId'] for f in w.get('fishes', [])):
