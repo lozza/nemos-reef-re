@@ -56,6 +56,10 @@ FAMILIES = ('story_quest_', 'side_quest_', 'tankgang_', 'narrative_quest_', 'vit
 KIDS_AFTER = {'kids_story_quest_01': 'story_quest_13', 'kids_story_quest_02': 'kids_story_quest_01',
               'kids_story_quest_03': 'kids_story_quest_02', 'kids_story_quest_04': 'pearls_tutorial_01'}
 UNSUPPORTED = {'CID_COOP_QUEST_CHECK'}
+# The generic weekend events and the kind of weekend-challenge fish they give (see "challengeFish")
+CHALLENGE_EVENTS = {'time_event_03': 'RP', 'time_event_05': 'RP', 'time_event_old_fish_rp': 'RP',
+                    'time_event_tier_555c': 'RP', 'time_event_chest_01': 'OC', 'time_event_google_01_af': 'OC',
+                    'time_event_old_fish_tc': 'OC', 'time_event_minigame_01': 'any'}
 # Seasonal events come on their real dates each year; the others take turns on weekends.
 SEASONS = {'christmas': 'christmas', 'halloween': 'halloween', '_val_': 'valentine', 'easter': 'easter'}
 # Mr. Ray's daily homework (homework_0 = Sunday ... homework_6): three tasks from the game's generic task texts.
@@ -487,6 +491,7 @@ def main():
 
     # ---- rare fish: the 2014 worldDef's own numbers; each comes to the reef when its rare plant has grown
     rare_fish, rare_pairs, vitality_patches = {}, {}, []
+    challenge_fish = {'RP': [], 'OC': []}
     if a.rare_fish:
         import texts
         table = texts.apk_texts(a.apk, 'en')
@@ -529,6 +534,19 @@ def main():
                         colors.setdefault(px['colour_id'], list(px.get('rgb') or COLOUR_WORDS[px['colour'].lower()]))
                         pit['color'] = px['colour_id']
                     items[px['id']] = pit
+        # Weekend challenges (wiki "special events", 2014): the rare fish each one gave, by its task (RP = grow
+        # rare plants, OC = open chests). The generic weekend events give the next of these the player lacks.
+        granted = {f for q in out_quests.values() for f in q.get('grantFish', [])}
+        id_by_key = {it.get('name'): fid for fid, it in items.items() if fid in rare_fish}
+        for e in json.load(open(a.wiki, encoding='utf-8')).get('special_events', []):
+            fid = id_by_key.get(key_by_name.get((e.get('Reward Fish') or '').strip().lower()))
+            kind = 'RP' if (e.get('Task:Open Chests(OC) or Rare Plants(RP)?') or '').strip().upper() == 'RP' else 'OC'
+            given = {items[f].get('name') for f in granted | set(challenge_fish['RP'] + challenge_fish['OC']) if f in items}
+            if fid and items[fid].get('name') not in given:
+                challenge_fish[kind].append(fid)
+        for qid, kind in CHALLENGE_EVENTS.items():
+            if qid in out_quests:
+                out_quests[qid]['challengeFish'] = kind
         # the Enigmatic and Extraordinary seeds grow every rare plant, the paired ones included
         rare_plants = sorted({p['id'] for p in wd.get('rarePlantPrototypeList', [])} | set(rare_pairs))
         for sid in ('seed_coin_expensive', 'seed_pearl'):
@@ -578,6 +596,7 @@ def main():
         'items': items,
         'levels': dict(old['levels'], vitality=vitality_caps),
         'rareFish': {'pairs': rare_pairs, 'all': sorted(rare_fish, key=lambda f: rare_fish[f])},
+        'challengeFish': challenge_fish,
         'vitalityPatchList': vitality_patches,
     }
     with open(a.out, 'w', encoding='utf-8') as f:

@@ -5794,7 +5794,8 @@
     "xp": 200,
     "virtualMoney": 280,
     "energy": 120
-   }
+   },
+   "challengeFish": "RP"
   },
   {
    "id": "time_event_04",
@@ -5860,7 +5861,8 @@
     "xp": 200,
     "virtualMoney": 280,
     "energy": 120
-   }
+   },
+   "challengeFish": "RP"
   },
   {
    "id": "time_event_06",
@@ -5972,7 +5974,8 @@
     "xp": 200,
     "virtualMoney": 280,
     "energy": 120
-   }
+   },
+   "challengeFish": "OC"
   },
   {
    "id": "time_event_01_af",
@@ -6096,7 +6099,8 @@
     "xp": 200,
     "virtualMoney": 280,
     "energy": 120
-   }
+   },
+   "challengeFish": "OC"
   },
   {
    "id": "time_event_allfish_01",
@@ -6599,7 +6603,8 @@
     "xp": 200,
     "virtualMoney": 280,
     "energy": 120
-   }
+   },
+   "challengeFish": "RP"
   },
   {
    "id": "time_event_old_fish_tc",
@@ -6628,7 +6633,8 @@
     "xp": 200,
     "virtualMoney": 280,
     "energy": 120
-   }
+   },
+   "challengeFish": "OC"
   },
   {
    "id": "time_event_minigame_01",
@@ -6658,7 +6664,8 @@
     "xp": 200,
     "virtualMoney": 280,
     "energy": 120
-   }
+   },
+   "challengeFish": "any"
   },
   {
    "id": "time_event_tier_555a",
@@ -6751,7 +6758,8 @@
     "xp": 200,
     "virtualMoney": 280,
     "energy": 120
-   }
+   },
+   "challengeFish": "RP"
   },
   {
    "id": "time_event_tier_chest_09a",
@@ -17684,6 +17692,22 @@
    "fish_rare_bicolor_angelfish_silver",
    "fish_rare_stingray_darkblue",
    "fish_rare_hawk_red"
+  ]
+ },
+ "challengeFish": {
+  "RP": [
+   "fish_rare_lion_red",
+   "fish_rare_stingray_green",
+   "fish_rare_bicolor_angelfish_silver"
+  ],
+  "OC": [
+   "fish_rare_bicolor_angelfish_green",
+   "fish_rare_parrot_violet",
+   "fish_rare_trumpet_violet",
+   "fish_rare_short_seamoth_black",
+   "fish_rare_pajama_cardinal_brown",
+   "fish_rare_clown_frogfish_black",
+   "fish_rare_stingray_orange"
   ]
  },
  "vitalityPatchList": [

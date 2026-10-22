@@ -555,7 +555,13 @@ class Game:
         self.reef.earn(w, reward)
         if q.get('type') == 'SQUIRT_MINIGAME':  # won: Squirt rests before the next game
             w['status']['lastSquirt'] = now_ms()
-        for fish in q.get('grantFish', []):
+        fish_list = list(q.get('grantFish', []))
+        if q.get('challengeFish'):  # a weekend challenge: the next of the 2014 challenge fish not in the reef yet
+            pools = self.story.data.get('challengeFish', {})
+            owned = {e.get('prototypeId') for e in w.get('fishes', [])}
+            order = pools.get(q['challengeFish'], []) + [f for k, v in sorted(pools.items()) for f in v]
+            fish_list += [f for f in order if f not in owned][:1]
+        for fish in fish_list:
             if not any(e.get('prototypeId') == fish for e in w.get('fishes', [])):
                 e = self.reef.add_entity(w, fish, 82, 84)
                 if e:  # message type 1: EntityManager::processFishAddedMessage swims the fish in now
