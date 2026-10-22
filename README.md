@@ -65,8 +65,9 @@ Double-click **`patch-apk.bat`** in the project folder, type the IP address from
 It converts the game's textures (about a minute), then should say `wrote signed nemo-private.apk`. The new file `nemo-private.apk` appears in the
 project folder. This copy of the game talks to your PC instead of Disney's old servers.
 
-**Music (optional):** this copy of the game has no music files. To add your own, create a `music` folder next
-to `patch-apk.bat` containing `music0.ogg` … `music3.ogg` (Ogg Vorbis) before running it.
+**Music (optional):** this copy of the game has no music files. The iOS version of the game has the original
+four tracks as `music0.mp3` … `music3.mp3`. Put them (or your own `.ogg`/`.mp3` files with those names) in a
+`music` folder next to `patch-apk.bat` before running it, then install the new `nemo-private.apk` (step 7).
 
 ### 7. Install it on the phone
 

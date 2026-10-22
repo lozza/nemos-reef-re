@@ -169,15 +169,19 @@ def png_textures(zin):
 
 
 def music_files(music_dir):
-    """music0.ogg .. music3.ogg from music_dir. The APK this was built for ships no music, and
-    SdrMediaPlayer opens assets/music/musicN.ogg with openFd, which needs them stored uncompressed."""
+    """music0..music3 (.ogg, or .mp3 such as the iOS version's tracks) from music_dir. The APK this was built
+    for ships no music, and SdrMediaPlayer opens assets/music/musicN.ogg with openFd, which needs them stored
+    uncompressed. Android's MediaPlayer goes by the file's contents, not its name, so MP3s are stored under
+    the .ogg names unchanged."""
     out = {}
     if music_dir:
         for i in range(4):
-            path = os.path.join(music_dir, 'music%d.ogg' % i)
-            if os.path.exists(path):
-                with open(path, 'rb') as f:
-                    out['assets/music/music%d.ogg' % i] = f.read()
+            for ext in ('ogg', 'mp3'):
+                path = os.path.join(music_dir, 'music%d.%s' % (i, ext))
+                if os.path.exists(path):
+                    with open(path, 'rb') as f:
+                        out['assets/music/music%d.ogg' % i] = f.read()
+                    break
         print('adding %d music track(s) from %s' % (len(out), music_dir))
     return out
 
@@ -225,7 +229,7 @@ def main():
     ap.add_argument('--emulator', action='store_true',
                     help='work around the Android emulator GL driver (only needed when testing in an emulator)')
     ap.add_argument('--music', metavar='DIR',
-                    help='folder with your own music0.ogg..music3.ogg (the game ships without music)')
+                    help='folder with music0..music3 (.ogg or .mp3; the game ships without music)')
     ap.add_argument('--signer', help='path to uber-apk-signer.jar')
     args = ap.parse_args()
 
