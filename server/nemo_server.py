@@ -57,6 +57,7 @@ class Store:
             CREATE TABLE IF NOT EXISTS users (
                 uid TEXT PRIMARY KEY, udid TEXT UNIQUE, name TEXT, secret TEXT, created INTEGER);
             CREATE TABLE IF NOT EXISTS worlds (uid TEXT PRIMARY KEY, world TEXT);
+            CREATE TABLE IF NOT EXISTS friends (uid TEXT, friend TEXT, PRIMARY KEY (uid, friend));
         ''')
 
     def user_by_udid(self, udid):
@@ -90,6 +91,24 @@ class Store:
         while self.name_taken('%s%d' % (name, n), uid):
             n += 1
         return '%s%d' % (name, n)
+
+    def user_by_name(self, name):
+        with self.lock:
+            r = self.db.execute('SELECT uid, name, secret FROM users WHERE lower(name)=lower(?)',
+                                ((name or '').strip(),)).fetchone()
+        return r and {'uid': r[0], 'name': r[1], 'secret': r[2]}
+
+    def add_friend(self, uid, friend):
+        """Friendship goes both ways: each sees the other in their list."""
+        with self.lock, self.db:
+            self.db.execute('INSERT OR IGNORE INTO friends VALUES (?,?)', (uid, friend))
+            self.db.execute('INSERT OR IGNORE INTO friends VALUES (?,?)', (friend, uid))
+
+    def friends(self, uid):
+        with self.lock:
+            return [{'uid': r[0], 'name': r[1]} for r in self.db.execute(
+                'SELECT users.uid, users.name FROM friends JOIN users ON users.uid = friends.friend '
+                'WHERE friends.uid=? ORDER BY lower(users.name)', (uid,))]
 
     def rename(self, uid, name):
         with self.lock, self.db:
@@ -186,6 +205,7 @@ class Game:
             with self.store.lock, self.store.db:
                 self.store.db.execute('DELETE FROM worlds')
                 self.store.db.execute('DELETE FROM users')
+                self.store.db.execute('DELETE FROM friends')
             print('everything reset: every device is a new player again (asked for a name)')
         if args.reset_worlds:
             with self.store.lock, self.store.db:
@@ -229,9 +249,14 @@ class Game:
         if method in ('login', 'logout'):
             return {'response': {'user_id': user['uid'], 'username': user['name']}}
         if method == 'get_friends':
-            return {'response': {'friends': []}}
-        if method == 'add_friend':
-            return {'status': {'code': 404, 'reason': 'Friends are not supported yet'}}
+            return {'response': {'friends': [{'user_id': f['uid'], 'username': f['name'], 'has_app': True}
+                                             for f in self.store.friends(user['uid'])]}}
+        if method == 'add_friend':  # by profile name; both players then see each other
+            friend = self.store.user_by_name(p.get('friend_name'))
+            if not friend or friend['uid'] == user['uid']:
+                return {'status': {'code': 404, 'reason': 'No player with that name'}}
+            self.store.add_friend(user['uid'], friend['uid'])
+            return {'response': {'friend': {'user_id': friend['uid'], 'username': friend['name']}}}
         return None
 
     # ---------------------------------------------------------------- game API
