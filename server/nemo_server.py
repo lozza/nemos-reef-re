@@ -9,6 +9,7 @@ response is appended to <data>/requests.log as JSON lines so unknown calls can b
 import argparse
 import email.parser
 import email.policy
+import hashlib
 import json
 import os
 import random
@@ -144,6 +145,12 @@ class Game:
             self.worlddef = worlddef.build(args.apk, self.story)
         self.reef = actions.Reef(actions.Prototypes(self.worlddef))
         self.dummy_friend = None
+        # The client keeps one downloaded text bundle and only asks again when this id changes
+        # (GameTextManager::existTextBundle), so the id covers every text the server sends.
+        h = hashlib.sha1(str(self.worlddef.get('localizedTextsBundleId')).encode())
+        h.update(json.dumps(texts.build(args.apk, 'en'), sort_keys=True).encode('utf-8'))
+        self.worlddef['localizedTextsBundleId'] = 2 + int(h.hexdigest()[:7], 16)
+        worlddef.finish(self.worlddef)  # new version stamp, so clients fetch the definition with the new id
         self.world_version = str(self.worlddef['version'])
         self.worlddef_blob = xor(json.dumps(self.worlddef, separators=(',', ':')).encode('utf-8'))
         with zipfile.ZipFile(args.apk) as z:

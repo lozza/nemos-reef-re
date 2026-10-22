@@ -254,8 +254,10 @@ def main():
     for qid, e in out_quests.items():
         q = chosen[qid]
         oldq = old_quests.get(qid, {})
+        # A mission's giver is its guest fish: QuestMission::finish looks the giver up among the reef's fish
+        # (the one the combination attracted) for the "Congratulations" popup.
         giver = q.get('questGiverId') or 'fish_special_nemo'
-        if giver not in base:  # guest colour variants: the HUD has no button image for them; Nemo hands the quest
+        if not available(giver):
             giver = 'fish_special_nemo'
         e['type'] = q['type']
         e['giver'] = giver
