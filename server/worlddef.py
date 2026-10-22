@@ -220,8 +220,10 @@ def build(apk_path, story=None):
             'getItEarlyBonusAlgaeAmount': GET_IT_EARLY_ALGAE,  # "... plus N FREE algae"
             'dailyTapRewardsCount': DAILY_TAPS,  # daily reward: hidden plants the player may tap per day
             'dailyTapRewardsGetEverythingCostPearls': 5,
-            'dailyRewardDisplayDelay': 3,
-            'dailyRewardDisplayDelayWithdraw': 3,
+            # DailyRewardManager::checkDailyRewards: while taps are left the dialog comes back every
+            # dailyRewardDisplayDelay minutes, at most dailyRewardDisplayDelayWithdraw times a session
+            'dailyRewardDisplayDelay': 240,
+            'dailyRewardDisplayDelayWithdraw': 1,
             'squirtIntervalTime': SQUIRT_INTERVAL,  # seconds between two games of Hide and Seek
         },
         # World::loadWorldDefinition reads test/variant (strings), control (int), active (bool)

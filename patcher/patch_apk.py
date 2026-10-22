@@ -53,6 +53,13 @@ TRACE_CAVE = 0xc0e940      # zero padding past the end of the first LOAD segment
 EMULATOR_PATCH = (0xa036ee, bytes.fromhex('44f164ec'), bytes.fromhex('20200860'))
 
 
+# DialogSettings::DialogSettings shows part of the game server's host name: substring(11, indexOf('.') - 11),
+# which assumes the host starts with "nemo". With an IP address the first '.' comes earlier, the length
+# is negative and opening Menu > Settings crashes. Replace `subs r3, #0xb` with `movs r3, #0` (empty text,
+# as the original "http://nemo.pragueweb..." gave).
+SETTINGS_PATCH = (0x5308b8, bytes.fromhex('0b3b'), bytes.fromhex('0023'))
+
+
 # SdrRoot.init(SdrActivity, int, int) stores data under /sdcard/Android/data/<pkg>/files, which apps this
 # old may no longer create on Android 11+ (logins and caches are then never saved). Turning the
 # `move-result-object v3` after ExternalStorage.getAppDataPath() into a nop keeps v3 = the app's
@@ -135,6 +142,10 @@ def patch_lib(lib, account_url, game_url, debug_log, emulator):
                 sys.exit('unexpected bytes at %#x; is this the 1.8.1 APK?' % src)
             lib[src:src + 4] = thumb2_b_w(src, dst)
         trace_hooks(lib)
+    at, old, new = SETTINGS_PATCH
+    if lib[at:at + 2] != old:
+        sys.exit('unexpected bytes at %#x; is this the 1.8.1 APK?' % at)
+    lib[at:at + 2] = new
     if emulator:
         at, old, new = EMULATOR_PATCH
         if lib[at:at + 4] != old:
