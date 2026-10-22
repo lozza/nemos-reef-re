@@ -316,6 +316,9 @@ class Game:
             if name == 'questTaskSetState':
                 return dict(ok, data=self.story.task_state(w, d, lambda q, r: self.quest_done(w, q, r)))
             if name == 'questStart':
+                e = self.story.find(w, d.get('id'))
+                if e and self.story.quests.get(e['prototypeId'], {}).get('type') == 'SQUIRT_MINIGAME':
+                    w['status']['squirtStarted'] = now_ms()  # a game of Hide and Seek begins
                 self.story.start(w, d)
                 return ok
             if name == 'questBuyHint':
@@ -458,6 +461,8 @@ class Game:
     def quest_done(self, w, q, reward):
         """A quest's last task finished: reward, fish that move in, newly opened areas."""
         self.reef.earn(w, reward)
+        if q.get('type') == 'SQUIRT_MINIGAME':  # won: Squirt rests before the next game
+            w['status']['lastSquirt'] = now_ms()
         for fish in q.get('grantFish', []):
             if not any(e.get('prototypeId') == fish for e in w.get('fishes', [])):
                 e = self.reef.add_entity(w, fish, 82, 84)

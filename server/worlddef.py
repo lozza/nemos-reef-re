@@ -147,6 +147,31 @@ def chests():
     return out
 
 
+# Hide and Seek with Squirt (QuestGameSquirt). The game screen only runs for the minigame id
+# "questGame_Squirt" (QuestMinigame::open); the quest's CID_MINIGAME task names it.
+SQUIRT_GAME = 'questGame_Squirt'
+SQUIRT_INTERVAL = 3 * 3600
+# hot-to-cold hint colours around the hidden fish, as colorVariantList ids (ColorPalette)
+SQUIRT_ZONE_COLORS = {'squirt_zone_1': (235, 60, 50), 'squirt_zone_2': (245, 150, 40), 'squirt_zone_3': (240, 220, 60),
+                      'squirt_zone_4': (120, 200, 90), 'squirt_zone_5': (80, 140, 230)}
+
+
+def squirt_minigame():
+    """data::MinigameSettings::MinigameDefinition. Times are {duration ms, timeWarp}; without "moves" the moves
+    are unlimited. Each fish found may drop spines (lowTool / highTool)."""
+    d = {
+        'id': SQUIRT_GAME, 'mainCharacterId': 'fish_special_squirt',
+        'duration': duration(90), 'extraDuration': duration(30),
+        'lowToolDropMin': 1, 'lowToolDropMax': 2, 'lowToolDropChance': 40, 'lowToolDropValue': 1,
+        'highToolDropMin': 0, 'highToolDropMax': 1, 'highToolDropChance': 10, 'highToolDropValue': 1,
+        'zone1Size': 2, 'zone2Size': 4, 'zone3Size': 6, 'zone4Size': 9,
+        'extraCost': cost(pearls=1),  # 30 more seconds after time runs out
+    }
+    for i, name in enumerate(SQUIRT_ZONE_COLORS, 1):
+        d['zone%dColor' % i] = name
+    return d
+
+
 def levels(count=60):
     out, xp = [], 0
     for lv in range(1, count + 1):
@@ -156,7 +181,7 @@ def levels(count=60):
             'reward': reward(coins=100 * lv, pearls=1 if lv % 5 == 0 else 0, algae=5),
             'minChests': 1,
             'maxChests': 3,
-            'squirtCost': cost(algae=5),
+            'squirtCost': cost(pearls=1),  # Hide and Seek before Squirt is ready again (buySquirt)
             'vitality': {'vitality': 100, 'categories': []},
         })
         xp += 50 * lv
@@ -196,6 +221,7 @@ def build(apk_path, story=None):
             'dailyTapRewardsGetEverythingCostPearls': 5,
             'dailyRewardDisplayDelay': 3,
             'dailyRewardDisplayDelayWithdraw': 3,
+            'squirtIntervalTime': SQUIRT_INTERVAL,  # seconds between two games of Hide and Seek
         },
         # World::loadWorldDefinition reads test/variant (strings), control (int), active (bool)
         'abTestSettings': {'test': '', 'variant': '', 'control': 0, 'active': False},
@@ -205,7 +231,7 @@ def build(apk_path, story=None):
         'levelList': levels(),
         # Not reconstructed yet; empty lists keep the parsers happy.
         'sectorPrototypeList': [], 'dailyRewardPrototypeList': [], 'chestsList': chests(),
-        'squirtMinigameList': [], 'newPrototypeList': [], 'discounts': [],
+        'squirtMinigameList': [squirt_minigame()], 'newPrototypeList': [], 'discounts': [],
         'vitalityPatchList': [], 'conditionDefinitionList': [], 'questPrototypeList': [],
         'dialogPrototypeList': [], 'colorVariantList': [], 'patternList': [],
         'inAppPricePoints': [], 'hintPrototypeList': [], 'exchangePackagePrototypes': [],

@@ -11,7 +11,7 @@ language the game ships, so no game text is copied into story.json.
 What the generator decides (the catalogue only has the texts):
 * which quests are offered: story, side, Tank Gang, narrative scenes, the vitality and rare-fish
   tutorials, Crush & Squirt and the guest missions. Quests that need features the server does not
-  have yet (minigames, co-op, homework, patches) are left out.
+  have yet (co-op, homework, patches) are left out.
 * when: the Let's Play order (parts 1-2) for the early game; after that a level per quest (the
   catalogue's level band, anchored on the Tank Gang arrival levels) and chains (story quests in
   number order, A/B/C parts, guest missions one at a time).
@@ -49,12 +49,13 @@ RENAMED = {
     'unexpected_party': 'squirt_quest_01', 'planting_101': 'squirt_quest_02',
 }
 FAMILIES = ('story_quest_', 'side_quest_', 'tankgang_', 'narrative_quest_', 'vitality_quest_',
-            'pearls_tutorial_', 'squirt_quest_', 'mission_', 'chest_tutorial_02')
-UNSUPPORTED = {'CID_MINIGAME', 'CID_MINIGAME_FINISHED_COUNT',
+            'pearls_tutorial_', 'squirt_quest_', 'mission_', 'chest_tutorial_02', 'minigame_squirt')
+UNSUPPORTED = {
                'CID_COOP_QUEST_CHECK', 'CID_HOMEWORK_QUEST_CHECK', 'CID_MOVED_ON_PATCH', '<per template>'}
 # The early game ends with A Wormy Mess (level 5); later quests wait for it.
 EARLY_END = 'story_quest_16'
 MAX_LEVEL = 55
+SQUIRT_GAME = 'questGame_Squirt'
 AMBIENT = ['fish_ambient_0', 'fish_ambient_1', 'fish_ambient_coralfish', 'fish_ambient_firefish']
 # Tint for colour variants the catalogue has no measured colour for (name colour word -> RGB).
 COLOUR_WORDS = {
@@ -200,7 +201,7 @@ def main():
     # ---- choose quests
     chosen, skipped = {}, []
     for q in cq['quests']:
-        if not q['id'].startswith(FAMILIES) or q['type'] not in ('STORY', 'MISSION'):
+        if not q['id'].startswith(FAMILIES) or q['type'] not in ('STORY', 'MISSION', 'SQUIRT_MINIGAME'):
             continue
         why = [t['cid'] for t in q['tasks'] if t['cid'] in UNSUPPORTED]
         why += [p for p in needs(q) if not available(p)]
@@ -240,12 +241,19 @@ def main():
         elif qid.startswith('squirt_quest_'):
             n = int(qid[-2:])
             e['after'] = ['squirt_quest_%02d' % (n - 1)]
+        elif qid == 'minigame_squirt_tutorial':  # the first game, with "Let's Play!"
+            e['after'] = ['squirt_quest_02']
+        elif qid == 'minigame_squirt':  # then Hide and Seek whenever Squirt is ready
+            e['after'] = ['minigame_squirt_tutorial']
+            e['repeat'] = True
         else:
             e['after'] = [EARLY_END]
         if e['level'] is None:
             e['level'] = 6
         if qid == 'chest_tutorial_02':  # no chest appears until this one is done (canGenerateTreasureChest)
             e['order'] = 50
+        if qid in ('squirt_quest_03', 'minigame_squirt_tutorial'):  # right after Planting 101
+            e['order'] = 60
     # levels never go down along a chain (a quest waiting for a later-level one)
     for _ in range(3):
         for e in out_quests.values():
@@ -278,10 +286,14 @@ def main():
                 dialogs_needed.add(q[role])
         if q.get('narrative') or q.get('autoStart') is not None:
             e['autoStart'] = bool(q.get('autoStart', True))
+        if q['type'] == 'SQUIRT_MINIGAME':  # starts when the player taps Squirt's button (questStart)
+            e['autoStart'] = False
         e['tasks'] = []
         for t in q['tasks']:
             p = t.get('params') or {}
             params = [p[k] for k in sorted(p, key=int)]
+            if t['cid'].startswith('CID_MINIGAME') and params and params[0] == 'squirt':
+                params[0] = SQUIRT_GAME  # the only id the Hide and Seek screen runs
             if t['cid'] == 'CID_PATTERN':
                 pattern_ids.add(str(params[1]))
             e['tasks'].append({'textKey': t.get('textId') or MISSION_TASK_KEY, 'cid': t['cid'], 'params': params})

@@ -486,6 +486,24 @@ class Reef:
         self.pay(w, d.get('cost'))
         return {'reward': self.chest_reward(w, d.get('prototypeId', ''))}
 
+    # ------------------------------------------------------------ Hide and Seek with Squirt
+    def a_buySquirt(self, w, d, now):
+        """Play now although Squirt is not ready yet: the level's squirtCost."""
+        level = next((l for l in self.protos.levels if l['level'] == self.level(w)), {})
+        self.pay(w, level.get('squirtCost'))
+        w['status']['lastSquirt'] = 0
+        w['status']['squirtStarted'] = now
+        return None
+
+    def a_squirtFailed(self, w, d, now):
+        """Not all fish found: Squirt rests until squirtIntervalTime has passed (TheUser::remainingTimeToNextMinigame)."""
+        w['status']['lastSquirt'] = now
+        return None
+
+    def a_minigamePayToContinue(self, w, d, now):
+        self.pay(w, d.get('cost'))
+        return None
+
     def a_collectSquirtTapReward(self, w, d, now):
         self.earn(w, d.get('reward'))
         return None

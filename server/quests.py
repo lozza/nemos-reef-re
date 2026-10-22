@@ -80,8 +80,9 @@ class Story:
 
     def add_items(self, wd):
         """Colour variants and the real shop values from story.json "items"."""
+        colors = dict(worlddef.SQUIRT_ZONE_COLORS, **self.data.get('colors', {}))
         wd['colorVariantList'] = [{'id': c, 'color': {'alpha': 255, 'red': v[0], 'green': v[1], 'blue': v[2]}}
-                                  for c, v in self.data.get('colors', {}).items()]
+                                  for c, v in colors.items()]
         lists = [k for k in wd if k.endswith('PrototypeList') or k == 'patchList']
         by_id = {p['id']: (k, p) for k in lists if isinstance(wd[k], list) for p in wd[k] if isinstance(p, dict)}
         shop = {s['prototypeId']: s for s in wd['ingameShopItems']}
@@ -215,6 +216,10 @@ class Story:
         }
         if q.get('rewardKey'):  # the text of the "Quest completed" popup (QuestManager::getPrototypeReward)
             p['rewardNameStringId'] = q['rewardKey']
+        if p['type'] == 'SQUIRT_MINIGAME':
+            # QuestManager::getPrototypeStartEndTimes reads the list without a null check; open-ended interval
+            p['startConditionList'] = [{'conditionDefinitionId': 'CID_TIME_INTERVAL', 'parameterValueList': [
+                {'index': 1, 'value': 1388534400000}, {'index': 2, 'value': 4102444800000}]}]
         for k in ('startDialogId', 'endDialogId', 'hintIdList', 'rewardPrototypeIdList'):
             if q.get(k):
                 p[k] = q[k]
@@ -284,13 +289,15 @@ class Story:
                  if q['id'] not in done and q['id'] not in open_ids
                  and all(p in done for p in q.get('after', []))]
         opened = False
+        story_open = lambda: sum(1 for e in w['quests'] if not self.quests.get(e['prototypeId'], {}).get('repeat'))
         for q in ready:
-            if len(w['quests']) >= self.MAX_OPEN:
-                break
+            if story_open() >= self.MAX_OPEN and not q.get('repeat'):
+                continue
             if q.get('level', 1) <= level:
                 self.open(w, q['id'], push)
                 opened = True
-        if not w['quests'] and ready:
+        ready = [q for q in ready if not q.get('repeat') and q['id'] not in {e['prototypeId'] for e in w['quests']}]
+        if not story_open() and ready:
             self.open(w, min(ready, key=lambda q: q.get('level', 1))['id'], push)
             opened = True
         return opened
@@ -344,7 +351,9 @@ class Story:
         if done:
             finish(q, d.get('reward') or q.get('reward'))
             w['quests'].remove(e)
-            if e['prototypeId'] not in w['finishedTutorialQuests']:
+            if q.get('repeat'):  # Hide and Seek: always there again, catch_up reopens it
+                pass
+            elif e['prototypeId'] not in w['finishedTutorialQuests']:
                 w['finishedTutorialQuests'].append(e['prototypeId'])
             self.catch_up(w)
         return {'questFinished': done}

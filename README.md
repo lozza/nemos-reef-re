@@ -4,12 +4,12 @@ A replacement server for Disney's *Nemo's Reef* (Android 1.8.1), whose official 
 Protocol details are in [PROTOCOL.md](PROTOCOL.md); game actions in [ACTIONS.md](ACTIONS.md).
 
 **Status:** early. Runs on a real device (Fire 7). Login, saving what you buy, place, feed, move and collect, the
-original starter reef, friend visits (to a stand-in reef) and the story work. The story has 191 of the original
+original starter reef, friend visits (to a stand-in reef) and the story work. The story has 195 of the original
 quests (story, side quests, Tank Gang, guest missions, tutorials) under their original ids and texts, offered in the
 order of a Let's Play of the original game and then by level. The shop locks items until their level (GET IT EARLY
 costs double and gives free algae) and the daily reward (tap the hidden plants) opens once a day. Treasure chests
-appear on the reef after the chest tutorial. Minigames, co-op and patches are not done yet, so the quests that need
-them are left out.
+appear on the reef after the chest tutorial, and Squirt plays Hide and Seek every few hours after "Let's Play!".
+Co-op and patches are not done yet, so the quests that need them are left out.
 The Android Studio emulator draws some sand paths white; real devices are fine.
 
 The game files are not included: you need your own copy of `nemos-reef-1-8-1-en-android.apk`.

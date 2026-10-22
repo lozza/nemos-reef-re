@@ -846,6 +846,65 @@
    }
   },
   {
+   "id": "minigame_squirt_tutorial",
+   "level": 7,
+   "after": [
+    "squirt_quest_02"
+   ],
+   "order": 60,
+   "type": "SQUIRT_MINIGAME",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_MINIGAME_SQUIRT_TUTORIAL_NAME",
+   "descKey": "STR_MINIGAME_SQUIRT_TUTORIAL_DESCRIPTION",
+   "rewardKey": "STR_MINIGAME_SQUIRT_TUTORIAL_REWARD",
+   "autoStart": false,
+   "tasks": [
+    {
+     "textKey": "STR_MINIGAME_SQUIRT_TUTORIAL_TASK_01",
+     "cid": "CID_MINIGAME",
+     "params": [
+      "questGame_Squirt",
+      1
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 120,
+    "virtualMoney": 180,
+    "energy": 70
+   }
+  },
+  {
+   "id": "squirt_quest_03",
+   "level": 7,
+   "after": [
+    "squirt_quest_02"
+   ],
+   "order": 60,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_SQUIRT_QUEST_03_NAME",
+   "descKey": "STR_SQUIRT_QUEST_03_DESCRIPTION",
+   "rewardKey": "STR_SQUIRT_QUEST_03_REWARD",
+   "startDialogId": "squirt_quest_03_dialog_a",
+   "endDialogId": "squirt_quest_03_dialog_c",
+   "tasks": [
+    {
+     "textKey": "STR_SQUIRT_QUEST_03_TASK_01",
+     "cid": "CID_MINIGAME",
+     "params": [
+      "questGame_Squirt",
+      1
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 120,
+    "virtualMoney": 180,
+    "energy": 70
+   }
+  },
+  {
    "id": "side_quest_01",
    "level": 5,
    "after": [
@@ -5795,6 +5854,36 @@
    }
   },
   {
+   "id": "minigame_squirt",
+   "level": 7,
+   "after": [
+    "minigame_squirt_tutorial"
+   ],
+   "order": 2893,
+   "repeat": true,
+   "type": "SQUIRT_MINIGAME",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_MINIGAME_NORMAL_NAME",
+   "descKey": "STR_MINIGAME_NORMAL_DESC",
+   "rewardKey": "STR_MINIGAME_SQUIRT_REWARD",
+   "autoStart": false,
+   "tasks": [
+    {
+     "textKey": "STR_MINIGAME_SQUIRT_TASK_01",
+     "cid": "CID_MINIGAME",
+     "params": [
+      "questGame_Squirt",
+      1
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 120,
+    "virtualMoney": 180,
+    "energy": 70
+   }
+  },
+  {
    "id": "mission_17",
    "level": 36,
    "after": [
@@ -5928,10 +6017,39 @@
    }
   },
   {
-   "id": "story_quest_57",
+   "id": "story_quest_56",
    "level": 51,
    "after": [
     "story_quest_55"
+   ],
+   "order": 2970,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_STORY_QUEST_56_NAME",
+   "descKey": "STR_STORY_QUEST_56_DESCRIPTION",
+   "rewardKey": "STR_STORY_QUEST_56_REWARD",
+   "startDialogId": "story_quest_56_dialog",
+   "tasks": [
+    {
+     "textKey": "STR_STORY_QUEST_56_TASK_01",
+     "cid": "CID_MINIGAME_FINISHED_COUNT",
+     "params": [
+      "questGame_Squirt",
+      3
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 780,
+    "virtualMoney": 1060,
+    "energy": 510
+   }
+  },
+  {
+   "id": "story_quest_57",
+   "level": 51,
+   "after": [
+    "story_quest_56"
    ],
    "order": 2983,
    "type": "STORY",
@@ -8127,6 +8245,76 @@
    ]
   },
   {
+   "id": "squirt_quest_03_dialog_a",
+   "lines": [
+    {
+     "side": "right",
+     "actor": "fish_special_squirt",
+     "key": "STR_SQUIRT_QUEST_03_DIALOG_1",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_SQUIRT_QUEST_03_DIALOG_2",
+     "listener": "fish_special_squirt"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_squirt",
+     "key": "STR_SQUIRT_QUEST_03_DIALOG_3",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_SQUIRT_QUEST_03_DIALOG_4",
+     "listener": "fish_special_squirt"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_squirt",
+     "key": "STR_SQUIRT_QUEST_03_DIALOG_5",
+     "listener": "fish_special_nemo"
+    }
+   ]
+  },
+  {
+   "id": "squirt_quest_03_dialog_c",
+   "lines": [
+    {
+     "side": "right",
+     "actor": "fish_special_squirt",
+     "key": "STR_SQUIRT_QUEST_03_DIALOG_7",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_SQUIRT_QUEST_03_DIALOG_8",
+     "listener": "fish_special_squirt"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_squirt",
+     "key": "STR_SQUIRT_QUEST_03_DIALOG_9",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_crush",
+     "key": "STR_SQUIRT_QUEST_03_DIALOG_10",
+     "listener": "fish_special_squirt"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_squirt",
+     "key": "STR_SQUIRT_QUEST_03_DIALOG_11",
+     "listener": "fish_special_crush"
+    }
+   ]
+  },
+  {
    "id": "story_quest_44a_dialog",
    "lines": [
     {
@@ -8576,6 +8764,35 @@
      "actor": "fish_special_nemo",
      "key": "STR_STORY_QUEST_55_DIALOG_5",
      "listener": "fish_special_marlin"
+    }
+   ]
+  },
+  {
+   "id": "story_quest_56_dialog",
+   "lines": [
+    {
+     "side": "right",
+     "actor": "fish_special_squirt",
+     "key": "STR_STORY_QUEST_56_DIALOG_1",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_STORY_QUEST_56_DIALOG_2",
+     "listener": "fish_special_squirt"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_squirt",
+     "key": "STR_STORY_QUEST_56_DIALOG_3",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_STORY_QUEST_56_DIALOG_4",
+     "listener": "fish_special_squirt"
     }
    ]
   },
