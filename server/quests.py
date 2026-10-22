@@ -146,8 +146,12 @@ class Story:
             # Locked below "level": the card shows GET IT EARLY, which costs the price times
             # getItEarlyCostMultiplier plus a gift of algae (DialogGetItEarly, worlddef globalSettings).
             level = int(self.data.get('items', {}).get(pid, {}).get('level', 1))
-            by_id[pid][1].update(requiredLevel=level, visibleAtLevel=1)
-            wd['ingameShopItems'].append(dict(s, requiredLevel=level, visibleAtLevel=1))
+            # Nursery order (ServerPrototype::getGuiOrder): by unlock level, then by price as in the Let's
+            # Play (a pearl counted as 20 sand dollars), so the basic items come first.
+            c = s.get('cost') or {}
+            order = level * 100000 + min(99999, c.get('virtualMoney', 0) + 20 * c.get('hardMoney', 0))
+            by_id[pid][1].update(requiredLevel=level, visibleAtLevel=1, guiOrder=order)
+            wd['ingameShopItems'].append(dict(s, requiredLevel=level, visibleAtLevel=1, guiOrder=order))
 
     def levels(self, wd):
         """Level XP thresholds and level-up rewards (story.json "levels")."""
