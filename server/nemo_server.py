@@ -189,6 +189,11 @@ class Game:
             # Peach's house belongs to a later area.
             self.starter = [e for e in iscn.entities(z.read('assets/level.iscn'))
                             if e['ipro'][:-5] not in ('spec_house_nemo_2', 'spec_house_nemo_3', 'spec_house_peach')]
+        if args.reset_all:
+            with self.store.lock, self.store.db:
+                self.store.db.execute('DELETE FROM worlds')
+                self.store.db.execute('DELETE FROM users')
+            print('everything reset: every device is a new player again (asked for a name)')
         if args.reset_worlds:
             with self.store.lock, self.store.db:
                 self.store.db.execute('DELETE FROM worlds')
@@ -592,6 +597,8 @@ def main():
     ap.add_argument('--worlddef', help='use this worldDef JSON instead of generating one')
     ap.add_argument('--reset-worlds', action='store_true',
                     help='delete every saved reef (accounts are kept); players get the starter reef again')
+    ap.add_argument('--reset-all', action='store_true',
+                    help='delete every account and reef; every device starts as a new player')
     ap.add_argument('--no-story', action='store_true', help='turn off the story quests (story.json)')
     args = ap.parse_args()
     Handler.game = Game(args)

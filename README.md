@@ -91,6 +91,10 @@ second time the game is started (the game only tells the server the age group af
 
 When something goes wrong, send `server\data\requests.log` from the project folder.
 
+To start completely fresh as a new player (the game asks for a name and age again), close the server window,
+clear the game's data on the phone (Settings → Apps → Nemo's Reef → Storage → **Clear data**), then double-click
+**`new-start.bat`**. It deletes every account and reef and runs the server.
+
 To start over with a fresh starter reef (for example after updating the server), close the server window and
 double-click **`reset-reef.bat`**. It asks for confirmation, deletes the saved reefs (your account stays), and then
 runs the server.
