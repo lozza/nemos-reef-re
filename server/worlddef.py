@@ -104,6 +104,11 @@ def prototype(pid, graphical_id, name, etype, specific_type, order, level=1, pri
     }
 
 
+GET_IT_EARLY_MULTIPLIER = 2
+GET_IT_EARLY_ALGAE = 20
+DAILY_TAPS = 3
+
+
 def shop_item(p):
     """ingameShopItems entry: ServerPrototype::getActiveShopData picks one by level (CriteriumLevel),
     then the shop reads price, time window and limits from it."""
@@ -156,6 +161,13 @@ def build(apk_path, story=None):
             'facebookAndroidURL': '', 'facebookAmazonURL': '', 'facebookWallPostURL': '',
             'gamePictureURL': '', 'URLiTunes': '', 'URLAndroid': '', 'URLAmazon': '',
             'burslyPregameInterstitalAndroid': False,
+            # World::WorldSettings::load also reads these (0 when missing):
+            'getItEarlyCostMultiplier': GET_IT_EARLY_MULTIPLIER,  # GET IT EARLY = price x this
+            'getItEarlyBonusAlgaeAmount': GET_IT_EARLY_ALGAE,  # "... plus N FREE algae"
+            'dailyTapRewardsCount': DAILY_TAPS,  # daily reward: hidden plants the player may tap per day
+            'dailyTapRewardsGetEverythingCostPearls': 5,
+            'dailyRewardDisplayDelay': 3,
+            'dailyRewardDisplayDelayWithdraw': 3,
         },
         # World::loadWorldDefinition reads test/variant (strings), control (int), active (bool)
         'abTestSettings': {'test': '', 'variant': '', 'control': 0, 'active': False},

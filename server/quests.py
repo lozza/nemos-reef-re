@@ -36,14 +36,6 @@ def cost(c):
     return {k: int(c.get(k, 0)) for k in ('energy', 'virtualMoney', 'hardMoney', 'lowTool', 'highTool')}
 
 
-def early_cost(c):
-    """GET IT EARLY price: pearl items keep their price; others cost a pearl per 40 sand dollars (the Let's Play
-    only shows the button, not this price)."""
-    if c.get('hardMoney'):
-        return dict(c)
-    return worlddef.cost(pearls=max(1, min(50, round(c.get('virtualMoney', 0) / 40))))
-
-
 class Story:
     def __init__(self, path=STORY):
         with open(path, encoding='utf-8') as f:
@@ -144,16 +136,11 @@ class Story:
         for pid, s in shop.items():
             if not (pid in sold if sold else pid not in has_variants) or pid in rare:
                 continue
+            # Locked below "level": the card shows GET IT EARLY, which costs the price times
+            # getItEarlyCostMultiplier plus a gift of algae (DialogGetItEarly, worlddef globalSettings).
             level = int(self.data.get('items', {}).get(pid, {}).get('level', 1))
-            if level <= 1:
-                wd['ingameShopItems'].append(s)
-                continue
-            # Locked until "level": the card shows GET IT EARLY (the item's requiredLevel is above the
-            # player's) and the active shop entry for the player's level gives the early price in pearls.
             by_id[pid][1].update(requiredLevel=level, visibleAtLevel=1)
-            wd['ingameShopItems'].append(dict(s, visibleAtLevel=1, visibleMaxLevel=level - 1, requiredLevel=level,
-                                              cost=early_cost(s['cost'])))
-            wd['ingameShopItems'].append(dict(s, visibleAtLevel=level, visibleMaxLevel=999, requiredLevel=level))
+            wd['ingameShopItems'].append(dict(s, requiredLevel=level, visibleAtLevel=1))
 
     def levels(self, wd):
         """Level XP thresholds and level-up rewards (story.json "levels")."""

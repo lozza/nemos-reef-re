@@ -8,6 +8,9 @@ Entities are stored in the world lists as the client reads them in startgame (id
 position, state, intervals ...). States are recomputed from the timers whenever the world is sent.
 """
 import random
+import time
+
+import worlddef
 # server ids must stay below the client's temporary ids (EntityIdGenerator starts at 1,000,000)
 MAX_ENTITY_ID = 999999
 
@@ -147,7 +150,7 @@ class Reef:
             e['state'] = BUILT
             e.pop('constructionInterval', None)
         elif st == GROWING and e.get('growingInterval', {}).get('finish', 0) <= now:
-            if e.get('growingCycle', 0) < int((p or {}).get('growingCycles', 1)):
+            if e.get('growingCycle', 0) < int(self.growth_proto(e).get('growingCycles', 1)):
                 e['state'] = WAITING_FEED
             elif etype in HARVESTABLE:
                 fin = e['growingInterval']['finish']
@@ -198,7 +201,11 @@ class Reef:
             return None, None, None
         e = {'id': self.new_id(w), 'prototypeId': pid,
              'position': {'x': int(d.get('x', 0)), 'z': int(d.get('z', 0)), 'transform': int(d.get('transform', 0)) & 1}}
-        self.pay(w, self.protos.shop_cost(pid, self.level(w)) or p.get('cost'))
+        price = self.protos.shop_cost(pid, self.level(w)) or p.get('cost')
+        if d.get('early'):  # GET IT EARLY: the price times the multiplier, plus free algae
+            price = {k: v * worlddef.GET_IT_EARLY_MULTIPLIER for k, v in (price or {}).items()}
+            self.earn(w, {'energy': worlddef.GET_IT_EARLY_ALGAE})
+        self.pay(w, price)
         w.setdefault(lst, []).append(e)
         return lst, p, e
 
@@ -258,9 +265,16 @@ class Reef:
             w[lst].remove(e)
         return None
 
+    def growth_proto(self, e):
+        """A plant grown from a mystery seed grows (and costs algae) like the seed until it is mature: the
+        client shows the seed's feeding cost and timer."""
+        _, p = self.protos.get(e.get('seedPrototypeId') or e.get('prototypeId'))
+        if not p:
+            _, p = self.protos.get(e.get('prototypeId'))
+        return p or {}
+
     def grow(self, w, e, now, pay=True):
-        _, p = self.protos.get(e['prototypeId'])
-        p = p or {}
+        p = self.growth_proto(e)
         if pay:
             self.pay(w, p.get('growingCycleCost'))
         e['growingCycle'] = min(e.get('growingCycle', 0) + 1, int(p.get('growingCycles', 1)))
@@ -397,6 +411,41 @@ class Reef:
                 e.pop('producingInterval', None)
                 ids.append(e['id'])
         return {'fishes': ids, 'reward': {'hardMoney': 0}}
+
+    # ------------------------------------------------------------ daily reward (tap the hidden plants)
+    @staticmethod
+    def daily_taps_left(w):
+        st = w.get('status', {})
+        if w.get('dailyTapDay') != time.strftime('%Y-%m-%d'):
+            return worlddef.DAILY_TAPS
+        return max(0, worlddef.DAILY_TAPS - int(st.get('tapRewardsCount', 0)))
+
+    def new_day(self, w):
+        """A new day: the daily reward opens again with all its taps. The ad-funded extra tap and the pearl
+        "get everything" button stay hidden."""
+        today = time.strftime('%Y-%m-%d')
+        st = w['status']
+        if w.get('dailyTapDay') != today:
+            w['dailyTapDay'] = today
+            st['tapRewardsCount'] = 0
+        st['tapRewardsExtraTapAvail'] = False
+        st['tapRewardsGetAllAvail'] = False
+
+    def a_dailyTapReward(self, w, d, now):
+        """One tap: DialogDailyReward::processResponse shows data.reward on the tapped plant."""
+        self.new_day(w)
+        st = w['status']
+        reward = {}
+        if st['tapRewardsCount'] < worlddef.DAILY_TAPS:
+            st['tapRewardsCount'] += 1
+            level = self.level(w)
+            kind = random.choices(['virtualMoney', 'energy', 'xp', 'hardMoney'], [45, 30, 20, 5])[0]
+            amount = {'virtualMoney': 30 + 15 * level, 'energy': 10 + 5 * level, 'xp': 10 + 5 * level,
+                      'hardMoney': 1}[kind]
+            reward = {kind: amount}
+            self.earn(w, reward)
+        full = {k: int(reward.get(k, 0)) for k in ('xp', 'virtualMoney', 'energy', 'hardMoney', 'lowTool', 'highTool')}
+        return {'reward': full}
 
     def a_collectSquirtTapReward(self, w, d, now):
         self.earn(w, d.get('reward'))

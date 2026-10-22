@@ -121,11 +121,13 @@ FRIEND_UID = 'friend_nemo'
 FRIEND_ACTIONS = 5  # "Daily Actions: 5/5" on a friend's reef
 
 
-def user_info():
-    # data::UserStatus::loadUserInfo(obj): if obj has "resumeGame", reads these fields inside it
+def user_info(w=None):
+    # data::UserStatus::loadUserInfo(obj): if obj has "resumeGame", reads these fields inside it.
+    # dailyTapRewardReady opens the daily reward (DailyRewardManager::checkDailyRewards).
+    ready = bool(w) and actions.Reef.daily_taps_left(w) > 0
     return {'resumeGame': {'moneySpent': False, 'tapjoyMoneySpent': False,
                            'currentDailyRewardCountOffer': 0, 'lastDailyRewardCountClaimed': 0,
-                           'dailyTapRewardReady': False}}
+                           'dailyTapRewardReady': ready}}
 
 
 class Game:
@@ -251,6 +253,7 @@ class Game:
                     self.reef.events = []
                     self.reef.refresh(w, now_ms())
                     self.finish_visit(w)
+                    self.reef.new_day(w)
                     self.story.catch_up(w, push=False)  # in the startgame quests list
                     # quest messages are covered by the quests list; entity events still have to be pushed
                     w['messages'] = [m for m in w.get('messages', []) if m['type'] != quests.QUEST_OPEN]
@@ -261,7 +264,7 @@ class Game:
             for k in ('nextEntityId', 'nextQuestId', 'nextMessageId', 'messages', 'patterns'):
                 body.pop(k, None)
             # World::processUserWorld passes the root to data::TheUser::updateUserInfo
-            body['resumeGame'] = user_info()['resumeGame']
+            body['resumeGame'] = user_info(w)['resumeGame']
             for k in ('moneySpent', 'tapjoyMoneySpent', 'currentDailyRewardCountOffer',
                       'lastDailyRewardCountClaimed', 'dailyTapRewardReady'):
                 body.pop(k, None)  # flat copies sent by older versions
@@ -298,7 +301,7 @@ class Game:
 
     def reaction(self, w, action):
         if action.get('action') == 'resumeGame':
-            return {'aid': action.get('aid'), 'resultCode': 200, 'data': user_info()}
+            return {'aid': action.get('aid'), 'resultCode': 200, 'data': user_info(w)}
         if w is None:
             return {'aid': action.get('aid'), 'resultCode': 200}
         try:
