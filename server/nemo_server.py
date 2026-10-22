@@ -431,22 +431,19 @@ class Game:
 
     def pattern_fish(self, w):
         """The fish a plant combination attracted moves in for good. The client's fish is temporary
-        (PatternSystem::attracktFish); on loading, PatternSystem::init rebuilds combinations only around
-        ET_LIVING_PLANT centres, so the fish of every other combination is kept as a real entity here
-        (it shows from the next start; the one swimming now stays until then)."""
-        done = w.setdefault('patternFish', [])
+        (PatternSystem::attracktFish) and is not reliably rebuilt when the reef loads, so every combination's
+        fish is kept as a real entity here, one of each kind (it shows from the next start; the one swimming
+        now stays until then)."""
         defs = {pt['id']: pt for pt in self.story.data.get('patterns', [])}
         for pid in w.get('patterns', []):
             pt = defs.get(pid)
-            if pid in done or not pt:
+            if not pt or any(f.get('prototypeId') == pt['producedFishId'] for f in w.get('fishes', [])):
                 continue
-            done.append(pid)
-            if (self.reef.protos.get(pt['centralPrototype'])[1] or {}).get('type') == 'ET_LIVING_PLANT':
-                continue
-            central = next((e for lst in ('ornamentalPlants', 'corals', 'livingPlants', 'decorations')
+            central = next((e for lst in ('livingPlants', 'ornamentalPlants', 'corals', 'decorations')
                             for e in w.get(lst, []) if e.get('prototypeId') == pt['centralPrototype']), None)
             pos = (central or {}).get('position', {})
             self.reef.add_entity(w, pt['producedFishId'], pos.get('x', 80), pos.get('z', 80))
+        w.pop('patternFish', None)
 
     def unstick_quests(self, w):
         """A running grow/build task whose item is already grown/built (finished while the game was closed,

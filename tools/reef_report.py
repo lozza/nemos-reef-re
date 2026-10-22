@@ -26,7 +26,6 @@ def main():
         print('Player %s (%s)  level %s  kids=%s' % (names.get(uid, '?'), uid, w.get('status', {}).get('level'),
                                                     w.get('kids')))
         print('Combinations reported by the game:', w.get('patterns', []))
-        print('Combinations given a saved fish:', w.get('patternFish', []))
         for pid in w.get('patterns', []):
             p = patterns.get(pid, {})
             print('   %s: %s + %s -> %s' % (pid, p.get('centralPrototype'), p.get('nearPrototypes'),
