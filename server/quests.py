@@ -247,6 +247,12 @@ class Story:
         }
         if q.get('rewardKey'):  # the text of the "Quest completed" popup (QuestManager::getPrototypeReward)
             p['rewardNameStringId'] = q['rewardKey']
+        if p['type'] == 'HOMEWORK':
+            # QuestManager::getPrototypeStartingHourDuration: 1 = start hour, 2 = weekday (1 = Sunday),
+            # 3 = minutes it lasts (QuestHomeWork::countTimes); the server opens each day's homework itself
+            day = int(q['id'].rsplit('_', 1)[1]) + 1
+            p['startConditionList'] = [{'conditionDefinitionId': 'CID_REGULAR_TIME_INTERVAL', 'parameterValueList': [
+                {'index': 1, 'value': 0}, {'index': 2, 'value': day}, {'index': 3, 'value': 24 * 60}]}]
         if p['type'] == 'SQUIRT_MINIGAME':
             # QuestManager::getPrototypeStartEndTimes reads the list without a null check; open-ended interval
             p['startConditionList'] = [{'conditionDefinitionId': 'CID_TIME_INTERVAL', 'parameterValueList': [
@@ -318,6 +324,7 @@ class Story:
         open_ids = {e['prototypeId'] for e in w['quests']}
         ready = [q for q in self.data['quests']
                  if q['id'] not in done and q['id'] not in open_ids and (w.get('kids') or not q.get('kidsOnly'))
+                 and not q.get('homework')
                  and all(p in done for p in q.get('after', []))]
         opened = False
         story_open = lambda: sum(1 for e in w['quests'] if not self.quests.get(e['prototypeId'], {}).get('repeat'))
@@ -332,6 +339,27 @@ class Story:
             self.open(w, min(ready, key=lambda q: q.get('level', 1))['id'], push)
             opened = True
         return opened
+
+    def open_homework(self, w, today, weekday, targets):
+        """Today's homework (homework_<weekday>, 0 = Sunday): yesterday's goes, today's opens with this player's
+        targets [(prototypeId, count)] as task progress (QuestManager::loadTasks reads count, counter and
+        prototypeId). Only at startgame, which carries the quest list with its progress."""
+        hw = w.get('homework') or {}
+        if hw.get('day') == today:
+            return
+        w['quests'] = [e for e in w['quests'] if not self.quests.get(e['prototypeId'], {}).get('homework')]
+        qid = 'homework_%d' % weekday
+        q = self.quests.get(qid)
+        if not q or not all(p in w['finishedTutorialQuests'] for p in q.get('after', [])) \
+                or int(w['status'].get('level', 1)) < q.get('level', 1):
+            return
+        sid = w['nextQuestId']
+        w['nextQuestId'] += 1
+        tasks = []
+        for i, (pid, count) in enumerate(targets, 1):
+            tasks.append({'tid': i, 'progress': {'count': count, 'counter': count, 'prototypeId': pid, 'state': 1}})
+        w['quests'].append({'prototypeId': qid, 'id': sid, 'state': RUNNING, 'tasks': tasks})
+        w['homework'] = {'day': today, 'id': sid}
 
     def open(self, w, qid, push=True):
         q = self.quests.get(qid)
@@ -384,6 +412,8 @@ class Story:
             w['quests'].remove(e)
             if q.get('repeat'):  # Hide and Seek: always there again, catch_up reopens it
                 pass
+            elif q.get('homework'):  # done for today; tomorrow brings the next one
+                w.setdefault('homework', {})['done'] = True
             elif e['prototypeId'] not in w['finishedTutorialQuests']:
                 w['finishedTutorialQuests'].append(e['prototypeId'])
             self.catch_up(w)

@@ -302,6 +302,7 @@ class Game:
                     self.reef.vitality(w)
                     self.expand(w, push=False)
                     self.story.catch_up(w, push=False)  # in the startgame quests list
+                    self.homework(w)
                     # quest messages are covered by the quests list; entity events still have to be pushed
                     w['messages'] = [m for m in w.get('messages', []) if m['type'] != quests.QUEST_OPEN]
                     self.push_events(w)
@@ -433,6 +434,20 @@ class Game:
                         if (msg[0], e['id']) not in queued:
                             queued.add((msg[0], e['id']))
                             w.setdefault('messages', []).append({'id': self.story.message_id(w), 'type': msg[0], 'data': msg[1]})
+
+    def homework(self, w):
+        """Mr. Ray's homework for today: grow something the player can buy, collect from one of their living
+        plants and harvest from one of their corals, a few times each."""
+        level = int(w['status'].get('level', 1))
+        rnd = random.Random('%s %s' % (w.get('user', {}).get('uid'), time.strftime('%Y-%m-%d')))
+        sold = [s['prototypeId'] for s in self.worlddef['ingameShopItems'] if s.get('requiredLevel', 1) <= level
+                and (self.reef.protos.get(s['prototypeId'])[1] or {}).get('type') in ('ET_CORAL', 'ET_LIVING_PLANT', 'ET_ORN_PLANT')]
+        living = sorted({e['prototypeId'] for e in w.get('livingPlants', [])}) or ['plant_table_yellow']
+        corals = sorted({e['prototypeId'] for e in w.get('corals', [])}) or ['coral_fan']
+        targets = [(rnd.choice(sold or ['coral_fan']), rnd.randint(2, 3)),
+                   (rnd.choice(living), rnd.randint(3, 6)), (rnd.choice(corals), rnd.randint(3, 6))]
+        weekday = int(time.strftime('%w'))
+        self.story.open_homework(w, time.strftime('%Y-%m-%d'), weekday, targets)
 
     def friend_world(self, uid):
         """The reef shown when visiting a friend. "Random friend" (CU::visitRandomPlayer) asks for the tutorial

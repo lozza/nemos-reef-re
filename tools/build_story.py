@@ -50,11 +50,16 @@ RENAMED = {
 }
 FAMILIES = ('story_quest_', 'side_quest_', 'tankgang_', 'narrative_quest_', 'vitality_quest_',
             'pearls_tutorial_', 'squirt_quest_', 'mission_', 'chest_tutorial_02', 'minigame_squirt',
-            'kids_story_quest_', 'patch_tutorial_')
+            'kids_story_quest_', 'patch_tutorial_', 'homework_')
 # Kids edition quests (players who entered an age under the game's limit), placed by what they ask for.
 KIDS_AFTER = {'kids_story_quest_01': 'story_quest_13', 'kids_story_quest_02': 'kids_story_quest_01',
               'kids_story_quest_03': 'kids_story_quest_02', 'kids_story_quest_04': 'pearls_tutorial_01'}
-UNSUPPORTED = {'CID_COOP_QUEST_CHECK', 'CID_HOMEWORK_QUEST_CHECK', '<per template>'}
+UNSUPPORTED = {'CID_COOP_QUEST_CHECK'}
+# Mr. Ray's daily homework (homework_0 = Sunday ... homework_6): three tasks from the game's generic task texts.
+# The server picks each player's targets every day (quest task progress "prototypeId" and "count").
+HOMEWORK_TASKS = [{'textKey': 'STR_GROW_A', 'cid': 'CID_GROWN', 'params': [2, 'coral_fan']},
+                  {'textKey': 'STR_COLLECT_C', 'cid': 'CID_HARVESTED', 'params': [3, 'plant_table_yellow']},
+                  {'textKey': 'STR_HARVEST_C', 'cid': 'CID_HARVESTED', 'params': [3, 'coral_fan']}]
 # The early game ends with A Wormy Mess (level 5); later quests wait for it.
 EARLY_END = 'story_quest_16'
 MAX_LEVEL = 55
@@ -206,8 +211,11 @@ def main():
     # ---- choose quests
     chosen, skipped = {}, []
     for q in cq['quests']:
-        if not q['id'].startswith(FAMILIES) or q['type'] not in ('STORY', 'MISSION', 'SQUIRT_MINIGAME'):
+        if not q['id'].startswith(FAMILIES) or q['type'] not in ('STORY', 'MISSION', 'SQUIRT_MINIGAME', 'HOMEWORK'):
             continue
+        if q['type'] == 'HOMEWORK':
+            q = dict(q, tasks=[{'textId': t['textKey'], 'cid': t['cid'],
+                                'params': {str(i): v for i, v in enumerate(t['params'], 1)}} for t in HOMEWORK_TASKS])
         why = [t['cid'] for t in q['tasks'] if t['cid'] in UNSUPPORTED]
         why += [p for p in needs(q) if not available(p)]
         if why:
@@ -246,6 +254,14 @@ def main():
             e['after'] = ['squirt_quest_%02d' % (n - 1)]
         elif qid == 'minigame_squirt_tutorial':  # the first game, with "Let's Play!"
             e['after'] = ['squirt_quest_02']
+        elif qid.startswith('homework_') and chosen[qid]['type'] == 'HOMEWORK':
+            e['homework'] = True  # opened by the server each day, not by the story
+            e['after'] = [EARLY_END]  # with the tutorial, which asks to tap the homework button
+            e['level'] = 9
+        elif qid == 'homework_tutorial_01':  # "School is cool": tap the homework button
+            e['after'] = [EARLY_END]
+            e['level'] = 9
+            e['order'] = 75
         elif qid == 'patch_tutorial_01':  # patches need 3500 Vitality (vitalityPatchList), about level 10
             e['after'] = [EARLY_END]
             e['level'] = 10
@@ -310,6 +326,8 @@ def main():
             if t['cid'] == 'CID_PATTERN':
                 pattern_ids.add(str(params[1]))
             e['tasks'].append({'textKey': t.get('textId') or MISSION_TASK_KEY, 'cid': t['cid'], 'params': params})
+        if q['type'] == 'HOMEWORK':
+            e['descKey'] = q['descriptionStringId']
         rw = oldq.get('reward') or q.get('reward_story_json')
         e['reward'] = rw if rw else quest_reward(e['level'])
         if qid.startswith('narrative_quest_'):  # a conversation only: no popup, no reward

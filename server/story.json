@@ -983,6 +983,340 @@
    }
   },
   {
+   "id": "homework_tutorial_01",
+   "level": 9,
+   "after": [
+    "story_quest_16"
+   ],
+   "order": 75,
+   "type": "STORY",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_HOMEWORK_TUTORIAL_TITLE",
+   "descKey": "STR_HOMEWORK_TUTORIAL_DESCRIPTION",
+   "rewardKey": "STR_HOMEWORK_TUTORIAL_REWARD",
+   "startDialogId": "dialog_homework_tuto",
+   "tasks": [
+    {
+     "textKey": "STR_HOMEWORK_TUTORIAL_TASK_01",
+     "cid": "CID_HOMEWORK_QUEST_CHECK",
+     "params": []
+    }
+   ],
+   "reward": {
+    "xp": 160,
+    "virtualMoney": 220,
+    "energy": 90
+   }
+  },
+  {
+   "id": "homework_1",
+   "level": 9,
+   "after": [
+    "story_quest_16"
+   ],
+   "order": 692,
+   "homework": true,
+   "type": "HOMEWORK",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_HOMEWORK_TITLE_1",
+   "descKey": "STR_HOMEWORK_TEXT",
+   "tasks": [
+    {
+     "textKey": "STR_GROW_A",
+     "cid": "CID_GROWN",
+     "params": [
+      2,
+      "coral_fan"
+     ]
+    },
+    {
+     "textKey": "STR_COLLECT_C",
+     "cid": "CID_HARVESTED",
+     "params": [
+      3,
+      "plant_table_yellow"
+     ]
+    },
+    {
+     "textKey": "STR_HARVEST_C",
+     "cid": "CID_HARVESTED",
+     "params": [
+      3,
+      "coral_fan"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 160,
+    "virtualMoney": 220,
+    "energy": 90
+   }
+  },
+  {
+   "id": "homework_2",
+   "level": 9,
+   "after": [
+    "story_quest_16"
+   ],
+   "order": 693,
+   "homework": true,
+   "type": "HOMEWORK",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_HOMEWORK_TITLE_2",
+   "descKey": "STR_HOMEWORK_TEXT",
+   "tasks": [
+    {
+     "textKey": "STR_GROW_A",
+     "cid": "CID_GROWN",
+     "params": [
+      2,
+      "coral_fan"
+     ]
+    },
+    {
+     "textKey": "STR_COLLECT_C",
+     "cid": "CID_HARVESTED",
+     "params": [
+      3,
+      "plant_table_yellow"
+     ]
+    },
+    {
+     "textKey": "STR_HARVEST_C",
+     "cid": "CID_HARVESTED",
+     "params": [
+      3,
+      "coral_fan"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 160,
+    "virtualMoney": 220,
+    "energy": 90
+   }
+  },
+  {
+   "id": "homework_3",
+   "level": 9,
+   "after": [
+    "story_quest_16"
+   ],
+   "order": 694,
+   "homework": true,
+   "type": "HOMEWORK",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_HOMEWORK_TITLE_3",
+   "descKey": "STR_HOMEWORK_TEXT",
+   "tasks": [
+    {
+     "textKey": "STR_GROW_A",
+     "cid": "CID_GROWN",
+     "params": [
+      2,
+      "coral_fan"
+     ]
+    },
+    {
+     "textKey": "STR_COLLECT_C",
+     "cid": "CID_HARVESTED",
+     "params": [
+      3,
+      "plant_table_yellow"
+     ]
+    },
+    {
+     "textKey": "STR_HARVEST_C",
+     "cid": "CID_HARVESTED",
+     "params": [
+      3,
+      "coral_fan"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 160,
+    "virtualMoney": 220,
+    "energy": 90
+   }
+  },
+  {
+   "id": "homework_4",
+   "level": 9,
+   "after": [
+    "story_quest_16"
+   ],
+   "order": 695,
+   "homework": true,
+   "type": "HOMEWORK",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_HOMEWORK_TITLE_4",
+   "descKey": "STR_HOMEWORK_TEXT",
+   "tasks": [
+    {
+     "textKey": "STR_GROW_A",
+     "cid": "CID_GROWN",
+     "params": [
+      2,
+      "coral_fan"
+     ]
+    },
+    {
+     "textKey": "STR_COLLECT_C",
+     "cid": "CID_HARVESTED",
+     "params": [
+      3,
+      "plant_table_yellow"
+     ]
+    },
+    {
+     "textKey": "STR_HARVEST_C",
+     "cid": "CID_HARVESTED",
+     "params": [
+      3,
+      "coral_fan"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 160,
+    "virtualMoney": 220,
+    "energy": 90
+   }
+  },
+  {
+   "id": "homework_5",
+   "level": 9,
+   "after": [
+    "story_quest_16"
+   ],
+   "order": 696,
+   "homework": true,
+   "type": "HOMEWORK",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_HOMEWORK_TITLE_5",
+   "descKey": "STR_HOMEWORK_TEXT",
+   "tasks": [
+    {
+     "textKey": "STR_GROW_A",
+     "cid": "CID_GROWN",
+     "params": [
+      2,
+      "coral_fan"
+     ]
+    },
+    {
+     "textKey": "STR_COLLECT_C",
+     "cid": "CID_HARVESTED",
+     "params": [
+      3,
+      "plant_table_yellow"
+     ]
+    },
+    {
+     "textKey": "STR_HARVEST_C",
+     "cid": "CID_HARVESTED",
+     "params": [
+      3,
+      "coral_fan"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 160,
+    "virtualMoney": 220,
+    "energy": 90
+   }
+  },
+  {
+   "id": "homework_6",
+   "level": 9,
+   "after": [
+    "story_quest_16"
+   ],
+   "order": 697,
+   "homework": true,
+   "type": "HOMEWORK",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_HOMEWORK_TITLE_6",
+   "descKey": "STR_HOMEWORK_TEXT",
+   "tasks": [
+    {
+     "textKey": "STR_GROW_A",
+     "cid": "CID_GROWN",
+     "params": [
+      2,
+      "coral_fan"
+     ]
+    },
+    {
+     "textKey": "STR_COLLECT_C",
+     "cid": "CID_HARVESTED",
+     "params": [
+      3,
+      "plant_table_yellow"
+     ]
+    },
+    {
+     "textKey": "STR_HARVEST_C",
+     "cid": "CID_HARVESTED",
+     "params": [
+      3,
+      "coral_fan"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 160,
+    "virtualMoney": 220,
+    "energy": 90
+   }
+  },
+  {
+   "id": "homework_0",
+   "level": 9,
+   "after": [
+    "story_quest_16"
+   ],
+   "order": 698,
+   "homework": true,
+   "type": "HOMEWORK",
+   "giver": "fish_special_nemo",
+   "nameKey": "STR_HOMEWORK_TITLE_0",
+   "descKey": "STR_HOMEWORK_TEXT",
+   "tasks": [
+    {
+     "textKey": "STR_GROW_A",
+     "cid": "CID_GROWN",
+     "params": [
+      2,
+      "coral_fan"
+     ]
+    },
+    {
+     "textKey": "STR_COLLECT_C",
+     "cid": "CID_HARVESTED",
+     "params": [
+      3,
+      "plant_table_yellow"
+     ]
+    },
+    {
+     "textKey": "STR_HARVEST_C",
+     "cid": "CID_HARVESTED",
+     "params": [
+      3,
+      "coral_fan"
+     ]
+    }
+   ],
+   "reward": {
+    "xp": 160,
+    "virtualMoney": 220,
+    "energy": 90
+   }
+  },
+  {
    "id": "side_quest_01",
    "level": 5,
    "after": [
@@ -6656,6 +6990,47 @@
      "actor": "fish_special_marlin",
      "key": "STR_DIALOG_FIRST_RARE_FISH_07",
      "listener": "fish_special_nemo"
+    }
+   ]
+  },
+  {
+   "id": "dialog_homework_tuto",
+   "lines": [
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_DIALOG_HOMEWORK_TUTO_01",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_DIALOG_HOMEWORK_TUTO_02",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_DIALOG_HOMEWORK_TUTO_03",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_DIALOG_HOMEWORK_TUTO_04",
+     "listener": "fish_special_marlin"
+    },
+    {
+     "side": "right",
+     "actor": "fish_special_marlin",
+     "key": "STR_DIALOG_HOMEWORK_TUTO_05",
+     "listener": "fish_special_nemo"
+    },
+    {
+     "side": "left",
+     "actor": "fish_special_nemo",
+     "key": "STR_DIALOG_HOMEWORK_TUTO_06",
+     "listener": "fish_special_marlin"
     }
    ]
   },
