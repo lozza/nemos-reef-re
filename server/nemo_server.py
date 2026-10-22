@@ -340,6 +340,7 @@ class Game:
                     if req.get('age') in (1, 2):
                         w['kids'] = req['age'] == 1
                     self.finish_visit(w)
+                    self.level_gifts(w)
                     self.pattern_fish(w)
                     self.reef.new_day(w)
                     self.reef.vitality(w)
@@ -477,6 +478,17 @@ class Game:
         f = self.reef.add_entity(w, fish, pos.get('x', 80), pos.get('z', 80))
         if f:  # message type 1: EntityManager::processFishAddedMessage swims the fish in
             w.setdefault('messages', []).append({'id': self.story.message_id(w), 'type': 1, 'data': dict(f)})
+
+    def level_gifts(self, w):
+        """Once: the level-up gifts of the levels a player reached before level-ups gave any."""
+        if w.get('levelGifts'):
+            return
+        w['levelGifts'] = 1
+        lvl = int(w['status'].get('level', 1))
+        given = set((self.story.data.get('levels') or {}).get('rewards', {}))
+        for l in self.reef.protos.levels:
+            if 1 < l['level'] <= lvl and str(l['level']) not in given:
+                self.reef.pay(w, l.get('reward'), +1)
 
     def pattern_fish(self, w):
         """The fish a plant combination attracted moves in for good. The client's fish is temporary

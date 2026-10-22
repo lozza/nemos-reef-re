@@ -296,7 +296,11 @@ class Story:
             xp.append(xp[-1] + (xp[-1] - xp[-2]) + 100)  # gaps keep growing by 100
         for l in wd['levelList']:
             l['requiredXP'] = xp[l['level'] - 1]
-            r = lv.get('rewards', {}).get(str(l['level']), {})
+            # Level-up gifts the Let's Play showed (story.json "levels.rewards"); other levels give sand dollars and
+            # algae growing with the level, and a pearl every fifth level
+            r = lv.get('rewards', {}).get(str(l['level'])) or (
+                {} if l['level'] == 1 else {'virtualMoney': 50 * l['level'], 'energy': 20 + 5 * l['level'],
+                                            'hardMoney': 1 if l['level'] % 5 == 0 else 0})
             l['reward'] = worlddef.reward(xp=0, coins=r.get('virtualMoney', 0), pearls=r.get('hardMoney', 0),
                                           algae=r.get('energy', 0))
             # Vitality caps (Level::LevelDefinition "vitality"): the total and one per category, 1 plants,
