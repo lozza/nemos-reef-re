@@ -2,7 +2,7 @@
 rem Starts the Nemo's Reef server. Keep this window open while playing.
 cd /d "%~dp0server"
 if not exist "..\nemo.apk" (
-  echo Could not find nemo.apk next to this file. See README step 3.
+  echo Could not find nemo.apk next to this file. See WINDOWS.md, step 2.
   pause
   exit /b 1
 )
