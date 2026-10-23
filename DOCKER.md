@@ -12,9 +12,11 @@ the Python server; it does not run Android or the game.
 
 1. Copy your original Android 1.8.1 APK to a folder on the Docker host.
 2. Open **Stacks > Add stack > Web editor**. Name the stack `nemos-reef`.
-3. Paste the [Compose example from the README](README.md#portainer-or-docker-compose).
-4. Change `source: /path/to/nemo.apk` to the full path of that actual file
-   on the Docker host. Keep the indentation.
+3. Choose your storage: the [default Compose example](README.md#portainer-or-docker-compose)
+   keeps saves in a Docker volume. For saves in your own share, paste
+   [compose.shares.yaml](compose.shares.yaml) instead.
+4. Set the APK source path. With the shared-folder file, also set the data-folder
+   source path and create that folder as described below. Keep the indentation.
 5. Click **Deploy the stack**.
 
 Portainer downloads the image and starts it. No build step or Git checkout is
@@ -42,6 +44,95 @@ On Windows, a path such as `C:/nemo/nemo.apk` can be used in Docker Desktop.
 On a Linux NAS, use its real Linux path, not a Windows SMB path such as
 `\\NAS\share\nemo.apk`. The file must exist and be readable by container UID
 10001; a normal Linux file permission of 644 is sufficient.
+
+## Use your own shared folder
+
+If you want the APK and saved reefs in a folder you can see on your server,
+use **[compose.shares.yaml](compose.shares.yaml)**.
+[Open the raw file to copy](https://raw.githubusercontent.com/lozza/nemos-reef-re/main/compose.shares.yaml).
+
+Create a `nemo` folder anywhere on your own share:
+
+```text
+YOUR-SHARE/nemo/
+  nemo.apk       your original APK
+  data/          saved reefs, accounts and logs
+```
+
+**Change both `source:` paths. Keep both `target:` paths unchanged.**
+For example, if your folder is `/media/nemo`:
+
+| What it stores | Your server path (`source`) | Container path (`target`) |
+|---|---|---|
+| Original APK file | `/media/nemo/nemo.apk` | `/game/nemo.apk` — read-only |
+| Saved reefs and accounts | `/media/nemo/data` | `/data` — writable |
+
+Someone using `/srv/storage/appdata/nemo` would instead use
+`/srv/storage/appdata/nemo/nemo.apk` and `/srv/storage/appdata/nemo/data`.
+Docker Desktop users can use paths such as `C:/nemo/nemo.apk` and `C:/nemo/data`.
+These are examples: choose existing paths on **your Docker host**, not a
+Windows network-share address or a path on the phone.
+
+The volumes section for the `/media/nemo` example is:
+
+```yaml
+    volumes:
+      - type: bind
+        source: /media/nemo/nemo.apk
+        target: /game/nemo.apk
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: /media/nemo/data
+        target: /data
+        bind:
+          create_host_path: false
+```
+
+Both the APK file and data folder must exist before deployment.
+For a new Linux data folder, run on the Docker host:
+
+```sh
+sudo mkdir -p /media/nemo/data
+sudo chown 10001:10001 /media/nemo/data
+```
+
+Replace `/media/nemo/data` in both commands with your chosen data path.
+The container runs as user/group `10001:10001` and needs to write there.
+`read_only: true` (or `:ro` in short volume syntax) protects the APK;
+leave the save-data folder writable. No bottom-level named-volume declaration
+is needed with the shared-folder file.
+
+**Already playing?** Changing from `reef-data:/data` to a folder does not
+move the database. [Copy your current save before switching](#move-an-existing-docker-save-to-a-share).
+The original Compose file still uses `nemos-reef_reef-data` for existing installations.
+
+## Move an existing Docker save to a share
+
+Switching storage does not copy the database automatically. Keep the old volume
+and an untouched backup until you have checked that the new setup loads your reef.
+
+1. Create the new data folder and prepare permissions as above. Use an empty
+   destination so you do not overwrite another reef.
+2. Stop the existing server. From its **current** Compose folder, copy the save
+   before changing the volumes configuration:
+
+   ```sh
+   docker compose stop nemo
+   docker compose cp nemo:/data/nemo.db /media/nemo/data/nemo.db
+   sudo chown 10001:10001 /media/nemo/data/nemo.db
+   ```
+
+   Replace the destination in both commands with your own chosen data folder.
+   On Docker Desktop, use your Windows/macOS path; the Linux ownership command
+   is for Linux/NAS hosts. In Portainer, stop the old container first; through
+   SSH you can use `docker cp YOUR-EXISTING-CONTAINER:/data/nemo.db /your/data/nemo.db`
+   with its actual container name and your actual empty destination.
+3. Check that the copy succeeded. Deploy the shared-folder configuration using
+   that same data directory. Keep the phone's app data and signing key.
+4. Confirm the game loads the expected reef before considering any cleanup of
+   the old Docker volume. The request log is not required to load your save.
 
 ## Connect the game
 
@@ -124,8 +215,9 @@ Run these in the folder containing `compose.yaml`:
 | Stop | `docker compose stop` |
 | Download an update | `docker compose pull` |
 
-The saved volume `nemos-reef_reef-data` survives image rebuilds and ordinary
-`docker compose down`. **Do not use `down -v` or delete the volume** unless
+With the default file, the named volume `nemos-reef_reef-data` survives image
+rebuilds and ordinary `docker compose down`. With `compose.shares.yaml`, saves
+are in the data folder you selected on your host. **Do not use `down -v` or delete the volume** unless
 you intend to remove every account and reef. Only one server instance should
 write to this volume. Separate Docker hosts have separate saves.
 

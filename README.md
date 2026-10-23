@@ -44,12 +44,15 @@ volumes:
     name: nemos-reef_reef-data
 ```
 
+For saves in your own share, choose [Use your own shared folder](#use-your-own-shared-folder)
+and use that complete Compose file instead of the default example above.
+
 In Portainer:
 
 1. Copy your original APK onto the Docker host.
 2. Open **Stacks > Add stack > Web editor** and name the stack `nemos-reef`.
-3. Paste the Compose file above.
-4. Replace `/path/to/nemo.apk` with the APK's actual full path **on the Docker host**.
+3. Paste the default Compose file above, or the shared-folder file linked below.
+4. Set the APK path; with the shared-folder file, set the data-folder path too.
 5. Click **Deploy the stack**.
 6. Check `http://YOUR-SERVER-IP:8080/healthz`; it should return `{"status":"ok"}`.
 
@@ -68,6 +71,69 @@ For terminal installation, save **one** of those files, set the APK path, then r
 ```sh
 docker compose up -d
 ```
+
+### Use your own shared folder
+
+If you want the APK and saved reefs in a folder you can see on your server,
+use **[compose.shares.yaml](compose.shares.yaml)**.
+[Open the raw file to copy](https://raw.githubusercontent.com/lozza/nemos-reef-re/main/compose.shares.yaml).
+
+Create a `nemo` folder anywhere on your own share:
+
+```text
+YOUR-SHARE/nemo/
+  nemo.apk       your original APK
+  data/          saved reefs, accounts and logs
+```
+
+**Change both `source:` paths. Keep both `target:` paths unchanged.**
+For example, if your folder is `/media/nemo`:
+
+| What it stores | Your server path (`source`) | Container path (`target`) |
+|---|---|---|
+| Original APK file | `/media/nemo/nemo.apk` | `/game/nemo.apk` — read-only |
+| Saved reefs and accounts | `/media/nemo/data` | `/data` — writable |
+
+Someone using `/srv/storage/appdata/nemo` would instead use
+`/srv/storage/appdata/nemo/nemo.apk` and `/srv/storage/appdata/nemo/data`.
+Docker Desktop users can use paths such as `C:/nemo/nemo.apk` and `C:/nemo/data`.
+These are examples: choose existing paths on **your Docker host**, not a
+Windows network-share address or a path on the phone.
+
+The volumes section for the `/media/nemo` example is:
+
+```yaml
+    volumes:
+      - type: bind
+        source: /media/nemo/nemo.apk
+        target: /game/nemo.apk
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: /media/nemo/data
+        target: /data
+        bind:
+          create_host_path: false
+```
+
+Both the APK file and data folder must exist before deployment.
+For a new Linux data folder, run on the Docker host:
+
+```sh
+sudo mkdir -p /media/nemo/data
+sudo chown 10001:10001 /media/nemo/data
+```
+
+Replace `/media/nemo/data` in both commands with your chosen data path.
+The container runs as user/group `10001:10001` and needs to write there.
+`read_only: true` (or `:ro` in short volume syntax) protects the APK;
+leave the save-data folder writable. No bottom-level named-volume declaration
+is needed with the shared-folder file.
+
+**Already playing?** Changing from `reef-data:/data` to a folder does not
+move the database. [Copy your current save before switching](DOCKER.md#move-an-existing-docker-save-to-a-share).
+The original Compose file still uses `nemos-reef_reef-data` for existing installations.
 
 ### Updating
 
