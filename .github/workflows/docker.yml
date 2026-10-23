@@ -1,28 +1,127 @@
-name: Docker build and smoke test
+name: Test and publish Docker image
 on:
   pull_request:
   push:
+    branches:
+      - re-notes
     paths:
       - 'server/**'
       - 'tests/**'
       - 'Dockerfile'
       - '.dockerignore'
       - 'compose*.yaml'
+      - 'docker-compose.yml'
       - '.github/workflows/docker.yml'
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: docker-${{ github.ref }}
+  cancel-in-progress: false
 jobs:
   docker:
+    name: Test container and saved data
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - run: python -m unittest discover -s tests -v
-      - name: Prepare synthetic assets and build overrides
+      - name: Prepare synthetic assets and a local test override
+        run: |
+          python - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          sys.path.insert(0, 'tests')
+          from test_server_runtime import make_apk
+          make_apk(Path('nemo.apk'))
+          service = {
+              'image': 'nemos-reef:ci',
+              'pull_policy': 'never',
+              'build': {'context': '.'},
+              'volumes': [{
+                  'type': 'bind',
+                  'source': str(Path('nemo.apk').resolve()),
+                  'target': '/game/nemo.apk',
+                  'read_only': True,
+                  'bind': {'create_host_path': False},
+              }],
+          }
+          Path('ci-local.yaml').write_text(json.dumps({'services': {'nemo': service}}))
+          PY
+      - name: Validate the shared configuration and compatibility copies
+        run: |
+          for file in compose.yaml docker-compose.yml compose.github.yaml compose.omv.yaml; do
+            docker compose -f "$file" config --quiet
+            cmp compose.yaml "$file"
+          done
+      - name: Build and start the test image
+        run: docker compose -f compose.yaml -f ci-local.yaml up -d --build --wait --wait-timeout 120
+      - name: Check image contents, health and persistent saves
+        run: |
+          docker run --rm --entrypoint sh nemos-reef:ci -c 'test ! -e /game/nemo.apk && test ! -e /data/nemo.db'
+          curl --fail http://127.0.0.1:8080/healthz
+          docker compose exec -T nemo python -c "from pathlib import Path; assert Path('/data/nemo.db').is_file(); Path('/data/probe').write_text('persisted')"
+          docker compose -f compose.yaml -f ci-local.yaml up -d --force-recreate --wait --wait-timeout 120
+          docker compose exec -T nemo python -c "from pathlib import Path; assert Path('/data/probe').read_text() == 'persisted'"
+      - name: Reject a missing APK without creating a directory
+        run: |
+          docker compose down
+          mv nemo.apk fixture.apk
+          if docker compose -f compose.yaml -f ci-local.yaml up -d --no-build; then
+            echo "Expected startup to fail without nemo.apk"
+            exit 1
+          fi
+          test ! -e nemo.apk
+          mv fixture.apk nemo.apk
+      - name: Show logs and clean up
+        if: always()
+        run: |
+          docker compose logs --tail=100
+          docker compose down -v
+
+  publish:
+    name: Publish AMD64 and ARM64 images
+    needs: docker
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/re-notes'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: docker/setup-qemu-action@v4
+      - uses: docker/setup-buildx-action@v4
+      - name: Sign in to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and publish tested server images
+        id: publish
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/lozza/nemos-reef-re:latest
+            ghcr.io/lozza/nemos-reef-re:sha-${{ github.sha }}
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Prepare a smoke test for the published image
+        env:
+          PUBLISHED_IMAGE: ghcr.io/lozza/nemos-reef-re@${{ steps.publish.outputs.digest }}
         run: |
           python - <<'PY'
           import json
@@ -32,42 +131,39 @@ jobs:
           sys.path.insert(0, 'tests')
           from test_server_runtime import make_apk
           make_apk(Path('nemo.apk'))
-          for name, context in (
-              ('ci-local.yaml', '.'),
-              ('ci-github.yaml', 'https://github.com/lozza/nemos-reef-re.git#' + os.environ['GITHUB_SHA']),
-          ):
-              Path(name).write_text(json.dumps({'services': {'nemo': {'build': {'context': context}}}}))
+          service = {
+              'image': os.environ['PUBLISHED_IMAGE'],
+              'pull_policy': 'always',
+              'volumes': [{
+                  'type': 'bind',
+                  'source': str(Path('nemo.apk').resolve()),
+                  'target': '/game/nemo.apk',
+                  'read_only': True,
+                  'bind': {'create_host_path': False},
+              }],
+          }
+          Path('ci-published.yaml').write_text(json.dumps({'services': {'nemo': service}}))
           PY
-      - name: Validate the shared configuration and compatibility copies
+      - name: Verify published image metadata, startup and save persistence
+        env:
+          PUBLISHED_IMAGE: ghcr.io/lozza/nemos-reef-re@${{ steps.publish.outputs.digest }}
         run: |
-          for file in compose.yaml compose.github.yaml compose.omv.yaml; do
-            docker compose -f "$file" config --quiet
-          done
-          cmp compose.yaml compose.github.yaml
-          cmp compose.yaml compose.omv.yaml
-      - name: Build and start from local source
-        run: docker compose -f compose.yaml -f ci-local.yaml up -d --build --wait --wait-timeout 120
-      - name: Check health and save persistence
-        run: |
+          docker compose -f compose.yaml -f ci-published.yaml up -d --wait --wait-timeout 120
+          test "$(docker image inspect --format '{{ index .Config.Labels "org.opencontainers.image.revision" }}' "$PUBLISHED_IMAGE")" = "$GITHUB_SHA"
+          test "$(docker image inspect --format '{{ index .Config.Labels "org.opencontainers.image.title" }}' "$PUBLISHED_IMAGE")" = "Nemo's Reef Revival"
           curl --fail http://127.0.0.1:8080/healthz
-          docker compose exec -T nemo python -c "from pathlib import Path; assert Path('/data/nemo.db').is_file(); Path('/data/probe').write_text('persisted')"
-          docker compose -f compose.yaml -f ci-local.yaml up -d --force-recreate --wait --wait-timeout 120
-          docker compose exec -T nemo python -c "from pathlib import Path; assert Path('/data/probe').read_text() == 'persisted'"
-      - name: Build from GitHub and keep existing saves
+          docker compose exec -T nemo python -c "from pathlib import Path; Path('/data/published-probe').write_text('persisted')"
+          docker compose -f compose.yaml -f ci-published.yaml up -d --force-recreate --wait --wait-timeout 120
+          docker compose exec -T nemo python -c "from pathlib import Path; assert Path('/data/published-probe').read_text() == 'persisted'"
+      - name: Check anonymous image access
         run: |
-          docker compose -f compose.yaml -f ci-github.yaml up -d --build --wait --wait-timeout 120
-          curl --fail http://127.0.0.1:8080/healthz
-          docker compose exec -T nemo python -c "from pathlib import Path; assert Path('/data/probe').read_text() == 'persisted'"
-      - name: Reject a missing APK without creating a directory
-        run: |
-          docker compose down
-          mv nemo.apk fixture.apk
-          if docker compose up -d --no-build; then
-            echo "Expected startup to fail without nemo.apk"
-            exit 1
+          mkdir -p "$RUNNER_TEMP/anonymous-docker"
+          if docker --config "$RUNNER_TEMP/anonymous-docker" pull ghcr.io/lozza/nemos-reef-re:latest; then
+            echo "Anonymous image pull passed." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::warning::The image is published but is not anonymously accessible. Set the GHCR package visibility to Public."
+            echo "One-time owner action: open https://github.com/users/lozza/packages/container/package/nemos-reef-re and change Package settings > Visibility to Public." >> "$GITHUB_STEP_SUMMARY"
           fi
-          test ! -e nemo.apk
-          mv fixture.apk nemo.apk
       - name: Show logs and clean up
         if: always()
         run: |

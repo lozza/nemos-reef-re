@@ -1,21 +1,21 @@
-# Put this file and your original nemo.apk in the same folder.
 name: nemos-reef
 
 services:
   nemo:
-    build: https://github.com/lozza/nemos-reef-re.git#re-notes
-    image: nemos-reef:local
-    restart: unless-stopped
+    image: ghcr.io/lozza/nemos-reef-re:latest
+    pull_policy: always
     ports:
       - "8080:8080"
     volumes:
       - type: bind
-        source: ./nemo.apk
+        # Change this to your original APK's full path on the Docker host.
+        source: /path/to/nemo.apk
         target: /game/nemo.apk
         read_only: true
         bind:
           create_host_path: false
       - reef-data:/data
+    restart: unless-stopped
 
 volumes:
   reef-data:

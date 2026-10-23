@@ -1,5 +1,9 @@
 FROM python:3.12-slim-bookworm
 
+LABEL org.opencontainers.image.title="Nemo's Reef Revival" \
+    org.opencontainers.image.source="https://github.com/lozza/nemos-reef-re" \
+    org.opencontainers.image.description="Local Nemo's Reef replacement server; supply your own APK at runtime."
+
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 WORKDIR /app
