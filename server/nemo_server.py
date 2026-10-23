@@ -721,6 +721,17 @@ class Handler(BaseHTTPRequestHandler):
         return url.path, p
 
     def handle_any(self):
+        # Docker probes must not create the fallback account or append request logs.
+        if self.command == 'GET' and urllib.parse.urlsplit(self.path).path == '/healthz':
+            with self.game.store.lock:
+                self.game.store.db.execute('SELECT 1').fetchone()
+            out = b'{"status":"ok"}'
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(out)))
+            self.end_headers()
+            self.wfile.write(out)
+            return
         n = int(self.headers.get('Content-Length') or 0)
         body = self.rfile.read(n) if n else b''
         path, p = self.params(body)
@@ -776,3 +787,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

@@ -1,0 +1,5 @@
+**
+!server/
+!server/*.py
+!server/story.json
+!server/texts_*.json

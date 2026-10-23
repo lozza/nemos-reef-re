@@ -13,3 +13,6 @@ patcher/*.jar
 !server/story.json
 !server/texts_*.json
 reef-report.txt
+.env
+/backups/
+

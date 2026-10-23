@@ -3,6 +3,36 @@
 A replacement server for Disney's *Nemo's Reef* (Android 1.8.1), whose official servers have shut down.
 Protocol details are in [PROTOCOL.md](PROTOCOL.md); game actions in [ACTIONS.md](ACTIONS.md).
 
+## Run on OpenMediaVault with Docker
+
+Run the server on an always-on mini PC so your laptop can be switched off.
+In OMV, go to **Services > Compose > Files**, create an entry called **nemos-reef**,
+and paste in [compose.github.yaml](compose.github.yaml)
+([raw file to copy](https://raw.githubusercontent.com/lozza/nemos-reef-re/re-notes/compose.github.yaml)).
+The image builds directly from this GitHub repository; no source download is needed.
+
+In the entry's **Environment** box, set these values using your actual APK path
+and the mini PC's LAN IP:
+
+```dotenv
+NEMO_APK_PATH=/srv/YOUR-DISK/appdata/nemo/nemo.apk
+NEMO_BIND=192.168.1.20
+NEMO_PORT=8080
+```
+
+Copy your **original Android 1.8.1 APK** to that path first. Save the entry,
+choose **Build** (under Tools on some OMV versions), then **Up**.
+Check `http://MINI-PC-IP:8080/healthz`; it should return `{"status":"ok"}`.
+
+Saves live in the persistent `nemos-reef_reef-data` volume. To keep your existing
+reef, migrate the laptop's database before playing, then patch the APK to use
+the mini PC's address while preserving the phone's app data and signing key.
+Follow [the complete OMV instructions](OMV.md) for migration, updates and backups.
+Keep this service on your LAN or a private VPN; leave router port forwarding off.
+
+**Docker / always-on hosting:** see [DOCKER.md](DOCKER.md) for running on a NAS,
+Raspberry Pi or cloud server, preserving your existing reef, and changing the APK's server address.
+
 **Status:** early. Runs on a real device (Fire 7). Login, saving what you buy, place, feed, move and collect, the
 original starter reef, friends (add by name, visit and help each other's reefs) and the story work. The story has 210 of the original quests plus 36 time events
 quests (story, side quests, Tank Gang, guest missions, tutorials) under their original ids and texts, offered in the
@@ -146,3 +176,4 @@ aborts at start-up with `RendererResize failed with exception: vector::reserve`)
   catalogue made from the game's text table and the fan wiki's prices and timers. story.json holds text keys only;
   the server reads the texts from the APK. `--rare-fish` / `--vitality-patches` take the 2014 worldDef lists
   (rareFishList, vitalityPatchList) saved on the fan wiki.
+

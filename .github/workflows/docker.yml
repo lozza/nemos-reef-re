@@ -1,0 +1,53 @@
+name: Docker build and smoke test
+on:
+  pull_request:
+  push:
+    paths:
+      - 'server/**'
+      - 'tests/**'
+      - 'Dockerfile'
+      - '.dockerignore'
+      - 'compose.yaml'
+      - 'compose.omv.yaml'
+      - 'compose.github.yaml'
+      - '.github/workflows/docker.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -v
+      - name: Prepare synthetic assets
+        run: python -c "import sys; from pathlib import Path; sys.path.insert(0, 'tests'); from test_server_runtime import make_apk; make_apk(Path('nemo.apk'))"
+      - name: Build and start Compose service
+        run: |
+          NEMO_PROJECT_DIR="$PWD" NEMO_BIND=127.0.0.1 docker compose -f compose.omv.yaml config --quiet
+          docker compose up -d --build --wait --wait-timeout 120
+      - name: Check health and persistent volume
+        run: |
+          curl --fail http://127.0.0.1:8080/healthz
+          docker compose exec -T nemo python -c "from pathlib import Path; assert Path('/data/nemo.db').is_file(); Path('/data/probe').write_text('persisted')"
+          docker compose up -d --force-recreate --wait --wait-timeout 120
+          docker compose exec -T nemo python -c "from pathlib import Path; assert Path('/data/probe').read_text() == 'persisted'"
+      - name: Build from GitHub and reuse the saved volume
+        env:
+          NEMO_APK_PATH: ${{ github.workspace }}/nemo.apk
+          NEMO_BIND: 127.0.0.1
+          NEMO_BUILD_REF: ${{ github.sha }}
+        run: |
+          docker compose -f compose.github.yaml config --quiet
+          docker compose -f compose.github.yaml up -d --build --wait --wait-timeout 120
+          curl --fail http://127.0.0.1:8080/healthz
+          docker compose exec -T nemo python -c "from pathlib import Path; assert Path('/data/probe').read_text() == 'persisted'"
+      - name: Show logs and clean up
+        if: always()
+        run: |
+          docker compose logs --tail=100
+          docker compose down -v
