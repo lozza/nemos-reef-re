@@ -1,132 +1,177 @@
-# Run Nemo's Reef without keeping your laptop on
+# Docker setup for everyone
 
-For a copy-and-paste Compose file that builds directly from GitHub, start with
-[OMV.md](OMV.md) and [compose.github.yaml](compose.github.yaml). The local-source
-instructions below are an alternative for an extracted or cloned project.
+This guide is for anyone running their own local copy of Nemo's Reef Revival.
+The same Compose file works with Docker Compose on Windows, macOS, Linux and
+NAS systems with build support. The APK is supplied locally by each user.
 
-This package is based on `lozza/nemos-reef-re`, branch `re-notes`, commit
-`a09f0ad5cfe61090e880fcbf1e87516ce4561de7`. The server uses Python's standard
-library and SQLite; no Java or Android emulator runs inside the container.
+## Quick start: two files and one command
 
-Docker still needs a computer that stays on: a NAS, Raspberry Pi with a 64-bit
-Linux OS, or a cloud VM with Docker Engine and the Compose plugin. Your phone
-connects directly to that computer. A container on your laptop stops when it sleeps.
+Install Docker Desktop on Windows/macOS, or Docker Engine and the Compose
+plugin on Linux. Use Linux containers. The first build needs internet access
+to GitHub and Docker Hub.
 
-## Start the server
+Create this folder:
 
-1. Extract this package on the host. If using GitHub instead, select the branch
-   containing these Docker files; upstream `main` only contains a placeholder README.
-2. Put your **original** Nemo's Reef Android 1.8.1 APK beside `compose.yaml`, named
-   `nemo.apk`. It must be a readable file. The APK is mounted read-only at runtime;
-   it is excluded from the image and must not be uploaded to GitHub or a registry.
-3. Create a `.env` file beside `compose.yaml` containing your host's **LAN or VPN**
-   address (the example below must be replaced with your address):
+```text
+nemo/
+  compose.yaml
+  nemo.apk
+```
 
-   ```dotenv
-   NEMO_BIND=192.168.1.20
-   NEMO_PORT=8080
-   ```
+- Download [compose.yaml](https://raw.githubusercontent.com/lozza/nemos-reef-re/main/compose.yaml).
+- Supply your own original Nemo's Reef Android 1.8.1 APK, renamed `nemo.apk`.
+- Open a terminal in this folder and run:
 
-   Without `.env`, the port listens only on `127.0.0.1` for local testing.
-   The game protocol uses HTTP, device IDs and player IDs with limited authentication.
-   For a cloud host, connect the phone and host through a private VPN and bind to
-   the host's VPN address. Keep port 8080 closed on the public internet.
-4. Run from this directory:
+```sh
+docker compose up -d --build
+```
+
+No Git clone, Python installation or `.env` file is needed to run the server.
+Python and the server are built into the Docker image. The APK is mounted
+read-only at runtime and is never baked into the image or uploaded to GitHub.
+
+The image builds from the server code on the `re-notes` branch. There is no
+prebuilt registry image to pull. A computer running the container must remain
+powered on; this can be the same computer you play on or an always-on host.
+
+## Connect the game
+
+1. Find the server computer's **LAN IPv4 address**. On Windows, run `ipconfig`;
+   on macOS, look in Network settings; on Linux, inspect the network settings.
+   Reserve that address in your router if possible so it stays the same.
+2. From a device on the same network, open
+   `http://YOUR-SERVER-IP:8080/healthz`. It should return `{"status":"ok"}`.
+3. Download the [project source](https://github.com/lozza/nemos-reef-re/archive/refs/heads/re-notes.zip)
+   on the computer used for patching, and extract it. Follow the
+   [patcher prerequisites](https://github.com/lozza/nemos-reef-re/blob/re-notes/README.md#setup-on-windows-one-time)
+   for Python, Java and the signing tool. In the extracted project folder run:
 
    ```sh
-   docker compose up -d --build
-   docker compose ps
-   docker compose logs --tail=50 nemo
+   python patcher/patch_apk.py nemo.apk http://192.168.1.20:8080 --debug-log
    ```
 
-   The service should become `healthy`. Check `http://YOUR_HOST:8080/healthz`
-   from the phone's network; it returns `{"status":"ok"}`. Allow TCP 8080 only
-   from your trusted LAN/VPN. Make sure Docker starts when the host reboots.
+   Replace the example IP with your own server's address, and supply the
+   original APK in the patching folder too. Keep the server URL short; the
+   upstream patcher documents a 29-character limit.
+4. Install the resulting patched APK. If you already play, use the same signing
+   key and install it as an update. **Do not uninstall the game or clear its
+   data when moving an existing reef**: the saved device identity finds your account.
 
-The image runs as UID/GID 10001. Saves and the request log live in the Compose
-volume `nemos-reef_reef-data`, mounted at `/data`, separately from the image.
-Only one server instance should use that volume. Console logs rotate; the
-server's separate `/data/requests.log` does not, so monitor its size and archive
-or truncate it while the service is stopped.
+The patched game still requires a compatible 32-bit-capable Android device
+or compatible emulator. Docker runs the Python server, not Android or the game.
+
+## NAS and web-based stack editors
+
+Use the **same** `compose.yaml`. Paste it into your stack editor, then change
+just the `source` line to your APK's real path on the Docker host:
+
+```yaml
+        source: /path/on/your/nas/nemo.apk
+```
+
+Replace that entire example with an existing, readable file. A Windows network
+share path such as `\\NAS\share\nemo.apk` is not a Linux host path.
+The container runs as UID/GID 10001; a regular file permission of 644 is sufficient.
+
+Build and start the stack. No environment variables or server IP entry are
+required in Compose. Your server IP is only used when patching the game.
+See [OMV.md](OMV.md) for an OpenMediaVault example.
+
+Some stack managers only deploy existing images and cannot build from Git.
+In that case, use the Docker host's terminal to run the quick-start command
+first, then manage the existing stack there.
+
+## Ports and private-network access
+
+`"8080:8080"` publishes the game on port 8080 on the host's network interfaces.
+Allow access only from your trusted home network or private VPN. Leave router
+port forwarding off; this legacy server has limited authentication.
+
+If the host port is busy, change only the **left** number, for example:
+
+```yaml
+    ports:
+      - "8081:8080"
+```
+
+Then use 8081 in the health URL and APK patcher. The internal port remains 8080.
+The phone uses the host computer/NAS's address, not a Docker container IP.
+Allow the chosen TCP port through the host firewall for the private network.
 
 ## Keep your existing reef
 
-Do this **before playing on the new server**. Close the old laptop server and
-back up its entire `server/data` directory. Copy that directory to the new host
-beside `compose.yaml`, renamed `old-data`. Keep the original backup untouched.
-On a Linux host, run:
+Do this before playing on a new server.
+
+1. Stop the old server and back up its entire `server/data` directory.
+2. Copy that directory into your new `nemo` folder as `old-data`.
+3. Build the image with `docker compose build`, then stop any running new server
+   with `docker compose stop nemo`.
+4. Run the command below from the `nemo` folder. It works in PowerShell on
+   Windows and a terminal on macOS/Linux:
 
 ```sh
-docker compose build
-docker compose stop nemo
-docker compose run --rm --no-deps --user 0 --entrypoint sh \
-  -v "$PWD/old-data:/old-data:ro" nemo -c \
-  'test ! -e /data/nemo.db && cp /old-data/nemo.db /data/nemo.db && chown 10001:10001 /data/nemo.db'
-docker compose up -d
+docker compose run --rm --no-deps --user 0 --entrypoint sh -v "./old-data:/old-data:ro" nemo -c 'test ! -e /data/nemo.db && cp /old-data/nemo.db /data/nemo.db && chown 10001:10001 /data/nemo.db'
 ```
 
-This refuses to overwrite a database already on the new host. If it refuses,
-stop and back up that database before choosing which save to keep. Always stop
-the old server before copying a database so it is consistent.
+This deliberately refuses to overwrite an existing `/data/nemo.db`. If it
+fails, inspect the error and preserve the existing save before choosing which
+database to use. Keep the original backup untouched.
 
-Keep the phone's existing app data and device identity. The database contains
-all players, reefs and friendships; `requests.log` is not needed to load saves.
+Start the new server with `docker compose up -d`. Keep the phone's existing
+app data and signing key. The database holds accounts, reefs and friendships;
+the old `requests.log` is not needed to load a reef.
 
-## Point the game at the new host
+For a NAS stack, stop it in the GUI, then perform the import in a terminal
+using the same Compose configuration and the real old-data path on that host.
 
-The installed APK embeds the laptop's URL. Patch your original APK again with
-the host's LAN/VPN address using the existing patcher and signing tool:
+## Everyday commands
+
+Run these in the folder containing `compose.yaml`:
+
+| Task | Command |
+|---|---|
+| Start | `docker compose up -d` |
+| Check status | `docker compose ps` |
+| View recent logs | `docker compose logs --tail=50 nemo` |
+| Stop | `docker compose stop` |
+| Update from GitHub | `docker compose up -d --build` |
+
+The saved volume `nemos-reef_reef-data` survives image rebuilds and ordinary
+`docker compose down`. **Do not use `down -v` or delete the volume** unless
+you intend to remove every account and reef. Only one server instance should
+write to this volume. Separate Docker hosts have separate saves.
+
+## Back up saves
+
+Create a `backups` folder next to `compose.yaml`. Stop the service briefly:
 
 ```sh
-python patcher/patch_apk.py nemo.apk http://192.168.1.20:8080 --debug-log
-```
-
-Replace the address with your host's actual address. The patcher restricts the
-base URL length (the upstream README documents a 29-character limit), so use a
-short hostname or an IPv4 address. Keep the same port in the URL and `.env`.
-Use the **same signing key** as the currently installed private APK, and install
-as an update over it. **Do not uninstall the app or clear its data to migrate**;
-that can lose the device identity used to find its saved reef. If Android reports
-a signing-key mismatch, recover the original signing key before proceeding.
-Java and the signer are needed only on the patching computer, which can then be off.
-
-## Backups, upgrades and stopping
-
-For a consistent backup, briefly stop the service and copy its database:
-
-```sh
-mkdir -p backups
 docker compose stop nemo
 docker compose cp nemo:/data/nemo.db ./backups/nemo.db
 docker compose start nemo
 ```
 
-Copy backups off the host and use dated filenames for later backups.
-To upgrade the code, back up first, then run `docker compose up -d --build`.
-`docker compose down` keeps the saved volume. **Do not use `down -v`** unless
-you intend to delete all saved reefs and accounts.
+Check the copy succeeded. Keep dated backups off the server and back up before
+updating. Monitor Docker logs and `/data/requests.log`; archive or truncate
+large logs while stopped.
 
-## Build or transfer just the image
+## Advanced: local source builds and version pinning
 
-```sh
-docker build -t nemos-reef:local .
-docker save -o nemos-reef-image.tar nemos-reef:local
-# On another host of the same CPU architecture:
-docker load -i nemos-reef-image.tar
-```
+With a source checkout, change `build:` to `build: .` to build that checkout.
+To pin a GitHub version, replace `#re-notes` in the build URL with a full
+commit SHA. These are optional changes; beginners can use the file as supplied.
 
-Also transfer `compose.yaml` and your private APK separately. On the receiving
-host, run `docker compose up -d --no-build`. Build natively on your target CPU
-architecture; the server is pure Python and does not execute the APK's ARM code.
+The old `compose.github.yaml` and `compose.omv.yaml` filenames remain as
+copies of the shared configuration for existing links. New instructions use
+`compose.yaml`. Old `NEMO_*` environment settings are no longer used by these
+files: set the APK path or published port directly in the YAML if needed.
 
 ## Verification
 
-`python -m unittest discover -s tests -v` uses a tiny synthetic asset archive,
-without copyrighted game files, to check real server startup with the story,
-health checks without account/log side effects, account login, and SQLite
-world persistence across process restarts. The GitHub workflow additionally builds
-and smoke-tests the actual Docker image and Compose setup on Linux.
-Full device play still requires your APK and phone.
+GitHub Actions checks startup, accounts and reef persistence with synthetic
+assets, then builds and starts both a local-source image and the GitHub-source
+Compose setup. It checks that the saved volume survives container replacement.
+A real APK and Android device are still needed to verify actual play.
 
-Docker references: [Dockerfile](https://docs.docker.com/reference/dockerfile/),
-[Compose services](https://docs.docker.com/reference/compose-file/services/).
+References: [Compose services](https://docs.docker.com/reference/compose-file/services/),
+[Git build contexts](https://docs.docker.com/reference/compose-file/build/#context).

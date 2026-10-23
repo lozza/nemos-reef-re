@@ -1,11 +1,13 @@
+# Put this file and your original nemo.apk in the same folder.
 name: nemos-reef
+
 services:
   nemo:
-    build: .
+    build: https://github.com/lozza/nemos-reef-re.git#re-notes
     image: nemos-reef:local
     restart: unless-stopped
     ports:
-      - "${NEMO_BIND:-127.0.0.1}:${NEMO_PORT:-8080}:8080"
+      - "8080:8080"
     volumes:
       - type: bind
         source: ./nemo.apk
@@ -14,16 +16,7 @@ services:
         bind:
           create_host_path: false
       - reef-data:/data
-    read_only: true
-    cap_drop:
-      - ALL
-    security_opt:
-      - no-new-privileges:true
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
+
 volumes:
   reef-data:
     name: nemos-reef_reef-data

@@ -1,31 +1,22 @@
-# Paste into OMV Services > Compose > Files; set variables in Environment.
+# Put this file and your original nemo.apk in the same folder.
 name: nemos-reef
+
 services:
   nemo:
-    build:
-      context: ${NEMO_PROJECT_DIR:?Set NEMO_PROJECT_DIR to the extracted project directory}
+    build: https://github.com/lozza/nemos-reef-re.git#re-notes
     image: nemos-reef:local
     restart: unless-stopped
     ports:
-      - "${NEMO_BIND:?Set NEMO_BIND to the mini PC LAN address}:${NEMO_PORT:-8080}:8080"
+      - "8080:8080"
     volumes:
       - type: bind
-        source: ${NEMO_PROJECT_DIR}/nemo.apk
+        source: ./nemo.apk
         target: /game/nemo.apk
         read_only: true
         bind:
           create_host_path: false
       - reef-data:/data
-    read_only: true
-    cap_drop:
-      - ALL
-    security_opt:
-      - no-new-privileges:true
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "3"
+
 volumes:
   reef-data:
     name: nemos-reef_reef-data

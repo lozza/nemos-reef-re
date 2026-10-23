@@ -7,9 +7,7 @@ on:
       - 'tests/**'
       - 'Dockerfile'
       - '.dockerignore'
-      - 'compose.yaml'
-      - 'compose.omv.yaml'
-      - 'compose.github.yaml'
+      - 'compose*.yaml'
       - '.github/workflows/docker.yml'
   workflow_dispatch:
 permissions:
@@ -24,28 +22,52 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m unittest discover -s tests -v
-      - name: Prepare synthetic assets
-        run: python -c "import sys; from pathlib import Path; sys.path.insert(0, 'tests'); from test_server_runtime import make_apk; make_apk(Path('nemo.apk'))"
-      - name: Build and start Compose service
+      - name: Prepare synthetic assets and build overrides
         run: |
-          NEMO_PROJECT_DIR="$PWD" NEMO_BIND=127.0.0.1 docker compose -f compose.omv.yaml config --quiet
-          docker compose up -d --build --wait --wait-timeout 120
-      - name: Check health and persistent volume
+          python - <<'PY'
+          import json
+          import os
+          import sys
+          from pathlib import Path
+          sys.path.insert(0, 'tests')
+          from test_server_runtime import make_apk
+          make_apk(Path('nemo.apk'))
+          for name, context in (
+              ('ci-local.yaml', '.'),
+              ('ci-github.yaml', 'https://github.com/lozza/nemos-reef-re.git#' + os.environ['GITHUB_SHA']),
+          ):
+              Path(name).write_text(json.dumps({'services': {'nemo': {'build': {'context': context}}}}))
+          PY
+      - name: Validate the shared configuration and compatibility copies
+        run: |
+          for file in compose.yaml compose.github.yaml compose.omv.yaml; do
+            docker compose -f "$file" config --quiet
+          done
+          cmp compose.yaml compose.github.yaml
+          cmp compose.yaml compose.omv.yaml
+      - name: Build and start from local source
+        run: docker compose -f compose.yaml -f ci-local.yaml up -d --build --wait --wait-timeout 120
+      - name: Check health and save persistence
         run: |
           curl --fail http://127.0.0.1:8080/healthz
           docker compose exec -T nemo python -c "from pathlib import Path; assert Path('/data/nemo.db').is_file(); Path('/data/probe').write_text('persisted')"
-          docker compose up -d --force-recreate --wait --wait-timeout 120
+          docker compose -f compose.yaml -f ci-local.yaml up -d --force-recreate --wait --wait-timeout 120
           docker compose exec -T nemo python -c "from pathlib import Path; assert Path('/data/probe').read_text() == 'persisted'"
-      - name: Build from GitHub and reuse the saved volume
-        env:
-          NEMO_APK_PATH: ${{ github.workspace }}/nemo.apk
-          NEMO_BIND: 127.0.0.1
-          NEMO_BUILD_REF: ${{ github.sha }}
+      - name: Build from GitHub and keep existing saves
         run: |
-          docker compose -f compose.github.yaml config --quiet
-          docker compose -f compose.github.yaml up -d --build --wait --wait-timeout 120
+          docker compose -f compose.yaml -f ci-github.yaml up -d --build --wait --wait-timeout 120
           curl --fail http://127.0.0.1:8080/healthz
           docker compose exec -T nemo python -c "from pathlib import Path; assert Path('/data/probe').read_text() == 'persisted'"
+      - name: Reject a missing APK without creating a directory
+        run: |
+          docker compose down
+          mv nemo.apk fixture.apk
+          if docker compose up -d --no-build; then
+            echo "Expected startup to fail without nemo.apk"
+            exit 1
+          fi
+          test ! -e nemo.apk
+          mv fixture.apk nemo.apk
       - name: Show logs and clean up
         if: always()
         run: |

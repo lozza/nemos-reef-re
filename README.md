@@ -1,37 +1,46 @@
-# Nemo's Reef private server
+# Nemo's Reef Revival
 
-A replacement server for Disney's *Nemo's Reef* (Android 1.8.1), whose official servers have shut down.
-Protocol details are in [PROTOCOL.md](PROTOCOL.md); game actions in [ACTIONS.md](ACTIONS.md).
+An unofficial fan project helping people play Nemo's Reef (Android 1.8.1)
+using a server they run on their own computer or home network.
 
-## Run on OpenMediaVault with Docker
+## Start your own server with Docker
 
-Run the server on an always-on mini PC so your laptop can be switched off.
-In OMV, go to **Services > Compose > Files**, create an entry called **nemos-reef**,
-and paste in [compose.github.yaml](compose.github.yaml)
-([raw file to copy](https://raw.githubusercontent.com/lozza/nemos-reef-re/re-notes/compose.github.yaml)).
-The image builds directly from this GitHub repository; no source download is needed.
+Use the same setup on Windows, macOS, Linux, or a NAS that supports Docker
+Compose builds. On Windows and macOS, install Docker Desktop; on Linux, use
+Docker Engine with the Compose plugin. Run Linux containers.
 
-In the entry's **Environment** box, set these values using your actual APK path
-and the mini PC's LAN IP:
+1. Create a folder named `nemo`.
+2. Download [compose.yaml](https://raw.githubusercontent.com/lozza/nemos-reef-re/main/compose.yaml)
+   into it. Save it as `compose.yaml`, not `compose.yaml.txt`.
+3. Put your own **original Android 1.8.1 APK** in the same folder and name it
+   `nemo.apk`.
+4. Open a terminal in that folder and run:
 
-```dotenv
-NEMO_APK_PATH=/srv/YOUR-DISK/appdata/nemo/nemo.apk
-NEMO_BIND=192.168.1.20
-NEMO_PORT=8080
-```
+   ```sh
+   docker compose up -d --build
+   ```
 
-Copy your **original Android 1.8.1 APK** to that path first. Save the entry,
-choose **Build** (under Tools on some OMV versions), then **Up**.
-Check `http://MINI-PC-IP:8080/healthz`; it should return `{"status":"ok"}`.
+That's the entire server setup: two files, one command, no environment file.
+The image builds automatically from GitHub. Your APK stays on your machine.
 
-Saves live in the persistent `nemos-reef_reef-data` volume. To keep your existing
-reef, migrate the laptop's database before playing, then patch the APK to use
-the mini PC's address while preserving the phone's app data and signing key.
-Follow [the complete OMV instructions](OMV.md) for migration, updates and backups.
-Keep this service on your LAN or a private VPN; leave router port forwarding off.
+Next, patch the game to connect to `http://YOUR-SERVER-IP:8080`, using the
+computer or NAS's LAN address. For example, if that address is 192.168.1.20,
+use `http://192.168.1.20:8080`. Use the same home network for phone and server.
 
-**Docker / always-on hosting:** see [DOCKER.md](DOCKER.md) for running on a NAS,
-Raspberry Pi or cloud server, preserving your existing reef, and changing the APK's server address.
+**Full instructions:** [Docker setup, APK patching, moving a reef and backups](DOCKER.md).
+
+**Using a NAS web interface?** Paste the same Compose file into its stack
+editor. Change `source: ./nemo.apk` to the APK's full path **on the NAS**.
+[OpenMediaVault walkthrough](OMV.md). Managers without build support require
+building through the host's terminal first.
+
+Saves live in the persistent `nemos-reef_reef-data` Docker volume. Stop the
+server before migrating an existing database, and preserve the phone's app data
+and signing key. Keep this legacy server on your home network or private VPN.
+
+Game files are not provided. This project is independent of Disney and Pixar.
+
+## Game status
 
 **Status:** early. Runs on a real device (Fire 7). Login, saving what you buy, place, feed, move and collect, the
 original starter reef, friends (add by name, visit and help each other's reefs) and the story work. The story has 210 of the original quests plus 36 time events
