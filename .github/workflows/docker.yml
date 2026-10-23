@@ -51,6 +51,15 @@ jobs:
               }],
           }
           Path('ci-local.yaml').write_text(json.dumps({'services': {'nemo': service}}))
+          Path('share-data').mkdir()
+          share_service = dict(service)
+          share_service['volumes'] = service['volumes'] + [{
+              'type': 'bind',
+              'source': str(Path('share-data').resolve()),
+              'target': '/data',
+              'bind': {'create_host_path': False},
+          }]
+          Path('ci-shares.yaml').write_text(json.dumps({'services': {'nemo': share_service}}))
           PY
       - name: Validate the shared configuration and compatibility copies
         run: |
@@ -58,6 +67,7 @@ jobs:
             docker compose -f "$file" config --quiet
             cmp compose.yaml "$file"
           done
+          docker compose -f compose.shares.yaml config --quiet
       - name: Build and start the test image
         run: docker compose -f compose.yaml -f ci-local.yaml up -d --build --wait --wait-timeout 120
       - name: Check image contents, health and persistent saves
@@ -77,6 +87,15 @@ jobs:
           fi
           test ! -e nemo.apk
           mv fixture.apk nemo.apk
+      - name: Check shared-folder saves on the host
+        run: |
+          sudo chown 10001:10001 share-data
+          docker compose -f compose.shares.yaml -f ci-shares.yaml up -d --build --wait --wait-timeout 120
+          curl --fail http://127.0.0.1:8080/healthz
+          test -f share-data/nemo.db
+          docker compose -f compose.shares.yaml -f ci-shares.yaml exec -T nemo python -c "from pathlib import Path; Path('/data/share-probe').write_text('persisted')"
+          docker compose -f compose.shares.yaml -f ci-shares.yaml up -d --force-recreate --wait --wait-timeout 120
+          test "$(cat share-data/share-probe)" = persisted
       - name: Show logs and clean up
         if: always()
         run: |
