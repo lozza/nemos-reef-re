@@ -1,38 +1,47 @@
-# Docker setup for everyone
+# Docker and Portainer setup
 
-This guide is for anyone running their own local copy of Nemo's Reef Revival.
-The same Compose file works with Docker Compose on Windows, macOS, Linux and
-NAS systems with build support. The APK is supplied locally by each user.
+Nemo's Reef Revival is distributed as a prebuilt container image:
 
-## Quick start: two files and one command
+`ghcr.io/lozza/nemos-reef-re:latest`
 
-Install Docker Desktop on Windows/macOS, or Docker Engine and the Compose
-plugin on Linux. Use Linux containers. The first build needs internet access
-to GitHub and Docker Hub.
+Use Linux containers on Docker Desktop, Docker Engine, Portainer or a compatible
+NAS container manager. AMD64 and ARM64 builds are published. The container runs
+the Python server; it does not run Android or the game.
 
-Create this folder:
+## Portainer: paste and deploy
 
-```text
-nemo/
-  compose.yaml
-  nemo.apk
-```
+1. Copy your original Android 1.8.1 APK to a folder on the Docker host.
+2. Open **Stacks > Add stack > Web editor**. Name the stack `nemos-reef`.
+3. Paste the [Compose example from the README](README.md#portainer-or-docker-compose).
+4. Change `source: /path/to/nemo.apk` to the full path of that actual file
+   on the Docker host. Keep the indentation.
+5. Click **Deploy the stack**.
 
-- Download [compose.yaml](https://raw.githubusercontent.com/lozza/nemos-reef-re/main/compose.yaml).
-- Supply your own original Nemo's Reef Android 1.8.1 APK, renamed `nemo.apk`.
-- Open a terminal in this folder and run:
+Portainer downloads the image and starts it. No build step or Git checkout is
+needed. The APK stays on the host and is mounted read-only; saves live in a
+Docker volume. The health check is built into the image.
+
+For an existing reef, download the image and import its database before playing;
+see [Keep your existing reef](#keep-your-existing-reef).
+
+## Terminal: Docker Compose
+
+Save [docker-compose.yml](https://raw.githubusercontent.com/lozza/nemos-reef-re/main/docker-compose.yml)
+in a folder called `nemo`. Edit the APK `source` path, then run from that folder:
 
 ```sh
-docker compose up -d --build
+docker compose up -d
 ```
 
-No Git clone, Python installation or `.env` file is needed to run the server.
-Python and the server are built into the Docker image. The APK is mounted
-read-only at runtime and is never baked into the image or uploaded to GitHub.
+If the APK is beside the Compose file, `source: ./nemo.apk` works for terminal
+use. For NAS or Portainer web editors, use an absolute Docker-host path.
+Save only one Compose filename per folder to avoid ambiguity; `compose.yaml`
+and the old compatibility filenames contain the same configuration.
 
-The image builds from the server code on the `re-notes` branch. There is no
-prebuilt registry image to pull. A computer running the container must remain
-powered on; this can be the same computer you play on or an always-on host.
+On Windows, a path such as `C:/nemo/nemo.apk` can be used in Docker Desktop.
+On a Linux NAS, use its real Linux path, not a Windows SMB path such as
+`\\NAS\share\nemo.apk`. The file must exist and be readable by container UID
+10001; a normal Linux file permission of 644 is sufficient.
 
 ## Connect the game
 
@@ -60,27 +69,6 @@ powered on; this can be the same computer you play on or an always-on host.
 The patched game still requires a compatible 32-bit-capable Android device
 or compatible emulator. Docker runs the Python server, not Android or the game.
 
-## NAS and web-based stack editors
-
-Use the **same** `compose.yaml`. Paste it into your stack editor, then change
-just the `source` line to your APK's real path on the Docker host:
-
-```yaml
-        source: /path/on/your/nas/nemo.apk
-```
-
-Replace that entire example with an existing, readable file. A Windows network
-share path such as `\\NAS\share\nemo.apk` is not a Linux host path.
-The container runs as UID/GID 10001; a regular file permission of 644 is sufficient.
-
-Build and start the stack. No environment variables or server IP entry are
-required in Compose. Your server IP is only used when patching the game.
-See [OMV.md](OMV.md) for an OpenMediaVault example.
-
-Some stack managers only deploy existing images and cannot build from Git.
-In that case, use the Docker host's terminal to run the quick-start command
-first, then manage the existing stack there.
-
 ## Ports and private-network access
 
 `"8080:8080"` publishes the game on port 8080 on the host's network interfaces.
@@ -104,7 +92,7 @@ Do this before playing on a new server.
 
 1. Stop the old server and back up its entire `server/data` directory.
 2. Copy that directory into your new `nemo` folder as `old-data`.
-3. Build the image with `docker compose build`, then stop any running new server
+3. Download the image with `docker compose pull`, then stop any running new server
    with `docker compose stop nemo`.
 4. Run the command below from the `nemo` folder. It works in PowerShell on
    Windows and a terminal on macOS/Linux:
@@ -134,7 +122,7 @@ Run these in the folder containing `compose.yaml`:
 | Check status | `docker compose ps` |
 | View recent logs | `docker compose logs --tail=50 nemo` |
 | Stop | `docker compose stop` |
-| Update from GitHub | `docker compose up -d --build` |
+| Download an update | `docker compose pull` |
 
 The saved volume `nemos-reef_reef-data` survives image rebuilds and ordinary
 `docker compose down`. **Do not use `down -v` or delete the volume** unless
@@ -155,23 +143,53 @@ Check the copy succeeded. Keep dated backups off the server and back up before
 updating. Monitor Docker logs and `/data/requests.log`; archive or truncate
 large logs while stopped.
 
-## Advanced: local source builds and version pinning
+## Updating and selecting a version
 
-With a source checkout, change `build:` to `build: .` to build that checkout.
-To pin a GitHub version, replace `#re-notes` in the build URL with a full
-commit SHA. These are optional changes; beginners can use the file as supplied.
+In Portainer, choose **Update the stack**, enable **Re-pull image**, then deploy.
+With Compose:
 
-The old `compose.github.yaml` and `compose.omv.yaml` filenames remain as
-copies of the shared configuration for existing links. New instructions use
-`compose.yaml`. Old `NEMO_*` environment settings are no longer used by these
-files: set the APK path or published port directly in the YAML if needed.
+```sh
+docker compose pull
+docker compose up -d
+```
+
+`latest` follows tested publications from the server's `re-notes` branch.
+Each publication also has a `sha-FULL_COMMIT_SHA` image tag for pinning a version.
+Replace `:latest` with that tag, or pin an image digest from the package page.
+Back up first; a successful container test is not a guarantee against gameplay bugs.
+
+## Image access
+
+A public GHCR image can be pulled without signing in. A `denied` error can mean
+the new package has not yet been made public, or that a container manager is
+sending stale registry credentials. Check the package's visibility before
+asking users to generate registry tokens.
+
+**One-time maintainer step:** after the first publication, open the
+[package page](https://github.com/users/lozza/packages/container/package/nemos-reef-re),
+choose **Package settings**, then **Change visibility > Public**.
+GitHub creates new container packages as private even when the repository is
+public. This setting is separate from repository visibility.
+After it is public, verify an anonymous `docker pull ghcr.io/lozza/nemos-reef-re:latest`.
+
+## Local development builds
+
+The server source and Dockerfile are on the `re-notes` branch.
+To build a checkout locally:
+
+```sh
+docker build -t nemos-reef:local .
+```
+
+In your development Compose copy, use `image: nemos-reef:local` and remove
+`pull_policy: always` so it uses that local image.
 
 ## Verification
 
-GitHub Actions checks startup, accounts and reef persistence with synthetic
-assets, then builds and starts both a local-source image and the GitHub-source
-Compose setup. It checks that the saved volume survives container replacement.
-A real APK and Android device are still needed to verify actual play.
+GitHub Actions tests server startup, account handling and saved reef persistence
+with synthetic assets. It then tests the Compose setup, publishes multi-platform
+images only after those checks pass, and starts the published image to verify
+its health and persistent storage. No original APK is published.
 
-References: [Compose services](https://docs.docker.com/reference/compose-file/services/),
-[Git build contexts](https://docs.docker.com/reference/compose-file/build/#context).
+References: [Portainer stacks](https://docs.portainer.io/user/docker/stacks/add),
+[GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry).
