@@ -1,39 +1,47 @@
-# Nemo's Reef private server
+# Nemo's Reef Revival
 
-A replacement server for the Android 1.8.1 version of Nemo's Reef.
+An unofficial fan project helping people play Nemo's Reef (Android 1.8.1)
+using a server they run on their own computer or home network.
 
-The server source, APK patcher and full documentation are on the
-[`re-notes` branch](https://github.com/lozza/nemos-reef-re/tree/re-notes).
+## Start your own server with Docker
 
-## Run on OpenMediaVault with Docker
+Use the same setup on Windows, macOS, Linux, or a NAS that supports Docker
+Compose builds. On Windows and macOS, install Docker Desktop; on Linux, use
+Docker Engine with the Compose plugin. Run Linux containers.
 
-Host the server on an always-on mini PC so your laptop can be switched off.
-The Compose file builds the Docker image directly from this GitHub repository.
+1. Create a folder named `nemo`.
+2. Download [compose.yaml](https://raw.githubusercontent.com/lozza/nemos-reef-re/main/compose.yaml)
+   into it. Save it as `compose.yaml`, not `compose.yaml.txt`.
+3. Put your own **original Android 1.8.1 APK** in the same folder and name it
+   `nemo.apk`.
+4. Open a terminal in that folder and run:
 
-1. Copy your **original Nemo's Reef 1.8.1 APK** to a shared folder on OMV as
-   `nemo.apk`. Note its Linux absolute path.
-2. In **Services > Compose > Files**, create an entry called **nemos-reef**.
-   Copy [this Compose file](https://github.com/lozza/nemos-reef-re/blob/re-notes/compose.github.yaml)
-   ([raw YAML](https://raw.githubusercontent.com/lozza/nemos-reef-re/re-notes/compose.github.yaml))
-   into the **File** box.
-3. In **Environment**, enter these values, replacing the example path and IP
-   with your APK path and the mini PC's LAN address:
-
-   ```dotenv
-   NEMO_APK_PATH=/srv/YOUR-DISK/appdata/nemo/nemo.apk
-   NEMO_BIND=192.168.1.20
-   NEMO_PORT=8080
+   ```sh
+   docker compose up -d --build
    ```
 
-4. Save, choose **Build** (under Tools on some versions), then **Up**.
-   Check `http://MINI-PC-IP:8080/healthz`.
+That's the entire server setup: two files, one command, no environment file.
+The image builds automatically from GitHub. Your APK stays on your machine.
 
-**Keeping an existing reef:** migrate the laptop's database before playing,
-then patch the APK to use the mini PC's address. Preserve the phone's app data
-and use the same signing key when installing the updated APK.
+Next, patch the game to connect to `http://YOUR-SERVER-IP:8080`, using the
+computer or NAS's LAN address. For example, if that address is 192.168.1.20,
+use `http://192.168.1.20:8080`. Use the same home network for phone and server.
 
-Follow the [complete OMV setup, migration and backup instructions](https://github.com/lozza/nemos-reef-re/blob/re-notes/OMV.md).
-Saves remain in the persistent `nemos-reef_reef-data` volume when the image is
-rebuilt. Keep the service on your LAN or a private VPN.
+**Full instructions:** [Docker setup, APK patching, moving a reef and backups](DOCKER.md).
 
-Game files are not included in this repository or the Docker image.
+**Using a NAS web interface?** Paste the same Compose file into its stack
+editor. Change `source: ./nemo.apk` to the APK's full path **on the NAS**.
+[OpenMediaVault walkthrough](OMV.md). Managers without build support require
+building through the host's terminal first.
+
+Saves live in the persistent `nemos-reef_reef-data` Docker volume. Stop the
+server before migrating an existing database, and preserve the phone's app data
+and signing key. Keep this legacy server on your home network or private VPN.
+
+Game files are not provided. This project is independent of Disney and Pixar.
+
+## Project files
+
+The [`re-notes` branch](https://github.com/lozza/nemos-reef-re/tree/re-notes)
+contains the server source, APK patcher, original Windows launchers and full
+game documentation. This page provides the shared quick start for everyone.

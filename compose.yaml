@@ -1,0 +1,22 @@
+# Put this file and your original nemo.apk in the same folder.
+name: nemos-reef
+
+services:
+  nemo:
+    build: https://github.com/lozza/nemos-reef-re.git#re-notes
+    image: nemos-reef:local
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - type: bind
+        source: ./nemo.apk
+        target: /game/nemo.apk
+        read_only: true
+        bind:
+          create_host_path: false
+      - reef-data:/data
+
+volumes:
+  reef-data:
+    name: nemos-reef_reef-data
