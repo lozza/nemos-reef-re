@@ -134,7 +134,6 @@ jobs:
           tags: |
             ghcr.io/lozza/nemos-reef-revival:latest
             ghcr.io/lozza/nemos-reef-revival:sha-${{ github.sha }}
-            # Compatibility tags for existing installations.
             ghcr.io/lozza/nemos-reef-re:latest
             ghcr.io/lozza/nemos-reef-re:sha-${{ github.sha }}
           labels: |
