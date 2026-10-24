@@ -96,5 +96,5 @@ Docker migration or update steps.
 
 ## Project website
 
-The homepage is deployed from `main` to Cloudflare Workers. See
+The homepage is deployed from `main` to Cloudflare Pages. See
 [Website editing and deployment](WEBSITE.md) for the files and build settings.

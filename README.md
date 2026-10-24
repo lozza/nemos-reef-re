@@ -1,5 +1,7 @@
 # Nemo's Reef Revival
 
+[Visit the project website](https://nemos-reef-revival.pages.dev/).
+
 An unofficial fan project for playing Nemo's Reef Android 1.8.1 on a server
 you run at home. The project is in early development:
 [what works and what is still missing](STATUS.md).

@@ -1,36 +1,40 @@
 # Project website
 
-[All guides](README.md)
+[All guides](README.md) · [Open the website](https://nemos-reef-revival.pages.dev/)
 
 The public homepage is a static website deployed from the `main` branch
-through the existing Cloudflare Workers GitHub connection.
+through Cloudflare Pages.
 
 ## Edit the website
 
 - `public/index.html`: homepage text, illustration and guide links.
 - `public/styles.css`: colours, spacing and responsive layouts.
 - `public/favicon.svg`: browser-tab icon.
-- `wrangler.jsonc`: Cloudflare deployment settings.
 
 Only the `public` folder is published as the website. The homepage links to
 the setup guides on GitHub; edit those Markdown files to update the guides.
 
-## Cloudflare build settings
+## Cloudflare Pages build settings
 
-For the Worker named `nemos-reef-revival`, use:
+For the Pages project named `nemos-reef-revival`, use:
 
 | Setting | Value |
 |---|---|
 | Production branch | `main` |
-| Root directory | Repository root (leave unchanged) |
+| Framework preset | None |
+| Root directory | Repository root |
 | Build command | Leave empty; no build step is needed |
-| Deploy command | `npx wrangler deploy` |
+| Build output directory | `public` |
 
-The Wrangler configuration points to `./public`. Commits to `main` trigger
-the connected deployment. Check the Cloudflare build result on the commit
-before sharing a new version.
+Commits to `main` trigger the connected deployment. Check the Cloudflare
+Pages build result on the commit before sharing a new version.
 
-For a local preview from the repository root:
+The existing `wrangler.jsonc` is for the earlier Workers deployment.
+The Pages website uses the dashboard settings above.
+
+## Local preview
+
+From the repository root:
 
 ```sh
 python -m http.server 8000 --directory public
