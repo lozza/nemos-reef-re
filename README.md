@@ -23,6 +23,13 @@ You need your own original Android 1.8.1 APK and an Android device that supports
 32-bit apps. Game files are not included. The server reads game definitions from
 the original APK; a separate patched copy runs on your Android device.
 
+## What's different from the original?
+
+Small fish stay visible when you zoom out, and the final daily reward tap
+now guarantees pearls because real-money purchases are unavailable.
+See [Changes from the original game](CHANGES.md) for the full list, including
+event schedules and compatibility fixes.
+
 ## Other guides
 
 | I want to… | Guide |
