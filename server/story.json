@@ -638,8 +638,9 @@
     },
     {
      "textKey": "STR_STORY_QUEST_08_TASK_02",
-     "cid": "CID_GROWN",
+     "cid": "CID_GROW_ANY",
      "params": [
+      "CORAL,LIVINGPLANT,ORNAMENTALPLANT,RAREPLANT",
       1,
       "seed_coin"
      ]
@@ -702,8 +703,9 @@
     },
     {
      "textKey": "STR_STORY_QUEST_09_TASK_02",
-     "cid": "CID_GROWN",
+     "cid": "CID_GROW_ANY",
      "params": [
+      "CORAL,LIVINGPLANT,ORNAMENTALPLANT,RAREPLANT",
       1,
       "seed_pearl"
      ]
@@ -1691,8 +1693,9 @@
    "tasks": [
     {
      "textKey": "STR_SIDE_QUEST_05_TASK_01",
-     "cid": "CID_GROWN",
+     "cid": "CID_GROW_ANY",
      "params": [
+      "CORAL,LIVINGPLANT,ORNAMENTALPLANT,RAREPLANT",
       2,
       "seed_coin"
      ]
@@ -2021,8 +2024,9 @@
    "tasks": [
     {
      "textKey": "STR_SIDE_QUEST_US_02_TASK_01",
-     "cid": "CID_GROWN",
+     "cid": "CID_GROW_ANY",
      "params": [
+      "RAREPLANT",
       1,
       "seed_pearl"
      ]
@@ -2306,16 +2310,18 @@
    "tasks": [
     {
      "textKey": "STR_SIDE_QUEST_US_03_TASK_01",
-     "cid": "CID_GROWN",
+     "cid": "CID_GROW_ANY",
      "params": [
+      "RAREPLANT",
       1,
       "seed_coin"
      ]
     },
     {
      "textKey": "STR_SIDE_QUEST_US_03_TASK_02",
-     "cid": "CID_GROWN",
+     "cid": "CID_GROW_ANY",
      "params": [
+      "RAREPLANT",
       1,
       "seed_pearl"
      ]
@@ -2456,8 +2462,9 @@
    "tasks": [
     {
      "textKey": "STR_SIDE_QUEST_16_TASK_01",
-     "cid": "CID_GROWN",
+     "cid": "CID_GROW_ANY",
      "params": [
+      "CORAL,LIVINGPLANT,ORNAMENTALPLANT,RAREPLANT",
       2,
       "seed_coin"
      ]
@@ -2807,8 +2814,9 @@
    "tasks": [
     {
      "textKey": "STR_SIDE_QUEST_US_04_TASK_01",
-     "cid": "CID_GROWN",
+     "cid": "CID_GROW_ANY",
      "params": [
+      "RAREPLANT",
       1,
       "seed_coin_expensive"
      ]
@@ -3137,24 +3145,27 @@
    "tasks": [
     {
      "textKey": "STR_SIDE_QUEST_US_05_TASK_01",
-     "cid": "CID_GROWN",
+     "cid": "CID_GROW_ANY",
      "params": [
+      "RAREPLANT",
       1,
       "seed_coin"
      ]
     },
     {
      "textKey": "STR_SIDE_QUEST_US_05_TASK_02",
-     "cid": "CID_GROWN",
+     "cid": "CID_GROW_ANY",
      "params": [
+      "RAREPLANT",
       1,
       "seed_coin_expensive"
      ]
     },
     {
      "textKey": "STR_SIDE_QUEST_US_05_TASK_03",
-     "cid": "CID_GROWN",
+     "cid": "CID_GROW_ANY",
      "params": [
+      "RAREPLANT",
       1,
       "seed_pearl"
      ]
@@ -3355,8 +3366,9 @@
     },
     {
      "textKey": "STR_SIDE_QUEST_31_TASK_02",
-     "cid": "CID_GROWN",
+     "cid": "CID_GROW_ANY",
      "params": [
+      "CORAL,LIVINGPLANT,ORNAMENTALPLANT,RAREPLANT",
       1,
       "seed_coin_expensive"
      ]
@@ -3782,8 +3794,9 @@
     },
     {
      "textKey": "STR_SIDE_QUEST_40_TASK_02",
-     "cid": "CID_GROWN",
+     "cid": "CID_GROW_ANY",
      "params": [
+      "CORAL,LIVINGPLANT,ORNAMENTALPLANT,RAREPLANT",
       1,
       "seed_coin_expensive"
      ]
@@ -4330,8 +4343,9 @@
     },
     {
      "textKey": "STR_SIDE_QUEST_50_TASK_02",
-     "cid": "CID_GROWN",
+     "cid": "CID_GROW_ANY",
      "params": [
+      "CORAL,LIVINGPLANT,ORNAMENTALPLANT,RAREPLANT",
       2,
       "seed_coin_expensive"
      ]
@@ -7868,8 +7882,9 @@
    "tasks": [
     {
      "textKey": "STR_STORY_QUEST_52_TASK_01",
-     "cid": "CID_GROWN",
+     "cid": "CID_GROW_ANY",
      "params": [
+      "CORAL,LIVINGPLANT,ORNAMENTALPLANT,RAREPLANT",
       3,
       "seed_coin_expensive"
      ]

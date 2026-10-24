@@ -348,6 +348,8 @@ class Game:
                     self.story.catch_up(w, push=False)  # in the startgame quests list
                     self.homework(w)
                     self.story.run_events(w, now_ms(), push=False)
+                    self.story.recover_seed_tasks(w, self.reef.protos,
+                                                 lambda q, r: self.quest_done(w, q, r))
                     # quest messages are covered by the quests list; entity events still have to be pushed
                     w['messages'] = [m for m in w.get('messages', []) if m['type'] != quests.QUEST_OPEN]
                     self.push_events(w)
@@ -787,4 +789,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

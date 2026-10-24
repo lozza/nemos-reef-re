@@ -543,6 +543,68 @@ class Story:
         if e:
             e['state'] = RUNNING
 
+    def recover_seed_tasks(self, w, protos, finish):
+        """Recover missed seed progress from saved provenance when loading a reef.
+
+        A seed becomes a plant with a different prototypeId. Its seedPrototypeId
+        is the evidence for seed tasks; an ordinary nursery plant is not enough.
+        Use a lower bound from current entities, never increment a counter on
+        each login or reduce progress for a plant the player has since sold.
+        Complete through task_state so rewards and unlocks occur exactly once.
+        """
+        mature = (1, 6, 7)  # BUILT, PRODUCING, READY (actions imports worlddef too)
+        entities = [e for name in ('corals', 'livingPlants', 'ornamentalPlants', 'rarePlants')
+                    for e in w.get(name, []) if e.get('seedPrototypeId')]
+        for entry in list(w.get('quests', [])):
+            if entry.get('state') != RUNNING:
+                continue
+            q = self.quests.get(entry['prototypeId'], {})
+            changed = False
+            last_tid = None
+            for tid, task in enumerate(q.get('tasks', []), 1):
+                params = task.get('params', [])
+                cid = task['cid']
+                categories = None
+                if cid in ('CID_CREATED', 'CID_GROWN') and len(params) >= 2 and str(params[1]).startswith('seed_'):
+                    count, seed = int(params[0]), params[1]
+                    grown = cid == 'CID_GROWN'
+                elif cid == 'CID_GROW_ANY' and len(params) >= 3 and str(params[2]).startswith('seed_'):
+                    categories = set(str(params[0]).split(','))
+                    count, seed = int(params[1]), params[2]
+                    grown = True
+                else:
+                    continue
+                saved = next((s for s in entry['tasks'] if s['tid'] == tid), None)
+                if saved is None or saved.get('finished'):
+                    continue
+                matches = set()
+                for entity in entities:
+                    if entity.get('seedPrototypeId') != seed or (grown and entity.get('state') not in mature):
+                        continue
+                    _, p = protos.get(entity.get('prototypeId'))
+                    if not p or (categories and p.get('shopCategory') not in categories):
+                        continue
+                    _, seed_p = protos.get(seed)
+                    if grown and entity.get('growingCycle', 0) < (seed_p or {}).get('growingCycles', 1):
+                        continue
+                    matches.add(entity['id'])
+                if not matches:
+                    continue
+                progress = saved.setdefault('progress', {})
+                remaining = max(0, count - len(matches))
+                remaining = min(int(progress.get('counter', count)), remaining)
+                progress.update(count=count, counter=remaining, state=1)
+                if cid != 'CID_GROW_ANY':
+                    progress['prototypeId'] = seed
+                else:
+                    progress.pop('prototypeId', None)
+                if remaining == 0:
+                    saved['finished'] = True
+                changed = True
+                last_tid = tid
+            if changed and all(s.get('finished') for s in entry['tasks']):
+                self.task_state(w, {'id': entry['id'], 'tid': last_tid, 'finished': True}, finish)
+
     def task_state(self, w, d, finish):
         """questTaskSetState: returns {"questFinished": bool}."""
         e = self.find(w, d.get('id'))
@@ -603,4 +665,3 @@ class NoStory(Story):
         self.data = {'quests': [], 'dialogs': [], 'hints': [], 'patterns': []}
         self.quests = {}
         self.renamed = {}
-
