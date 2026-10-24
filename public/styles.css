@@ -32,3 +32,55 @@
 @media(max-width:1060px){.hero h1>span{font-size:54px}.hero h1>strong{font-size:36px;letter-spacing:6px}}
 @media(max-width:780px){.hero h1>span{font-size:40px;letter-spacing:-1px}.hero h1>strong{font-size:29px;letter-spacing:5px;margin-left:1px}}
 @media(max-width:560px){.hero h1>span{font-size:clamp(35px,10.4vw,56px);letter-spacing:-1.2px}.hero h1>strong{font-size:34px;letter-spacing:6px;margin-top:12px}.hero{background:radial-gradient(ellipse at 76% 55%,#128cca 0%,#005ba3 42%,#003d7a 100%)}}
+
+/* A compact, outlined wordmark shared by the header and banner. */
+.brand .brand-wordmark{width:184px;height:auto;max-width:none}
+.hero h1{margin-bottom:27px}
+.hero-logo{width:470px;height:auto;max-width:100%;filter:drop-shadow(0 3px 0 #00376455)}
+.hero{border-top:1px solid #5ad4ff22}
+.hero-inner{z-index:2}
+.reef-bed{position:absolute;left:0;bottom:15px;width:100%;height:150px;max-width:none;object-fit:cover;object-position:bottom;opacity:.6;pointer-events:none;z-index:1}
+.shore{z-index:3;width:110%;left:-5%;animation:shore-drift 9s ease-in-out infinite alternate}
+.sea-light{animation:light-drift 12s ease-in-out infinite alternate;transform-origin:top center}
+.bubble{animation:bubble-drift 7s ease-in-out infinite}
+.bubble-two{animation-delay:-3s;animation-duration:9s}
+.bubble-three{animation-delay:-5s;animation-duration:8s}
+.mascot{animation:fish-drift 6s ease-in-out infinite}
+.fish-glow{background:radial-gradient(#a8f2ff44,transparent 68%);box-shadow:0 0 70px #42cbff14}
+@keyframes shore-drift{to{transform:translateX(2%)}}
+@keyframes light-drift{from{transform:rotate(-24deg);opacity:.45}to{transform:rotate(-12deg);opacity:.75}}
+@keyframes bubble-drift{0%,100%{transform:translate(0,0);opacity:.6}50%{transform:translate(7px,-25px);opacity:1}}
+@keyframes fish-drift{0%,100%{transform:translateY(0) rotate(-.5deg)}50%{transform:translateY(-8px) rotate(.5deg)}}
+
+/* Water rolls through the button on hover; labels stay above both wave layers. */
+.button{--wave-fill:#0870b8;position:relative;isolation:isolate;overflow:hidden;border-radius:12px;border-width:2px;box-shadow:0 5px 0 #003665,0 8px 14px #002f6333,inset 0 2px 0 #ffffff66,inset 0 -2px 0 #00000017;transition:transform .2s,box-shadow .2s,border-color .2s;background-clip:padding-box}
+.button::before,.button::after{content:"";position:absolute;z-index:-1;pointer-events:none;left:0;top:auto;bottom:-175%;width:100%;height:160%;border-radius:0;background:var(--wave-fill);mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 100'%3E%3Cpath d='M0 25C30 5 60 5 90 25S150 45 180 25V100H0Z'/%3E%3C/svg%3E");mask-size:180px 100%;mask-repeat:repeat-x;mask-position:0 0;transition:bottom .5s cubic-bezier(.2,.7,.3,1);animation:button-wave 2.4s linear infinite;animation-play-state:paused}
+.button::after{background:#fff;opacity:.18;mask-position:90px 0;animation-direction:reverse;animation-duration:3.4s}
+.button:hover,.button:focus-visible{transform:translateY(-3px);box-shadow:0 7px 0 #003665,0 11px 22px #002f6340,inset 0 2px 0 #ffffff88;border-color:#8bdbff}
+.button:hover::before,.button:focus-visible::before{bottom:-28%;animation-play-state:running}
+.button:hover::after,.button:focus-visible::after{bottom:-37%;animation-play-state:running}
+.button:active{transform:translateY(2px);box-shadow:0 2px 0 #003665,inset 0 2px 5px #002f6333}
+.button-primary,.header-play{--wave-fill:#ff9524;background:linear-gradient(#ffce7b 0%,#ffb341 42%,#ff9825 100%);color:#153857;border-color:#ffe0a1;box-shadow:0 5px 0 #b75a0c,0 8px 16px #002f6333,inset 0 2px 0 #fff7cf,inset 0 -3px 0 #ea7d16}
+.button-primary:hover,.header-play:hover,.button-primary:focus-visible,.header-play:focus-visible{background:linear-gradient(#ffd991,#ffac36);border-color:#fff2cb;box-shadow:0 7px 0 #b75a0c,0 11px 22px #002f6340,inset 0 2px 0 #fff7cf}
+.button-primary:active,.header-play:active{box-shadow:0 2px 0 #b75a0c,inset 0 2px 5px #8c3a1222}
+.button-dark,.button-discord{background:linear-gradient(#218ac5,#0864a7);color:#fff;border-color:#75cdf5;--wave-fill:#075c9e}
+.button-dark:hover,.button-discord:hover{background:linear-gradient(#2b9dd8,#1474b5)}
+@keyframes button-wave{to{mask-position:180px 0}}
+.panel{border:2px solid #bfddef;box-shadow:0 5px 0 #0b568516,0 8px 22px #0b56850a;border-radius:16px}
+.panel-heading{background:linear-gradient(135deg,#1685c2,#075b9a);color:#fff;border-bottom:3px solid #064a80;box-shadow:inset 0 1px 0 #65c3ec}
+.heading-mark{color:#ffc369}
+.setup-card{border:2px solid #c8deef;border-top:5px solid #1689c5;border-radius:16px;box-shadow:0 5px 0 #0b568516}
+.patch-card{border-top-color:#ff9a27;background:linear-gradient(#e8f6ff,#d9efff)}
+.step-badge{background:#0b75b5;color:#fff;border:2px solid #fff;box-shadow:0 2px 0 #07528e22}
+.patch-card .step-badge{background:#ffa535;color:#153857;border-color:white}
+.help-links>a{background:#ffffffb3;border:1px solid #bbd9ed;border-radius:12px;padding:18px;box-shadow:0 3px 0 #07528e0c;transition:transform .2s,border-color .2s,background .2s}
+.help-links>a:hover{transform:translateY(-3px);background:#fff;border-color:#3ea4da;color:#075b9a}
+.header-inner nav>a{position:relative}
+.header-inner nav>a::after{content:"";position:absolute;left:0;right:0;bottom:-9px;height:3px;border-radius:50%;background:#ffb342;transform:scaleX(0);transition:transform .2s}
+.header-inner nav>a:hover{text-decoration:none}
+.header-inner nav>a:hover::after{transform:scaleX(1)}
+@media(max-width:780px){.brand .brand-wordmark{width:151px}.hero-logo{width:360px}.reef-bed{height:110px}.button{border-radius:10px}}
+@media(max-width:560px){.brand .brand-wordmark{width:132px}.hero-logo{width:100%;max-width:360px}.reef-bed{height:110px;bottom:12px}.hero h1{margin-bottom:24px}.help-links{gap:12px}.help-links>a{padding:18px}}
+@media(prefers-reduced-motion:reduce){.shore,.sea-light,.bubble,.mascot,.button::before,.button::after{animation:none!important}.button,.button::before,.button::after,.help-links>a,.header-inner nav>a::after{transition:none!important}.button:hover,.button:focus-visible,.help-links>a:hover{transform:none}}
+
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:22px;background:var(--cream);z-index:2;pointer-events:none}

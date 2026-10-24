@@ -8,11 +8,17 @@ through Cloudflare Pages.
 ## Edit the website
 
 - `public/index.html`: homepage text, illustration and guide links.
-- `public/styles.css`: colours, spacing and responsive layouts.
+- `public/styles.css`: colours, responsive layouts, wave buttons and motion.
+- `public/logo.svg` and `public/logo-dark.svg`: light and dark outlined wordmarks.
+- `public/reef-bed.svg`: decorative reef silhouettes.
 - `public/discord-mascot.png`: the existing Discord artwork, also used as the browser-tab icon.
 
 Only the `public` folder is published as the website. The homepage links to
 the setup guides on GitHub; edit those Markdown files to update the guides.
+
+The logo is vector artwork with outlined lettering, so it does not need a
+font download. Button waves also respond to keyboard focus. Ambient motion
+and animated waves are disabled when reduced motion is requested.
 
 ## Cloudflare Pages build settings
 
