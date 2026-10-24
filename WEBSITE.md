@@ -7,18 +7,25 @@ through Cloudflare Pages.
 
 ## Edit the website
 
-- `public/index.html`: homepage text, illustration and guide links.
-- `public/styles.css`: colours, responsive layouts, wave buttons and motion.
+- `public/index.html`: homepage content, guide links and community invite.
+- `public/styles.css`: layout, typography, responsive rules and wave buttons.
+- `public/reef-panorama.jpg`: illustrated background used in the hero, community panel and footer.
+- `public/discord-mascot.png`: the existing Discord artwork and browser-tab icon.
 - `public/logo.svg` and `public/logo-dark.svg`: light and dark outlined wordmarks.
-- `public/reef-bed.svg`: decorative reef silhouettes.
-- `public/discord-mascot.png`: the existing Discord artwork, also used as the browser-tab icon.
+- `public/server-illustration.svg`, `public/pc-illustration.svg` and
+  `public/phone-illustration.svg`: setup illustrations.
+- `public/fonts/fredoka.woff2`: locally hosted display font. Its SIL Open
+  Font License is included in `public/fonts/OFL.txt`.
+
+The design was developed as a full-page visual mockup before implementation.
+The reef background was generated separately so the page can use real text,
+accessible controls and responsive layouts. The Discord mascot is unchanged.
 
 Only the `public` folder is published as the website. The homepage links to
 the setup guides on GitHub; edit those Markdown files to update the guides.
 
-The logo is vector artwork with outlined lettering, so it does not need a
-font download. Button waves also respond to keyboard focus. Ambient motion
-and animated waves are disabled when reduced motion is requested.
+Wave buttons also respond to keyboard focus. Animated waves, floating artwork
+and bubbles are disabled when reduced motion is requested.
 
 ## Cloudflare Pages build settings
 
@@ -50,8 +57,8 @@ Open `http://localhost:8000`. Stop the preview with Ctrl+C.
 
 ## Discord invite
 
-The website uses [this community invite](https://discord.gg/mseaKJb5G). It never
-expires, has no use limit and sends new members to the welcome channel.
+The website uses [this community invite](https://discord.gg/mseaKJb5G).
+It never expires, has no use limit and sends new members to the welcome channel.
 
 To replace it, update the four Discord links in `public/index.html`.
 Existing invites can be managed in Discord under **Server Settings → Invites**.
