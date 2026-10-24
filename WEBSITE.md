@@ -9,7 +9,8 @@ through Cloudflare Pages.
 
 - `public/index.html`: homepage content, guide links and community invite.
 - `public/styles.css`: layout, typography, responsive rules and wave buttons.
-- `public/reef-world.jpg`: the illustrated overhead reef used behind the page and community panel.
+- `public/reef-hero-hd.jpg`: the 2048 × 768 desktop hero artwork, exported at high JPEG quality.
+- `public/reef-world.jpg`: the tall illustrated reef used behind the page and community panel.
 - `public/discord-mascot.png`: the existing Discord artwork and browser-tab icon.
 - `public/logo.png`: the approved white and orange project wordmark used in the header and footer.
 - `public/server-illustration.svg`, `public/pc-illustration.svg` and
