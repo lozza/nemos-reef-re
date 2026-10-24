@@ -1,0 +1,8 @@
+{
+  "name": "nemos-reef-revival",
+  "compatibility_date": "2026-10-24",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./public"
+  }
+}

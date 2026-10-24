@@ -93,3 +93,8 @@ These are destructive developer tools. Stop the server and
 
 Use these only for the Windows data directory they operate on. They are not
 Docker migration or update steps.
+
+## Project website
+
+The homepage is deployed from `main` to Cloudflare Workers. See
+[Website editing and deployment](WEBSITE.md) for the files and build settings.
