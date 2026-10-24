@@ -1,0 +1,24 @@
+.launch-page{min-height:100svh;display:flex;flex-direction:column;color:#fff}
+.launch-page::before{mask-image:none;background:linear-gradient(90deg,#003d70b5,#00557a40 70%),url('/reef-hero-hd.jpg') center center/cover no-repeat}
+.launch-header-link{margin-left:auto;font-size:16px;white-space:nowrap}
+.launch-main{flex:1;display:flex;align-items:center;padding-block:56px}
+.launch-card{max-width:650px;padding:36px 38px;border:2px solid #79dbf080;border-radius:25px;background:#02375cdb;backdrop-filter:blur(5px)}
+.launch-card .eyebrow{font-size:12px;letter-spacing:1.2px;color:#b9eeff;margin-bottom:20px}
+.launch-card h1{font-size:clamp(40px,5.3vw,68px);letter-spacing:-1px;line-height:1.05;margin-bottom:22px}
+.launch-card h1 span{color:#ffdb84}
+.launch-intro{font-size:18px;line-height:1.7;margin-bottom:25px}
+.launch-countdown{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:20px}
+.launch-countdown[hidden]{display:none}
+.launch-countdown>div{padding:15px 7px 12px;text-align:center;border:2px solid #61d6f7;border-radius:15px;background:linear-gradient(#0869ad,#033d78)}
+.launch-countdown strong{display:block;font-family:var(--display);font-weight:500;font-size:46px;font-variant-numeric:tabular-nums;line-height:1.1}
+.launch-countdown span{font-size:12px;color:#d1f4ff}
+.launch-date{font-size:14px;color:#d8f2ff;margin-bottom:25px;min-height:23px}
+.launch-card .button-large{font-size:22px;min-height:58px}
+.launch-note{font-size:13px;line-height:1.6;color:#d8f2ff;margin:23px 0 0}
+.launch-footer{text-align:center;padding:0 12px 24px;font-size:11px;color:#e5f8ff}
+.launch-footer p{margin-bottom:9px}.owner-link{font-size:11px;text-decoration:underline;text-underline-offset:4px}
+.owner-card{width:min(100%,460px);margin-inline:auto}.owner-card h1{font-size:38px}.owner-card p{font-size:15px}
+.owner-form{display:grid;gap:14px}.owner-form label{font-weight:700;font-size:14px}.owner-form input{width:100%;min-height:48px;border:2px solid #6cd5ef;border-radius:10px;background:#fff;color:#083758;padding:12px;font:inherit}.owner-form input:focus-visible{outline:3px solid #ffdb84;outline-offset:3px}.owner-form .button{cursor:pointer;font-size:19px}.owner-error{color:#ffe3a7}.owner-back{display:inline-block;margin-top:22px;text-decoration:underline}
+.preview-banner{padding:10px 18px;display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;background:#ffdb84;color:#253d55;font-size:14px}.preview-banner form{margin:0}.preview-banner button{background:none;border:0;text-decoration:underline;color:inherit;font:inherit;cursor:pointer}
+@media(max-width:700px){.launch-page::before{background-image:linear-gradient(#00456b66,#002f59c9),url('/reef-world.jpg')}.launch-main{padding-block:32px}.launch-card{padding:30px 26px;margin-inline:auto}.launch-card h1{font-size:clamp(37px,8.5vw,57px)}.launch-intro{font-size:16px}.launch-countdown{gap:8px}.launch-countdown strong{font-size:36px}.launch-card .button-large{font-size:19px}.launch-note{font-size:12px}.launch-footer{padding-bottom:20px}}
+@media(max-width:380px){.launch-card{padding:25px 19px}.launch-header-link{font-size:12px;padding-inline:11px}.launch-countdown{gap:6px}.launch-countdown>div{padding:12px 4px}.launch-countdown strong{font-size:30px}.launch-countdown span{font-size:10px}.launch-card .button-large{font-size:17px;padding-inline:15px}}

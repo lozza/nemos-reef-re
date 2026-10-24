@@ -1,8 +1,11 @@
 {
   "name": "nemos-reef-revival",
+  "main": "public/_worker.js",
   "compatibility_date": "2026-10-24",
   "workers_dev": true,
   "assets": {
-    "directory": "./public"
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true
   }
 }

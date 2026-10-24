@@ -2,8 +2,9 @@
 
 [All guides](README.md) · [Open the website](https://nemos-reef-revival.pages.dev/)
 
-The public homepage is a static website deployed from the `main` branch
-through Cloudflare Pages.
+The website is deployed from the `main` branch through Cloudflare Pages.
+Before launch, visitors see a holding page; the owner can preview the main site
+using a server-checked password at `/owner`.
 
 ## Edit the website
 
@@ -46,18 +47,52 @@ For the Pages project named `nemos-reef-revival`, use:
 Commits to `main` trigger the connected deployment. Check the Cloudflare
 Pages build result on the commit before sharing a new version.
 
-The existing `wrangler.jsonc` is for the earlier Workers deployment.
-The Pages website uses the dashboard settings above.
+The existing `wrangler.jsonc` also protects the earlier Workers address.
+It invokes the same Worker before serving assets. Pages uses advanced mode
+via `public/_worker.js`, so the dashboard settings above stay the same.
 
-## Local preview
+## Launch countdown and owner preview
 
-From the repository root:
+The launch is set for **5 December 2026 at 10:00 UK time (10:00 UTC)**.
 
-```sh
-python -m http.server 8000 --directory public
-```
+- `public/launch.html`, `launch.css`, `launch.js`: public holding page and countdown.
+- `public/_worker.js`: server-side gate, password form, login/logout and launch time.
+- `public/index.html`: the existing main website, served after login or launch.
+- `public/_routes.json`: routes every request through the gate on Pages.
+- `public/.assetsignore`: keeps Worker source out of Workers static assets.
 
-Open `http://localhost:8000`. Stop the preview with Ctrl+C.
+Set `LAUNCH_AT` at the top of `public/_worker.js` to an ISO 8601 date including
+its offset, or set the Cloudflare runtime variable `LAUNCH_AT`. For example,
+`2026-11-07T18:00:00+00:00` is 18:00 UK time on that date. That is an example,
+not an agreed launch date. `null` means no launch date has been announced.
+The countdown uses the server clock and displays the launch in UK time.
+At the launch instant, the main site becomes public automatically. Visitors
+who already have the countdown open are redirected to the main website.
+
+Open `/owner` and use the generated owner password. Successful login stores
+a derived bearer token in a Secure, HttpOnly, SameSite=Strict cookie for eight
+hours. `/coming-soon` lets the owner inspect the countdown while signed in;
+the preview banner also includes logout. Responses containing the main page
+are not cached, so a preview cannot leak through a shared cache. Direct
+`/index.html` access is gated too.
+
+Only SHA-256 verifiers are committed. The password is randomly generated with
+192 bits of entropy; do not replace it with a short or memorable password.
+To rotate it, generate a new password with `secrets.token_urlsafe(24)` in
+Python. `PASSWORD_HASH` is SHA-256(password). `SESSION_HASH` is
+SHA-256(SHA-256("nrr-preview-session:" + password).hexdigest()). Update both
+constants together; this invalidates old logins. Keep the password out of
+GitHub commits and issues. No paid service or separate account is required.
+
+This gates the website, not the already-public GitHub source and guides.
+
+## Local verification
+
+Run `node tests/website-launch.mjs` from the repository root. It covers
+anonymous requests, direct main-page access, valid/invalid logins, cookie
+handling, logout, launch boundaries, cross-origin form rejection and HEAD.
+Use `npx wrangler pages dev public` for a full local Cloudflare preview.
+A static Python server skips authentication and must not be used to test it.
 
 ## Discord invite
 
