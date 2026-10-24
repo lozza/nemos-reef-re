@@ -9,23 +9,24 @@ through Cloudflare Pages.
 
 - `public/index.html`: homepage content, guide links and community invite.
 - `public/styles.css`: layout, typography, responsive rules and wave buttons.
-- `public/reef-panorama.jpg`: illustrated background used in the hero, community panel and footer.
+- `public/reef-world.jpg`: the illustrated overhead reef used behind the page and community panel.
 - `public/discord-mascot.png`: the existing Discord artwork and browser-tab icon.
-- `public/logo.svg` and `public/logo-dark.svg`: light and dark outlined wordmarks.
+- `public/logo.png`: the approved white and orange project wordmark used in the header and footer.
 - `public/server-illustration.svg`, `public/pc-illustration.svg` and
   `public/phone-illustration.svg`: setup illustrations.
 - `public/fonts/fredoka.woff2`: locally hosted display font. Its SIL Open
   Font License is included in `public/fonts/OFL.txt`.
 
-The design was developed as a full-page visual mockup before implementation.
-The reef background was generated separately so the page can use real text,
-accessible controls and responsive layouts. The Discord mascot is unchanged.
+The design follows the approved mockup based on the original game screenshots:
+blue popup frames, parchment panels, cyan setup cards and glossy green buttons.
+The reef artwork was generated separately; text, controls and responsive layouts
+are real HTML and CSS. The community panel uses the existing Discord mascot.
 
 Only the `public` folder is published as the website. The homepage links to
 the setup guides on GitHub; edit those Markdown files to update the guides.
 
-Wave buttons also respond to keyboard focus. Animated waves, floating artwork
-and bubbles are disabled when reduced motion is requested.
+Wave buttons also respond to keyboard focus. Waves and hover movement are
+disabled when reduced motion is requested.
 
 ## Cloudflare Pages build settings
 

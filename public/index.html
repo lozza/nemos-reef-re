@@ -12,7 +12,7 @@
   <title>Nemo's Reef Revival</title>
   <link rel="icon" type="image/png" href="/discord-mascot.png">
   <link rel="preload" href="/fonts/fredoka.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/reef-panorama.jpg" as="image">
+  <link rel="preload" href="/reef-world.jpg" as="image">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -37,38 +37,43 @@
         <h1 id="hero-title">Play Nemo's<br>Reef again.</h1>
         <p class="hero-description">Run your own server and connect<br class="desktop-break"> your Android game.</p>
         <div class="hero-actions">
-          <a class="button button-orange button-large" href="#setup"><svg class="button-icon play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 3 15 9L6 21Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Get started</a>
+          <a class="button button-green button-large" href="#setup"><svg class="button-icon play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 3 15 9L6 21Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Get started</a>
           <a class="button button-blue button-large" href="https://discord.gg/mseaKJb5G" target="_blank" rel="noopener noreferrer"><svg class="button-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-8l-6 3v-3a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3Z" fill="currentColor"/><circle cx="8" cy="12" r="1.5" fill="#1473bd"/><circle cx="16" cy="12" r="1.5" fill="#1473bd"/></svg>Join Discord</a>
         </div>
       </div>
-      <div class="hero-art"><img class="mascot" src="/discord-mascot.png" width="1254" height="1254" alt="The Nemo's Reef Revival clownfish wearing sunglasses" fetchpriority="high"></div>
-      <span class="hero-bubble bubble-one" aria-hidden="true"></span><span class="hero-bubble bubble-two" aria-hidden="true"></span><span class="hero-bubble bubble-three" aria-hidden="true"></span>
     </div>
   </section>
 
   <main id="main" class="content wrap">
     <section id="setup" class="setup-panel" aria-labelledby="setup-title">
+      <div class="quest-sheet">
       <header class="setup-heading"><h2 id="setup-title">Start playing</h2><p>Choose one server option, then patch your Android game.</p></header>
       <div class="server-step">
         <div class="step-heading"><span class="step-number" aria-hidden="true">1</span><div><h3>Choose your server setup</h3><p>Run the server using Docker or Windows.</p></div></div>
         <div class="server-options">
-          <article class="server-option">
+          <div class="server-choice"><article class="server-option">
+            <h4>Docker / NAS</h4>
             <img class="setup-illustration" src="/server-illustration.svg" width="180" height="170" alt="" loading="lazy">
-            <div class="option-content"><h4>Docker / NAS</h4><p>Run the server on a NAS, mini PC or another Docker host.</p><a class="button button-blue guide-button" href="https://github.com/lozza/nemos-reef-revival/blob/main/DOCKER.md">Docker guide <span aria-hidden="true">→</span></a><a class="small-link" href="https://github.com/lozza/nemos-reef-revival/blob/main/OMV.md">OpenMediaVault instructions</a></div>
-          </article>
-          <article class="server-option">
+            <div class="option-content"><p>Run the server on a NAS, mini PC or another Docker host.</p><a class="button button-green guide-button" href="https://github.com/lozza/nemos-reef-revival/blob/main/DOCKER.md">Docker guide <span aria-hidden="true">›</span></a></div>
+          </article><a class="small-link" href="https://github.com/lozza/nemos-reef-revival/blob/main/OMV.md">OpenMediaVault instructions ›</a></div>
+          <div class="server-choice"><article class="server-option">
+            <h4>Windows</h4>
             <img class="setup-illustration" src="/pc-illustration.svg" width="180" height="170" alt="" loading="lazy">
-            <div class="option-content"><h4>Windows</h4><p>Run the server on a Windows PC. Keep it on while you play.</p><a class="button button-blue guide-button" href="https://github.com/lozza/nemos-reef-revival/blob/main/WINDOWS.md">Windows guide <span aria-hidden="true">→</span></a><a class="small-link" href="https://github.com/lozza/nemos-reef-revival/archive/refs/heads/re-notes.zip">Download server &amp; patcher</a></div>
-          </article>
+            <div class="option-content"><p>Run the server on a Windows PC. Keep it on while you play.</p><a class="button button-green guide-button" href="https://github.com/lozza/nemos-reef-revival/blob/main/WINDOWS.md">Windows guide <span aria-hidden="true">›</span></a></div>
+          </article><a class="small-link" href="https://github.com/lozza/nemos-reef-revival/archive/refs/heads/re-notes.zip">Download server &amp; patcher ›</a></div>
         </div>
       </div>
       <div class="patch-step">
-        <span class="step-number" aria-hidden="true">2</span>
-        <div class="patch-copy"><h3>Patch your Android game</h3><p>Once the server is running, patch your original APK with its address.</p></div>
-        <img class="phone-illustration" src="/phone-illustration.svg" width="200" height="130" alt="" loading="lazy">
-        <a class="button button-blue" href="https://github.com/lozza/nemos-reef-revival/blob/main/PATCHING.md">APK patching guide <span aria-hidden="true">→</span></a>
+        <div class="step-heading"><span class="step-number" aria-hidden="true">2</span><h3>Patch your Android game</h3></div>
+        <div class="patch-content">
+          <img class="phone-illustration" src="/phone-illustration.svg" width="200" height="130" alt="" loading="lazy">
+          <div class="patch-copy"><p>Once the server is running, patch your original APK with its address.</p>
+            <a class="button button-green" href="https://github.com/lozza/nemos-reef-revival/blob/main/PATCHING.md">APK patching guide <span aria-hidden="true">›</span></a>
+            <p class="requirements">You'll need your own original <strong>Android 1.8.1 APK</strong> and a device that supports <strong>32-bit apps</strong>. Game files aren't included.</p>
+          </div>
+        </div>
       </div>
-      <p class="requirements"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v6m0-10v1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>You'll need your own original <strong>Android 1.8.1 APK</strong> and a device that supports <strong>32-bit apps</strong>. Game files aren't included.</span></p>
+      </div>
     </section>
 
     <div class="info-grid">
@@ -80,7 +85,7 @@
       </section>
 
       <section class="community-panel" aria-labelledby="community-title">
-        <div class="community-copy"><h2 id="community-title">Join the community</h2><p>Get setup help, report bugs and share your reef with other players.</p><a class="button button-blue" href="https://discord.gg/mseaKJb5G" target="_blank" rel="noopener noreferrer">Join Discord <span aria-hidden="true">→</span></a></div>
+        <div class="community-copy"><h2 id="community-title">Join the community</h2><p>Get setup help, report bugs and share your reef with other players.</p><img class="community-fish" src="/discord-mascot.png" width="1254" height="1254" alt="" loading="lazy"><a class="button button-green" href="https://discord.gg/mseaKJb5G" target="_blank" rel="noopener noreferrer">Join Discord <span aria-hidden="true">›</span></a></div>
       </section>
     </div>
 
