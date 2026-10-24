@@ -9,8 +9,8 @@ through Cloudflare Pages.
 
 - `public/index.html`: homepage content, guide links and community invite.
 - `public/styles.css`: layout, typography, responsive rules and wave buttons.
-- `public/reef-hero-hd.jpg`: the 2048 × 768 desktop hero artwork, exported at high JPEG quality.
-- `public/reef-world.jpg`: the tall illustrated reef used behind the page and community panel.
+- `public/reef-hero-hd.jpg`: the 2048 × 768 shared desktop backdrop, exported at high JPEG quality.
+- `public/reef-world.jpg`: the tall shared mobile backdrop, also used inside the community panel.
 - `public/discord-mascot.png`: the existing Discord artwork and browser-tab icon.
 - `public/logo.png`: the approved white and orange project wordmark used in the header and footer.
 - `public/server-illustration.svg`, `public/pc-illustration.svg` and
@@ -22,6 +22,8 @@ The design follows the approved mockup based on the original game screenshots:
 blue popup frames, parchment panels, cyan setup cards and glossy green buttons.
 The reef artwork was generated separately; text, controls and responsive layouts
 are real HTML and CSS. The community panel uses the existing Discord mascot.
+One fixed background sits behind the entire page at each screen size, avoiding
+joins or repeated artwork at section boundaries. The hero adds no separate image.
 
 Only the `public` folder is published as the website. The homepage links to
 the setup guides on GitHub; edit those Markdown files to update the guides.
