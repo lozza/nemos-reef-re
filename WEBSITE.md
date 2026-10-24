@@ -41,3 +41,11 @@ python -m http.server 8000 --directory public
 ```
 
 Open `http://localhost:8000`. Stop the preview with Ctrl+C.
+
+## Discord invite
+
+The website uses [this community invite](https://discord.gg/mseaKJb5G). It never
+expires, has no use limit and sends new members to the welcome channel.
+
+To replace it, update the four Discord links in `public/index.html`.
+Existing invites can be managed in Discord under **Server Settings → Invites**.
