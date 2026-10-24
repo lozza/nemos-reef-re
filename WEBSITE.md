@@ -9,7 +9,7 @@ through Cloudflare Pages.
 
 - `public/index.html`: homepage text, illustration and guide links.
 - `public/styles.css`: colours, spacing and responsive layouts.
-- `public/favicon.svg`: browser-tab icon.
+- `public/discord-mascot.png`: the existing Discord artwork, also used as the browser-tab icon.
 
 Only the `public` folder is published as the website. The homepage links to
 the setup guides on GitHub; edit those Markdown files to update the guides.
