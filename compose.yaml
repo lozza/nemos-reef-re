@@ -2,7 +2,7 @@ name: nemos-reef
 
 services:
   nemo:
-    image: ghcr.io/lozza/nemos-reef-re:latest
+    image: ghcr.io/lozza/nemos-reef-revival:latest
     pull_policy: always
     ports:
       - "8080:8080"

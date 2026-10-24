@@ -3,7 +3,7 @@
 [All guides](README.md)
 
 Source code and launchers live on the
-[re-notes branch](https://github.com/lozza/nemos-reef-re/tree/re-notes).
+[re-notes branch](https://github.com/lozza/nemos-reef-revival/tree/re-notes).
 The default branch provides the public setup guides and Compose files.
 
 ## Source and tests
@@ -18,16 +18,16 @@ Tests use synthetic assets; original game files are not included.
 
 Key files:
 
-- [server/nemo_server.py](https://github.com/lozza/nemos-reef-re/blob/re-notes/server/nemo_server.py):
+- [server/nemo_server.py](https://github.com/lozza/nemos-reef-revival/blob/re-notes/server/nemo_server.py):
   HTTP server; accepts `--apk`, `--port`, `--data` and `--worlddef`.
-- [server/worlddef.py](https://github.com/lozza/nemos-reef-re/blob/re-notes/server/worlddef.py):
+- [server/worlddef.py](https://github.com/lozza/nemos-reef-revival/blob/re-notes/server/worlddef.py):
   reads game definitions from the original APK.
-- [patcher/patch_apk.py](https://github.com/lozza/nemos-reef-re/blob/re-notes/patcher/patch_apk.py):
+- [patcher/patch_apk.py](https://github.com/lozza/nemos-reef-revival/blob/re-notes/patcher/patch_apk.py):
   patches client URLs, textures and signing.
-- [tools/build_story.py](https://github.com/lozza/nemos-reef-re/blob/re-notes/tools/build_story.py):
+- [tools/build_story.py](https://github.com/lozza/nemos-reef-revival/blob/re-notes/tools/build_story.py):
   generates story data. Text keys remain in the story JSON; text is read from the APK.
-- [Protocol notes](https://github.com/lozza/nemos-reef-re/blob/re-notes/PROTOCOL.md)
-  and [game-action notes](https://github.com/lozza/nemos-reef-re/blob/re-notes/ACTIONS.md):
+- [Protocol notes](https://github.com/lozza/nemos-reef-revival/blob/re-notes/PROTOCOL.md)
+  and [game-action notes](https://github.com/lozza/nemos-reef-revival/blob/re-notes/ACTIONS.md):
   reverse-engineering references.
 
 ## Local Docker builds

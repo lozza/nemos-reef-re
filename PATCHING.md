@@ -15,7 +15,7 @@ Otherwise:
 
 1. Install [Python for Windows](https://www.python.org/downloads/windows/).
    Enable **Add python.exe to PATH** if offered.
-2. [Download the server and patcher ZIP](https://github.com/lozza/nemos-reef-re/archive/refs/heads/re-notes.zip)
+2. [Download the server and patcher ZIP](https://github.com/lozza/nemos-reef-revival/archive/refs/heads/re-notes.zip)
    and **Extract All**.
 3. Open the extracted folder containing `patch-apk.bat` and `patcher`.
 4. Put your **original Android 1.8.1 APK** there and name it `nemo.apk`.

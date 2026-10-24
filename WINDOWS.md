@@ -22,7 +22,7 @@ to install. Java is needed later for APK patching, not for running this server.
 
 ## 2. Download the project
 
-1. [Download the server and patcher ZIP](https://github.com/lozza/nemos-reef-re/archive/refs/heads/re-notes.zip).
+1. [Download the server and patcher ZIP](https://github.com/lozza/nemos-reef-revival/archive/refs/heads/re-notes.zip).
 2. Right-click it and choose **Extract All**.
 3. Open the extracted folder containing `start-server.bat`, `server` and `patcher`.
    This is your **project folder**.

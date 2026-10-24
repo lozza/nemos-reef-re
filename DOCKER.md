@@ -31,7 +31,7 @@ name: nemos-reef
 
 services:
   nemo:
-    image: ghcr.io/lozza/nemos-reef-re:latest
+    image: ghcr.io/lozza/nemos-reef-revival:latest
     pull_policy: always
     ports:
       - "8080:8080"
@@ -51,7 +51,7 @@ volumes:
     name: nemos-reef_reef-data
 ```
 
-[Copy the raw Compose file](https://raw.githubusercontent.com/lozza/nemos-reef-re/main/compose.yaml).
+[Copy the raw Compose file](https://raw.githubusercontent.com/lozza/nemos-reef-revival/main/compose.yaml).
 
 Keep `target: /game/nemo.apk` unchanged: that is the path inside the container.
 `read_only: true` lets the server read the APK without changing it.

@@ -33,7 +33,7 @@ terminal with Docker access on that host, run the following in your backup
 folder. Use a new filename for each backup:
 
 ```sh
-docker run --rm --entrypoint cat --mount type=volume,source=nemos-reef_reef-data,target=/data,readonly ghcr.io/lozza/nemos-reef-re:latest /data/nemo.db > nemo-backup.db
+docker run --rm --entrypoint cat --mount type=volume,source=nemos-reef_reef-data,target=/data,readonly ghcr.io/lozza/nemos-reef-revival:latest /data/nemo.db > nemo-backup.db
 ```
 
 Check the command succeeded and the file is not empty, then start the stack.
@@ -87,7 +87,7 @@ name: nemo-save-restore
 
 services:
   restore:
-    image: ghcr.io/lozza/nemos-reef-re:latest
+    image: ghcr.io/lozza/nemos-reef-revival:latest
     user: "0:0"
     entrypoint: ["/bin/sh", "-c"]
     command:

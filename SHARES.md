@@ -24,7 +24,7 @@ Your own share may use a completely different path. On OMV, find it under
 not a Windows network address such as `\\NAS\share`.
 
 Use **[compose.shares.yaml](compose.shares.yaml)**
-([raw copy](https://raw.githubusercontent.com/lozza/nemos-reef-re/main/compose.shares.yaml)).
+([raw copy](https://raw.githubusercontent.com/lozza/nemos-reef-revival/main/compose.shares.yaml)).
 Change **both `source:` paths**:
 
 | What | Example source on your server | Target inside the container |
@@ -60,7 +60,7 @@ name: nemo-folder-setup
 
 services:
   prepare-nemo:
-    image: ghcr.io/lozza/nemos-reef-re:latest
+    image: ghcr.io/lozza/nemos-reef-revival:latest
     user: "0:0"
     entrypoint: ["/bin/sh", "-c"]
     command:
