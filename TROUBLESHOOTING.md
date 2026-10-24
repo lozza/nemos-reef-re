@@ -75,9 +75,9 @@ program's installation/PATH before running the patcher again.
 ## Image download says denied
 
 The image is intended to be public:
-[container package](https://github.com/users/lozza/packages/container/package/nemos-reef-re).
+[container package](https://github.com/users/lozza/packages/container/package/nemos-reef-revival).
 
-Check the image name is `ghcr.io/lozza/nemos-reef-re:latest`.
+Check the image name is `ghcr.io/lozza/nemos-reef-revival:latest`.
 Remove stale registry credentials in your container manager and retry.
 Users should not need a GitHub token to pull this public image.
 
