@@ -132,6 +132,9 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
+            ghcr.io/lozza/nemos-reef-revival:latest
+            ghcr.io/lozza/nemos-reef-revival:sha-${{ github.sha }}
+            # Compatibility tags for existing installations.
             ghcr.io/lozza/nemos-reef-re:latest
             ghcr.io/lozza/nemos-reef-re:sha-${{ github.sha }}
           labels: |
@@ -140,7 +143,7 @@ jobs:
           cache-to: type=gha,mode=max
       - name: Prepare a smoke test for the published image
         env:
-          PUBLISHED_IMAGE: ghcr.io/lozza/nemos-reef-re@${{ steps.publish.outputs.digest }}
+          PUBLISHED_IMAGE: ghcr.io/lozza/nemos-reef-revival@${{ steps.publish.outputs.digest }}
         run: |
           python - <<'PY'
           import json
@@ -165,7 +168,7 @@ jobs:
           PY
       - name: Verify published image metadata, startup and save persistence
         env:
-          PUBLISHED_IMAGE: ghcr.io/lozza/nemos-reef-re@${{ steps.publish.outputs.digest }}
+          PUBLISHED_IMAGE: ghcr.io/lozza/nemos-reef-revival@${{ steps.publish.outputs.digest }}
         run: |
           docker compose -f compose.yaml -f ci-published.yaml up -d --wait --wait-timeout 120
           test "$(docker image inspect --format '{{ index .Config.Labels "org.opencontainers.image.revision" }}' "$PUBLISHED_IMAGE")" = "$GITHUB_SHA"
@@ -177,11 +180,11 @@ jobs:
       - name: Check anonymous image access
         run: |
           mkdir -p "$RUNNER_TEMP/anonymous-docker"
-          if docker --config "$RUNNER_TEMP/anonymous-docker" pull ghcr.io/lozza/nemos-reef-re:latest; then
+          if docker --config "$RUNNER_TEMP/anonymous-docker" pull ghcr.io/lozza/nemos-reef-revival:latest; then
             echo "Anonymous image pull passed." >> "$GITHUB_STEP_SUMMARY"
           else
             echo "::warning::The image is published but is not anonymously accessible. Set the GHCR package visibility to Public."
-            echo "One-time owner action: open https://github.com/users/lozza/packages/container/package/nemos-reef-re and change Package settings > Visibility to Public." >> "$GITHUB_STEP_SUMMARY"
+            echo "One-time owner action: open https://github.com/users/lozza/packages/container/package/nemos-reef-revival and change Package settings > Visibility to Public." >> "$GITHUB_STEP_SUMMARY"
           fi
       - name: Show logs and clean up
         if: always()
