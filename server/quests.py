@@ -404,6 +404,13 @@ class Story:
         for k in ('startDialogId', 'endDialogId', 'hintIdList', 'rewardPrototypeIdList'):
             if q.get(k):
                 p[k] = q[k]
+        # Android 1.8.1's DialogQuestTimeEvent owns exactly two TaskListRow objects.
+        # updateParameters indexes them without checking the task count, so a third
+        # objective crashes as soon as the opening conversation finishes. Use the
+        # regular quest card for larger events; the source quest and its time
+        # interval still drive server scheduling, progress and event rewards.
+        if p['type'] == 'TIME_EVENT' and len(p['endConditionList']) > 2:
+            p['type'] = 'STORY'
         return p
 
     # ------------------------------------------------------------ player state
@@ -596,3 +603,4 @@ class NoStory(Story):
         self.data = {'quests': [], 'dialogs': [], 'hints': [], 'patterns': []}
         self.quests = {}
         self.renamed = {}
+
