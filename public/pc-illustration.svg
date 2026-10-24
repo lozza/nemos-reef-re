@@ -1,1 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 170" fill="none"><defs><linearGradient id="screen" x2="1" y2="1"><stop stop-color="#35c8f6"/><stop offset="1" stop-color="#086dc3"/></linearGradient></defs><ellipse cx="90" cy="152" rx="65" ry="10" fill="#125495" opacity=".13"/><path d="m77 119-3 27 37 3-6-27" fill="#19578a" stroke="#07345f" stroke-width="3"/><path d="m52 149 37-9 42 13-39 9Z" fill="#3894c8" stroke="#07345f" stroke-width="3" stroke-linejoin="round"/><path d="m29 20 121 17v93L29 113q-9-1-9-11V28q0-10 9-8Z" fill="#07345f" stroke="#06284e" stroke-width="3"/><path d="m31 31 108 15v68L31 99Z" fill="url(#screen)"/><path d="m40 40 54 8-54 42Z" fill="#fff" opacity=".1"/><path d="m70 55 39 6v31l-39-5Z" fill="#c8f4ff"/><path d="m89 58 0 32M70 71l39 6" stroke="#1688cc" stroke-width="3"/><circle cx="85" cy="116" r="2.5" fill="#79d8ff"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 170" fill="none">
+  <defs>
+    <linearGradient id="screen" x1="35" y1="34" x2="145" y2="108" gradientUnits="userSpaceOnUse"><stop stop-color="#42c7ef"/><stop offset="1" stop-color="#0975c5"/></linearGradient>
+    <linearGradient id="frame" x1="30" y1="23" x2="150" y2="123" gradientUnits="userSpaceOnUse"><stop stop-color="#24658f"/><stop offset="1" stop-color="#103f69"/></linearGradient>
+  </defs>
+  <ellipse cx="90" cy="155" rx="61" ry="8" fill="#125495" opacity=".13"/>
+  <path d="m80 119-4 24h28l-4-24" fill="#2b7da9" stroke="#0a416c" stroke-width="3" stroke-linejoin="round"/>
+  <rect x="59" y="143" width="62" height="9" rx="4.5" fill="#55abd3" stroke="#0a416c" stroke-width="3"/>
+  <path d="M66 146h48" stroke="#a1def5" stroke-width="2" stroke-linecap="round"/>
+  <rect x="21" y="23" width="138" height="100" rx="9" fill="url(#frame)" stroke="#0a416c" stroke-width="3"/>
+  <rect x="29" y="31" width="122" height="78" rx="4" fill="url(#screen)"/>
+  <path d="M33 35h76l-76 62Z" fill="#fff" opacity=".1"/>
+  <g fill="#def7ff">
+    <rect x="70" y="51" width="17" height="17" rx="1"/>
+    <rect x="92" y="51" width="17" height="17" rx="1"/>
+    <rect x="70" y="73" width="17" height="17" rx="1"/>
+    <rect x="92" y="73" width="17" height="17" rx="1"/>
+  </g>
+  <circle cx="90" cy="116" r="2.5" fill="#a1e5fc"/>
+</svg>
