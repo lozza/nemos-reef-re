@@ -5,6 +5,9 @@
 The server is in early development. It has run on a real Fire 7, but gameplay
 is still being reconstructed. Back up your reef before updating.
 
+For the changes we've made to the original game, see
+[Changes from the original game](CHANGES.md).
+
 ## Implemented
 
 - Login, saved reefs, buying, placing, feeding, moving and collecting.
